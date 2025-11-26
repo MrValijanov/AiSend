@@ -1,10 +1,489 @@
 <!DOCTYPE html>
-<html>
+<html lang="uz">
   <head>
-    <title>AiSend</title>
+    <meta charset="UTF-8" />
+    <title>AiSend – Premium konvertor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(circle at top, #0f172a 0, #020617 40%, #000 100%);
+        color: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+
+      .shell {
+        width: 100%;
+        max-width: 430px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        font-size: 11px;
+        margin-bottom: 8px;
+      }
+
+      .chip-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: radial-gradient(circle, #22c55e, #16a34a);
+        box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+      }
+
+      .hero-card {
+        background: linear-gradient(135deg, #0f172a 0%, #020617 40%, #0f172a 100%);
+        border-radius: 22px;
+        padding: 18px 16px 14px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(18px);
+      }
+
+      .hero-card::before {
+        content: "";
+        position: absolute;
+        top: -160px;
+        right: -80px;
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle, rgba(56, 189, 248, 0.28), transparent);
+        filter: blur(2px);
+      }
+
+      .hero-card::after {
+        content: "";
+        position: absolute;
+        bottom: -120px;
+        left: -60px;
+        width: 220px;
+        height: 220px;
+        background: radial-gradient(circle, rgba(34, 197, 94, 0.28), transparent);
+        filter: blur(2px);
+      }
+
+      .hero-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .logo-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 14px;
+        background: conic-gradient(
+          from 220deg,
+          #22c55e,
+          #0ea5e9,
+          #22c55e
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #020617;
+        font-weight: 800;
+        font-size: 18px;
+        box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+      }
+
+      .title-block h1 {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: 0.01em;
+      }
+
+      .title-block span {
+        display: block;
+        margin-top: 2px;
+        font-size: 12px;
+        color: #9ca3af;
+      }
+
+      .badge {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+      }
+
+      .badge-pill {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #22c55e, #a3e635);
+      }
+
+      .form {
+        margin-top: 14px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .field-label {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-bottom: 6px;
+      }
+
+      .direction-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .pill {
+        flex: 1;
+        padding: 8px 10px;
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(75, 85, 99, 0.8);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .pill-flag {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #020617;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+      }
+
+      .pill-main {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .pill-sub {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      .swap-dot {
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        cursor: pointer;
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      .select-wrap {
+        margin-bottom: 10px;
+      }
+
+      select,
+      input {
+        width: 100%;
+        padding: 10px 11px;
+        border-radius: 12px;
+        border: 1px solid rgba(75, 85, 99, 0.9);
+        background: rgba(15, 23, 42, 0.9);
+        color: #e5e7eb;
+        font-size: 14px;
+      }
+
+      select:focus,
+      input:focus {
+        outline: 2px solid #22c55e;
+        outline-offset: 1px;
+        border-color: transparent;
+      }
+
+      .amount-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      .amount-row > div {
+        flex: 1;
+      }
+
+      .tag-chip {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 4px;
+      }
+
+      .btn {
+        width: 100%;
+        margin-top: 12px;
+        padding: 11px 12px;
+        border-radius: 999px;
+        border: none;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        background: linear-gradient(135deg, #22c55e, #0ea5e9);
+        color: #020617;
+        box-shadow: 0 12px 30px rgba(34, 197, 94, 0.55);
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+        opacity: 0.95;
+      }
+
+      .result-block {
+        margin-top: 10px;
+        border-radius: 14px;
+        padding: 10px 11px 8px;
+        background: radial-gradient(circle at top left, #0b1120, #020617);
+        border: 1px solid rgba(55, 65, 81, 0.9);
+      }
+
+      .result-main {
+        font-size: 15px;
+      }
+
+      .result-main span.value {
+        font-weight: 600;
+      }
+
+      .result-sub {
+        margin-top: 2px;
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      .footer {
+        margin-top: 10px;
+        font-size: 11px;
+        color: #9ca3af;
+        text-align: center;
+      }
+
+      .footer span {
+        color: #22c55e;
+        font-weight: 500;
+      }
+    </style>
   </head>
   <body>
-    <h1>AiSend Mini App ishladi! 🚀</h1>
-    <p>Bu Vercel orqali yuklangan oddiy sahifa.</p>
+    <div class="shell">
+      <div class="chip">
+        <div class="chip-dot"></div>
+        <span>AiSend • Demo konvertor</span>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-header">
+          <div class="logo-wrap">
+            <div class="logo">A</div>
+            <div class="title-block">
+              <h1>AiSend Pay</h1>
+              <span>Chegarasiz valyuta almashinuvi</span>
+            </div>
+          </div>
+          <div class="badge">
+            <div class="badge-pill"></div>
+            <span>Beta build</span>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="field-label">Yo‘nalish</div>
+          <div class="direction-row">
+            <div class="pill" id="fromPill">
+              <div class="pill-flag" id="fromFlag">UZS</div>
+              <div>
+                <div class="pill-main" id="fromCode">UZS</div>
+                <div class="pill-sub" id="fromName">O‘zbekiston so‘mi</div>
+              </div>
+            </div>
+            <div class="swap-dot" id="swapBtn">⇄</div>
+            <div class="pill" id="toPill">
+              <div class="pill-flag" id="toFlag">KZT</div>
+              <div>
+                <div class="pill-main" id="toCode">KZT</div>
+                <div class="pill-sub" id="toName">Qozog‘iston tengesi</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="select-wrap">
+            <select id="direction">
+              <option value="UZS_KZT">UZS → KZT</option>
+              <option value="KZT_UZS">KZT → UZS</option>
+              <option value="UZS_KGS">UZS → KGS</option>
+              <option value="KGS_UZS">KGS → UZS</option>
+              <option value="KZT_KGS">KZT → KGS</option>
+              <option value="KGS_KZT">KGS → KZT</option>
+            </select>
+          </div>
+
+          <div class="field-label">Miqdor</div>
+          <div class="amount-row">
+            <div>
+              <input
+                id="amount"
+                type="number"
+                inputmode="decimal"
+                placeholder="100000"
+              />
+            </div>
+          </div>
+          <div class="tag-chip">
+            Kurslar demo. Haqiqiy AiSend kurslari keyinchalik alohida server orqali ulanadi.
+          </div>
+
+          <button class="btn" id="calcBtn">Hisoblash</button>
+
+          <div class="result-block">
+            <div class="result-main" id="resultText">
+              Natija bu yerda chiqadi.
+            </div>
+            <div class="result-sub" id="rateText">
+              1 birlik bo‘yicha kurs ma’lumoti shu yerda ko‘rinadi.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        AiSend <span>demo</span> interfeysi. Fikr va takliflar — keyingi bosqich
+        uchun asos bo‘ladi.
+      </div>
+    </div>
+
+    <script>
+      const NAMES = {
+        UZS: "O‘zbekiston so‘mi",
+        KZT: "Qozog‘iston tengesi",
+        KGS: "Qirg‘iziston so‘mi",
+      };
+
+      // Hozircha demo kurslar. Keyin API yoki backend bilan almashtiramiz.
+      const RATES = {
+        UZS_KZT: 0.04,
+        KZT_UZS: 25,
+        UZS_KGS: 0.006,
+        KGS_UZS: 170,
+        KZT_KGS: 0.15,
+        KGS_KZT: 6.5,
+      };
+
+      const directionEl = document.getElementById("direction");
+      const amountEl = document.getElementById("amount");
+      const resultText = document.getElementById("resultText");
+      const rateText = document.getElementById("rateText");
+
+      const fromFlag = document.getElementById("fromFlag");
+      const fromCode = document.getElementById("fromCode");
+      const fromName = document.getElementById("fromName");
+      const toFlag = document.getElementById("toFlag");
+      const toCode = document.getElementById("toCode");
+      const toName = document.getElementById("toName");
+      const swapBtn = document.getElementById("swapBtn");
+      const calcBtn = document.getElementById("calcBtn");
+
+      function updatePills() {
+        const dir = directionEl.value;
+        const [from, to] = dir.split("_");
+        fromFlag.textContent = from;
+        fromCode.textContent = from;
+        fromName.textContent = NAMES[from] || "";
+        toFlag.textContent = to;
+        toCode.textContent = to;
+        toName.textContent = NAMES[to] || "";
+      }
+
+      function formatNumber(num) {
+        if (!isFinite(num)) return "-";
+        return num.toLocaleString("uz-UZ", { maximumFractionDigits: 2 });
+      }
+
+      function recalc() {
+        const dir = directionEl.value;
+        const [from, to] = dir.split("_");
+        const amount = parseFloat(
+          (amountEl.value || "").toString().replace(",", ".")
+        );
+
+        if (isNaN(amount) || amount <= 0) {
+          resultText.textContent = "Iltimos, ijobiy miqdor kiriting.";
+          rateText.textContent = "";
+          return;
+        }
+
+        const rate = RATES[dir];
+        if (!rate) {
+          resultText.textContent = "Bu yo‘nalish uchun kurs topilmadi.";
+          rateText.textContent = "";
+          return;
+        }
+
+        const res = amount * rate;
+
+        resultText.innerHTML =
+          `<span class="value">${formatNumber(amount)} ${from}</span>` +
+          ` ≈ <span class="value">${formatNumber(res)} ${to}</span>`;
+
+        rateText.textContent = `1 ${from} ≈ ${formatNumber(rate)} ${to} (demo kurs)`;
+      }
+
+      directionEl.addEventListener("change", () => {
+        updatePills();
+        recalc();
+      });
+
+      calcBtn.addEventListener("click", recalc);
+
+      swapBtn.addEventListener("click", () => {
+        const dir = directionEl.value;
+        const [from, to] = dir.split("_");
+        const reverseKey = `${to}_${from}`;
+        if (RATES[reverseKey]) {
+          directionEl.value = reverseKey;
+          updatePills();
+          recalc();
+        }
+      });
+
+      // Boshlang'ich holat
+      updatePills();
+    </script>
   </body>
 </html>
