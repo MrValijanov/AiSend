@@ -2,488 +2,545 @@
 <html lang="uz">
   <head>
     <meta charset="UTF-8" />
-    <title>AiSend – Premium konvertor</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AiSend Pay · Demo konvertor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
+      :root {
+        --bg: #020817;
+        --card: #020617;
+        --card-top: #030712;
+        --accent: #22c55e;
+        --accent-soft: #16a34a;
+        --accent-strong: #4ade80;
+        --border: #1f2937;
+        --text-main: #f9fafb;
+        --text-soft: #9ca3af;
+        --text-muted: #6b7280;
+        --pill-bg: #020617;
+        --pill-border: #1f2937;
+        --danger: #f97373;
+      }
+
       * {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Segoe UI", sans-serif;
       }
 
       body {
-        margin: 0;
         min-height: 100vh;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          sans-serif;
-        background: radial-gradient(circle at top, #0f172a 0, #020617 40%, #000 100%);
-        color: #e5e7eb;
+        background: radial-gradient(circle at top, #020617 0, #020617 26%, #020617 40%, #020617 100%),
+          radial-gradient(circle at top left, rgba(34, 197, 94, 0.08), transparent 55%),
+          radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 55%);
+        color: var(--text-main);
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         padding: 16px;
       }
 
       .shell {
         width: 100%;
-        max-width: 430px;
+        max-width: 420px;
       }
 
-      .chip {
+      .pill {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 4px 10px;
+        padding: 4px 10px 4px 6px;
         border-radius: 999px;
-        background: rgba(15, 23, 42, 0.8);
-        border: 1px solid rgba(148, 163, 184, 0.4);
+        border: 1px solid var(--pill-border);
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(16px);
         font-size: 11px;
-        margin-bottom: 8px;
+        color: var(--text-soft);
+        margin-bottom: 10px;
       }
 
-      .chip-dot {
+      .pill-dot {
         width: 7px;
         height: 7px;
         border-radius: 999px;
-        background: radial-gradient(circle, #22c55e, #16a34a);
-        box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+        background: #22c55e;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
       }
 
-      .hero-card {
-        background: linear-gradient(135deg, #0f172a 0%, #020617 40%, #0f172a 100%);
-        border-radius: 22px;
-        padding: 18px 16px 14px;
+      .pill-badge {
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: rgba(56, 189, 248, 0.12);
+        color: #7dd3fc;
+        font-size: 10px;
+      }
+
+      .card {
         position: relative;
+        border-radius: 26px;
+        background: radial-gradient(circle at top, #020617 0, #020617 46%, #020617 100%);
+        border: 1px solid rgba(148, 163, 184, 0.2);
         overflow: hidden;
-        border: 1px solid rgba(148, 163, 184, 0.45);
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(18px);
+        box-shadow:
+          0 30px 80px rgba(0, 0, 0, 0.75),
+          0 0 0 1px rgba(15, 23, 42, 0.5);
       }
 
-      .hero-card::before {
-        content: "";
-        position: absolute;
-        top: -160px;
-        right: -80px;
-        width: 260px;
-        height: 260px;
-        background: radial-gradient(circle, rgba(56, 189, 248, 0.28), transparent);
-        filter: blur(2px);
+      .card-inner {
+        padding: 18px 18px 16px;
+        background:
+          radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
+          radial-gradient(circle at top right, rgba(34, 197, 94, 0.18), transparent 55%),
+          radial-gradient(circle at bottom, rgba(15, 23, 42, 1), rgba(15, 23, 42, 1));
       }
 
-      .hero-card::after {
-        content: "";
-        position: absolute;
-        bottom: -120px;
-        left: -60px;
-        width: 220px;
-        height: 220px;
-        background: radial-gradient(circle, rgba(34, 197, 94, 0.28), transparent);
-        filter: blur(2px);
-      }
-
-      .hero-header {
+      .card-top {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        position: relative;
-        z-index: 1;
+        margin-bottom: 18px;
       }
 
-      .logo-wrap {
+      .brand {
         display: flex;
         align-items: center;
         gap: 10px;
       }
 
-      .logo {
-        width: 34px;
-        height: 34px;
-        border-radius: 14px;
-        background: conic-gradient(
-          from 220deg,
-          #22c55e,
-          #0ea5e9,
-          #22c55e
-        );
+      .brand-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 18px;
+        background: radial-gradient(circle at 30% 0, #22c55e, #22c55e 45%, #16a34a 75%);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #020617;
+        color: #022c22;
         font-weight: 800;
-        font-size: 18px;
-        box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+        font-size: 19px;
+        box-shadow:
+          0 18px 45px rgba(16, 185, 129, 0.45),
+          0 0 0 1px rgba(15, 23, 42, 0.4);
       }
 
-      .title-block h1 {
-        margin: 0;
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .brand-title {
         font-size: 20px;
+        font-weight: 700;
         letter-spacing: 0.01em;
       }
 
-      .title-block span {
-        display: block;
-        margin-top: 2px;
-        font-size: 12px;
-        color: #9ca3af;
+      .brand-sub {
+        font-size: 11px;
+        color: var(--text-soft);
       }
 
-      .badge {
-        padding: 4px 10px;
-        border-radius: 999px;
-        font-size: 11px;
+      .status-badge {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        background: rgba(15, 23, 42, 0.9);
-        border: 1px solid rgba(148, 163, 184, 0.5);
+        gap: 6px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        font-size: 11px;
+        color: var(--text-soft);
       }
 
-      .badge-pill {
+      .status-dot {
         width: 8px;
         height: 8px;
         border-radius: 999px;
-        background: linear-gradient(135deg, #22c55e, #a3e635);
+        background: #22c55e;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
       }
 
-      .form {
-        margin-top: 14px;
-        position: relative;
-        z-index: 1;
+      .status-label {
+        color: #e5e7eb;
       }
 
-      .field-label {
+      .section-label {
         font-size: 12px;
-        color: #9ca3af;
-        margin-bottom: 6px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 8px;
       }
 
-      .direction-row {
+      .row {
         display: flex;
-        align-items: center;
         gap: 8px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
       }
 
-      .pill {
+      .chip {
         flex: 1;
-        padding: 8px 10px;
-        border-radius: 12px;
-        background: rgba(15, 23, 42, 0.85);
-        border: 1px solid rgba(75, 85, 99, 0.8);
+        border-radius: 18px;
+        padding: 10px 12px;
+        background: radial-gradient(circle at top, rgba(15, 23, 42, 1), rgba(15, 23, 42, 1));
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .chip-label-row {
         display: flex;
         align-items: center;
         gap: 6px;
-      }
-
-      .pill-flag {
-        width: 18px;
-        height: 18px;
-        border-radius: 999px;
         font-size: 11px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #020617;
-        border: 1px solid rgba(148, 163, 184, 0.5);
+        color: var(--text-soft);
       }
 
-      .pill-main {
+      .chip-badge {
+        padding: 2px 6px;
+        border-radius: 999px;
+        font-size: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        color: #e5e7eb;
+      }
+
+      .chip-main {
         font-size: 13px;
         font-weight: 600;
+        color: #e5e7eb;
       }
 
-      .pill-sub {
+      .chip-secondary {
         font-size: 11px;
-        color: #9ca3af;
+        color: var(--text-muted);
       }
 
-      .swap-dot {
-        width: 26px;
-        height: 26px;
+      .swap {
+        width: 36px;
+        height: 36px;
         border-radius: 999px;
-        border: 1px solid rgba(148, 163, 184, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        background: radial-gradient(circle at top, rgba(15, 23, 42, 1), rgba(15, 23, 42, 1));
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
-        cursor: pointer;
-        background: rgba(15, 23, 42, 0.9);
+        font-size: 18px;
+        color: var(--text-soft);
+        margin-top: 18px;
       }
 
-      .select-wrap {
-        margin-bottom: 10px;
+      .select-wrapper {
+        margin-top: 4px;
+        margin-bottom: 14px;
       }
 
-      select,
-      input {
+      .select {
         width: 100%;
-        padding: 10px 11px;
-        border-radius: 12px;
-        border: 1px solid rgba(75, 85, 99, 0.9);
-        background: rgba(15, 23, 42, 0.9);
+        border-radius: 18px;
+        border: 1px solid rgba(74, 222, 128, 0.7);
+        background: radial-gradient(circle at top, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 1));
+        color: #e5e7eb;
+        padding: 10px 12px;
+        font-size: 13px;
+        appearance: none;
+        -webkit-appearance: none;
+        outline: none;
+      }
+
+      .select-row {
+        position: relative;
+      }
+
+      .select-arrow {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 14px;
+        pointer-events: none;
+        color: #a3e635;
+      }
+
+      .input {
+        margin-bottom: 8px;
+      }
+
+      .input-box {
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: radial-gradient(circle at top, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 1));
+        padding: 10px 12px;
         color: #e5e7eb;
         font-size: 14px;
       }
 
-      select:focus,
-      input:focus {
-        outline: 2px solid #22c55e;
-        outline-offset: 1px;
-        border-color: transparent;
+      .input-field {
+        width: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: inherit;
+        font-size: inherit;
       }
 
-      .amount-row {
-        display: flex;
-        gap: 8px;
-        margin-top: 4px;
-      }
-
-      .amount-row > div {
-        flex: 1;
-      }
-
-      .tag-chip {
+      .hint {
         font-size: 11px;
-        color: #9ca3af;
-        margin-top: 4px;
+        color: var(--text-muted);
+        margin-bottom: 14px;
       }
 
       .btn {
         width: 100%;
-        margin-top: 12px;
-        padding: 11px 12px;
-        border-radius: 999px;
+        margin-bottom: 12px;
+      }
+
+      .btn-primary {
+        width: 100%;
         border: none;
-        font-weight: 600;
+        outline: none;
+        border-radius: 999px;
+        padding: 11px 16px;
+        background: linear-gradient(90deg, #22c55e, #0ea5e9);
+        color: #022c22;
         font-size: 15px;
-        cursor: pointer;
-        background: linear-gradient(135deg, #22c55e, #0ea5e9);
-        color: #020617;
-        box-shadow: 0 12px 30px rgba(34, 197, 94, 0.55);
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        box-shadow:
+          0 18px 45px rgba(34, 197, 94, 0.65),
+          0 0 0 1px rgba(22, 101, 52, 0.8);
       }
 
-      .btn:active {
-        transform: translateY(1px);
-        opacity: 0.95;
-      }
-
-      .result-block {
-        margin-top: 10px;
-        border-radius: 14px;
-        padding: 10px 11px 8px;
-        background: radial-gradient(circle at top left, #0b1120, #020617);
-        border: 1px solid rgba(55, 65, 81, 0.9);
+      .result-card {
+        border-radius: 20px;
+        padding: 10px 12px;
+        background: radial-gradient(circle at top, rgba(15, 23, 42, 1), rgba(15, 23, 42, 1));
+        border: 1px solid rgba(148, 163, 184, 0.5);
       }
 
       .result-main {
         font-size: 15px;
-      }
-
-      .result-main span.value {
         font-weight: 600;
+        margin-bottom: 4px;
       }
 
       .result-sub {
-        margin-top: 2px;
         font-size: 11px;
-        color: #9ca3af;
+        color: var(--text-muted);
       }
 
-      .footer {
-        margin-top: 10px;
+      .global-hint {
+        padding: 10px 10px 12px;
         font-size: 11px;
-        color: #9ca3af;
+        color: var(--text-muted);
         text-align: center;
       }
 
-      .footer span {
+      .global-hint span {
         color: #22c55e;
-        font-weight: 500;
+      }
+
+      .error {
+        margin-top: 6px;
+        font-size: 11px;
+        color: var(--danger);
       }
     </style>
   </head>
   <body>
     <div class="shell">
-      <div class="chip">
-        <div class="chip-dot"></div>
-        <span>AiSend • Demo konvertor</span>
+      <div class="pill">
+        <span class="pill-dot"></span>
+        AiSend · Demo konvertor
+        <span class="pill-badge">Beta build</span>
       </div>
 
-      <div class="hero-card">
-        <div class="hero-header">
-          <div class="logo-wrap">
-            <div class="logo">A</div>
-            <div class="title-block">
-              <h1>AiSend Pay</h1>
-              <span>Chegarasiz valyuta almashinuvi</span>
-            </div>
-          </div>
-          <div class="badge">
-            <div class="badge-pill"></div>
-            <span>Beta build</span>
-          </div>
-        </div>
-
-        <div class="form">
-          <div class="field-label">Yo‘nalish</div>
-          <div class="direction-row">
-            <div class="pill" id="fromPill">
-              <div class="pill-flag" id="fromFlag">UZS</div>
-              <div>
-                <div class="pill-main" id="fromCode">UZS</div>
-                <div class="pill-sub" id="fromName">O‘zbekiston so‘mi</div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="brand">
+              <div class="brand-logo">A</div>
+              <div class="brand-text">
+                <div class="brand-title">AiSend Pay</div>
+                <div class="brand-sub">Chegarasiz valyuta almashinuv</div>
               </div>
             </div>
-            <div class="swap-dot" id="swapBtn">⇄</div>
-            <div class="pill" id="toPill">
-              <div class="pill-flag" id="toFlag">KZT</div>
-              <div>
-                <div class="pill-main" id="toCode">KZT</div>
-                <div class="pill-sub" id="toName">Qozog‘iston tengesi</div>
-              </div>
+            <div class="status-badge">
+              <span class="status-dot"></span>
+              <span class="status-label">Onlayn kurslar</span>
             </div>
           </div>
 
-          <div class="select-wrap">
-            <select id="direction">
-              <option value="UZS_KZT">UZS → KZT</option>
-              <option value="KZT_UZS">KZT → UZS</option>
-              <option value="UZS_KGS">UZS → KGS</option>
-              <option value="KGS_UZS">KGS → UZS</option>
-              <option value="KZT_KGS">KZT → KGS</option>
-              <option value="KGS_KZT">KGS → KZT</option>
-            </select>
+          <div class="section-label">Yo'nalish</div>
+          <div class="row">
+            <div class="chip">
+              <div class="chip-label-row">
+                <span class="chip-badge">UZS</span>
+                <span>O'zbekiston so'mi</span>
+              </div>
+              <div class="chip-main">UZS</div>
+              <div class="chip-secondary">Asosiy balans</div>
+            </div>
+            <div class="swap">⇄</div>
+            <div class="chip">
+              <div class="chip-label-row">
+                <span class="chip-badge">KZT</span>
+                <span>Qozog'iston tengesi</span>
+              </div>
+              <div class="chip-main">KZT</div>
+              <div class="chip-secondary">Qabul qiluvchi karta</div>
+            </div>
           </div>
 
-          <div class="field-label">Miqdor</div>
-          <div class="amount-row">
-            <div>
+          <div class="select-wrapper">
+            <div class="section-label">Yo'nalishni tanlang</div>
+            <div class="select-row">
+              <select id="direction" class="select">
+                <option value="UZS_KZT">UZS → KZT</option>
+                <option value="KZT_UZS">KZT → UZS</option>
+                <option value="UZS_KGS">UZS → KGS</option>
+                <option value="KGS_UZS">KGS → UZS</option>
+              </select>
+              <div class="select-arrow">▾</div>
+            </div>
+          </div>
+
+          <div class="section-label">Miqdor</div>
+          <div class="input">
+            <div class="input-box">
               <input
                 id="amount"
                 type="number"
+                min="0"
+                step="1"
                 inputmode="decimal"
-                placeholder="100000"
+                class="input-field"
+                placeholder="Miqdor kiriting"
+                value="1000"
               />
             </div>
           </div>
-          <div class="tag-chip">
-            Kurslar demo. Haqiqiy AiSend kurslari keyinchalik alohida server orqali ulanadi.
+
+          <div class="hint">
+            Kurslar demo emas, balki <span>onlayn API</span> orqali olinmoqda.
+            Hali rasmiy AiSend serveri ulanmagan.
           </div>
 
-          <button class="btn" id="calcBtn">Hisoblash</button>
-
-          <div class="result-block">
-            <div class="result-main" id="resultText">
-              Natija bu yerda chiqadi.
-            </div>
-            <div class="result-sub" id="rateText">
-              1 birlik bo‘yicha kurs ma’lumoti shu yerda ko‘rinadi.
-            </div>
+          <div class="btn">
+            <button id="calc-btn" class="btn-primary">Hisoblash</button>
           </div>
+
+          <div id="result" class="result-card">
+            <div class="result-main" id="result-main">1 000 UZS ≈ —</div>
+            <div class="result-sub" id="result-sub">API’dan kurslar olinmoqda…</div>
+          </div>
+
+          <div id="error" class="error" style="display: none;"></div>
         </div>
-      </div>
 
-      <div class="footer">
-        AiSend <span>demo</span> interfeysi. Fikr va takliflar — keyingi bosqich
-        uchun asos bo‘ladi.
+        <div class="global-hint">
+          AiSend <span>demo</span> interfeysi. Fikr va takliflar — keyingi bosqich uchun
+          asos bo'ladi.
+        </div>
       </div>
     </div>
 
     <script>
-      const NAMES = {
-        UZS: "O‘zbekiston so‘mi",
-        KZT: "Qozog‘iston tengesi",
-        KGS: "Qirg‘iziston so‘mi",
+      const API_URL =
+        "https://api.exchangerate.host/latest?base=UZS&symbols=KZT,KGS";
+
+      let rates = {
+        KZT: 0.04,
+        KGS: 0.007,
       };
 
-      // Hozircha demo kurslar. Keyin API yoki backend bilan almashtiramiz.
-      const RATES = {
-        UZS_KZT: 0.04,
-        KZT_UZS: 25,
-        UZS_KGS: 0.006,
-        KGS_UZS: 170,
-        KZT_KGS: 0.15,
-        KGS_KZT: 6.5,
-      };
-
-      const directionEl = document.getElementById("direction");
       const amountEl = document.getElementById("amount");
-      const resultText = document.getElementById("resultText");
-      const rateText = document.getElementById("rateText");
+      const dirEl = document.getElementById("direction");
+      const resultMainEl = document.getElementById("result-main");
+      const resultSubEl = document.getElementById("result-sub");
+      const errorEl = document.getElementById("error");
+      const calcBtn = document.getElementById("calc-btn");
 
-      const fromFlag = document.getElementById("fromFlag");
-      const fromCode = document.getElementById("fromCode");
-      const fromName = document.getElementById("fromName");
-      const toFlag = document.getElementById("toFlag");
-      const toCode = document.getElementById("toCode");
-      const toName = document.getElementById("toName");
-      const swapBtn = document.getElementById("swapBtn");
-      const calcBtn = document.getElementById("calcBtn");
-
-      function updatePills() {
-        const dir = directionEl.value;
-        const [from, to] = dir.split("_");
-        fromFlag.textContent = from;
-        fromCode.textContent = from;
-        fromName.textContent = NAMES[from] || "";
-        toFlag.textContent = to;
-        toCode.textContent = to;
-        toName.textContent = NAMES[to] || "";
+      function format(n) {
+        return new Intl.NumberFormat("uz-UZ").format(n);
       }
 
-      function formatNumber(num) {
-        if (!isFinite(num)) return "-";
-        return num.toLocaleString("uz-UZ", { maximumFractionDigits: 2 });
+      async function loadRates() {
+        try {
+          errorEl.style.display = "none";
+          resultSubEl.textContent = "API’dan kurslar olinmoqda…";
+
+          const res = await fetch(API_URL);
+          if (!res.ok) {
+            throw new Error("API xatosi: " + res.status);
+          }
+          const data = await res.json();
+          if (data && data.rates) {
+            if (typeof data.rates.KZT === "number") {
+              rates.KZT = data.rates.KZT;
+            }
+            if (typeof data.rates.KGS === "number") {
+              rates.KGS = data.rates.KGS;
+            }
+
+            resultSubEl.textContent =
+              "1 UZS ≈ " +
+              rates.KZT.toFixed(4) +
+              " KZT, 1 UZS ≈ " +
+              rates.KGS.toFixed(4) +
+              " KGS (onlayn kurslar)";
+          } else {
+            throw new Error("Noto'g'ri javob formati");
+          }
+        } catch (e) {
+          console.error(e);
+          errorEl.textContent =
+            "Kurslarni yuklashda muammo. Hozircha demo kurslardan foydalanilmoqda.";
+          errorEl.style.display = "block";
+          resultSubEl.textContent =
+            "1 UZS ≈ " +
+            rates.KZT.toFixed(4) +
+            " KZT (demo), 1 UZS ≈ " +
+            rates.KGS.toFixed(4) +
+            " KGS (demo)";
+        }
       }
 
       function recalc() {
-        const dir = directionEl.value;
-        const [from, to] = dir.split("_");
-        const amount = parseFloat(
-          (amountEl.value || "").toString().replace(",", ".")
-        );
-
-        if (isNaN(amount) || amount <= 0) {
-          resultText.textContent = "Iltimos, ijobiy miqdor kiriting.";
-          rateText.textContent = "";
+        const rawVal = parseFloat(amountEl.value);
+        if (!rawVal || rawVal <= 0) {
+          resultMainEl.textContent = "Miqdor kiriting";
           return;
         }
 
-        const rate = RATES[dir];
-        if (!rate) {
-          resultText.textContent = "Bu yo‘nalish uchun kurs topilmadi.";
-          rateText.textContent = "";
-          return;
+        const dir = dirEl.value;
+        let res;
+        let txt;
+
+        if (dir === "UZS_KZT") {
+          res = rawVal * rates.KZT;
+          txt = format(rawVal) + " UZS ≈ " + format(res.toFixed(2)) + " KZT";
+        } else if (dir === "KZT_UZS") {
+          res = rawVal / rates.KZT;
+          txt = format(rawVal) + " KZT ≈ " + format(res.toFixed(0)) + " UZS";
+        } else if (dir === "UZS_KGS") {
+          res = rawVal * rates.KGS;
+          txt = format(rawVal) + " UZS ≈ " + format(res.toFixed(2)) + " KGS";
+        } else if (dir === "KGS_UZS") {
+          res = rawVal / rates.KGS;
+          txt = format(rawVal) + " KGS ≈ " + format(res.toFixed(0)) + " UZS";
         }
 
-        const res = amount * rate;
-
-        resultText.innerHTML =
-          `<span class="value">${formatNumber(amount)} ${from}</span>` +
-          ` ≈ <span class="value">${formatNumber(res)} ${to}</span>`;
-
-        rateText.textContent = `1 ${from} ≈ ${formatNumber(rate)} ${to} (demo kurs)`;
+        resultMainEl.textContent = txt;
       }
 
-      directionEl.addEventListener("change", () => {
-        updatePills();
-        recalc();
-      });
-
       calcBtn.addEventListener("click", recalc);
+      amountEl.addEventListener("input", recalc);
+      dirEl.addEventListener("change", recalc);
 
-      swapBtn.addEventListener("click", () => {
-        const dir = directionEl.value;
-        const [from, to] = dir.split("_");
-        const reverseKey = `${to}_${from}`;
-        if (RATES[reverseKey]) {
-          directionEl.value = reverseKey;
-          updatePills();
-          recalc();
-        }
-      });
-
-      // Boshlang'ich holat
-      updatePills();
+      loadRates().then(recalc);
     </script>
   </body>
 </html>
