@@ -1,44 +1,48 @@
 // api/rates.js
-
-// Vercel serverless function: /api/rates
-// Foydalanish: /api/rates?from=UZS&to=KZT
+// AiSend uchun jonli kurslar (open.er-api.com orqali)
 
 export default async function handler(req, res) {
-  const { from = "UZS", to = "KZT" } = req.query;
-
-  const base = String(from).toUpperCase();
-  const target = String(to).toUpperCase();
-
   try {
-    // Exchangerate.host – bepul API, auth shart emas
-    const url = `https://api.exchangerate.host/latest?base=${base}&symbols=${target}`;
+    const { from, to } = req.query;
 
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Third-party API error");
+    if (!from || !to) {
+      return res.status(400).json({
+        ok: false,
+        error: "INVALID_PARAMS",
+        message: "from va to parametrlarini yuboring (masalan: from=UZS&to=KZT).",
+      });
     }
 
-    const data = await response.json();
+    const base = String(from).toUpperCase();
+    const target = String(to).toUpperCase();
+
+    // Bepul va ochiq API
+    const url = `https://open.er-api.com/v6/latest/${base}`;
+
+    const apiRes = await fetch(url);
+    if (!apiRes.ok) {
+      throw new Error(`Upstream API error: ${apiRes.status}`);
+    }
+
+    const data = await apiRes.json();
+
     const rate = data?.rates?.[target];
 
-    if (!rate) {
-      throw new Error("Rate not found");
+    if (typeof rate !== "number") {
+      throw new Error("RATE_NOT_FOUND");
     }
 
+    // Frontend SHUNI kutyapti: { ok: true, rate }
     return res.status(200).json({
       ok: true,
-      base,
-      target,
       rate,
-      provider: "exchangerate.host",
-      date: data.date,
     });
   } catch (err) {
-    console.error("RATE API ERROR:", err);
+    console.error("Rates API error:", err);
     return res.status(500).json({
       ok: false,
       error: "RATE_FETCH_FAILED",
-      message: "Could not load live rates",
+      message: err.message,
     });
   }
 }
