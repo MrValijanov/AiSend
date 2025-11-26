@@ -395,25 +395,27 @@
       }
 
       // Onlayn kurslarni to‘g‘ridan-to‘g‘ri exchangerate.host API dan olish
+// 🔥 Yangi — exchangerate.host o‘rniga → Vercel backend orqali
 async function fetchLiveRate(from, to) {
-  const base = String(from).toUpperCase();
-  const target = String(to).toUpperCase();
+  try {
+    const base = String(from).toUpperCase();
+    const target = String(to).toUpperCase();
 
-  const url = `https://api.exchangerate.host/latest?base=${base}&symbols=${target}`;
+    // Bizning serverga murojaat
+    const url = `/api/rates?from=${base}&to=${target}`;
 
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error("HTTP error");
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data.success || !data.rates[target]) {
+      throw new Error("Rate not found");
+    }
+
+    return data.rates[target];
+  } catch (err) {
+    console.error("fetchLiveRate error:", err);
+    return null;
   }
-
-  const data = await res.json();
-  const rate = data?.rates?.[target];
-
-  if (!rate) {
-    throw new Error("Rate not found");
-  }
-
-  return rate;
 }
 
       async function recalc() {
