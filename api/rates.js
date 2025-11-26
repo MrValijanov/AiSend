@@ -1,48 +1,64 @@
 // api/rates.js
-// AiSend uchun jonli kurslar (open.er-api.com orqali)
-
 export default async function handler(req, res) {
+  const { from, to } = req.query;
+
+  if (!from || !to) {
+    return res.status(400).json({
+      ok: false,
+      error: "from va to parametrlarini yuboring"
+    });
+  }
+
+  const base = from.toUpperCase();
+  const targets = to.split(",").map(t => t.trim().toUpperCase());
+
   try {
-    const { from, to } = req.query;
+    // 1️⃣ API dan base valyutaga asoslangan kurslar
+    const api1 = `https://open.er-api.com/v6/latest/${base}`;
+    const r1 = await fetch(api1);
+    const d1 = await r1.json();
 
-    if (!from || !to) {
-      return res.status(400).json({
-        ok: false,
-        error: "INVALID_PARAMS",
-        message: "from va to parametrlarini yuboring (masalan: from=UZS&to=KZT).",
-      });
+    if (d1.result === "error") {
+      throw new Error(d1["error-type"] || "API 1 error");
     }
 
-    const base = String(from).toUpperCase();
-    const target = String(to).toUpperCase();
+    let rates = {};
 
-    // Bepul va ochiq API
-    const url = `https://open.er-api.com/v6/latest/${base}`;
-
-    const apiRes = await fetch(url);
-    if (!apiRes.ok) {
-      throw new Error(`Upstream API error: ${apiRes.status}`);
+    // 2️⃣ Agar to valyuta d1.rates da bo'lsa — to‘g‘ridan-to‘g‘ri ishlatamiz
+    for (const t of targets) {
+      if (d1.rates[t]) {
+        rates[t] = d1.rates[t];
+      }
     }
 
-    const data = await apiRes.json();
+    // 3️⃣ Agar KGS yo‘q bo‘lsa — USD orqali hisoblaymiz
+    if (targets.includes("KGS") && !rates["KGS"]) {
+      const api2 = `https://open.er-api.com/v6/latest/USD`;
+      const r2 = await fetch(api2);
+      const d2 = await r2.json();
 
-    const rate = data?.rates?.[target];
+      if (d2.result !== "success") {
+        throw new Error("API USD error");
+      }
 
-    if (typeof rate !== "number") {
-      throw new Error("RATE_NOT_FOUND");
+      // UZS → USD → KGS formulasi
+      if (d1.rates["USD"] && d2.rates["KGS"]) {
+        const uzsToUsd = d1.rates["USD"];
+        const usdToKgs = d2.rates["KGS"];
+        rates["KGS"] = uzsToUsd * usdToKgs;
+      }
     }
 
-    // Frontend SHUNI kutyapti: { ok: true, rate }
     return res.status(200).json({
       ok: true,
-      rate,
+      base,
+      rates
     });
+
   } catch (err) {
-    console.error("Rates API error:", err);
     return res.status(500).json({
       ok: false,
-      error: "RATE_FETCH_FAILED",
-      message: err.message,
+      error: err.message
     });
   }
 }
