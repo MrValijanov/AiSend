@@ -1,4 +1,6 @@
 // api/rates.js
+// USD bazasi orqali istalgan FROM -> TO kursini hisoblaymiz
+
 export default async function handler(req, res) {
   const { from, to } = req.query;
 
@@ -10,55 +12,60 @@ export default async function handler(req, res) {
   }
 
   const base = from.toUpperCase();
-  const targets = to.split(",").map(t => t.trim().toUpperCase());
+  const targets = to
+    .split(",")
+    .map((t) => t.trim().toUpperCase())
+    .filter((t) => t && t !== base);
 
   try {
-    // 1️⃣ API dan base valyutaga asoslangan kurslar
-    const api1 = `https://open.er-api.com/v6/latest/${base}`;
-    const r1 = await fetch(api1);
-    const d1 = await r1.json();
-
-    if (d1.result === "error") {
-      throw new Error(d1["error-type"] || "API 1 error");
+    // 1 USD ga nisbatan hamma kurslar
+    const apiRes = await fetch("https://open.er-api.com/v6/latest/USD");
+    if (!apiRes.ok) {
+      throw new Error("Upstream API HTTP error");
     }
 
-    let rates = {};
+    const data = await apiRes.json();
 
-    // 2️⃣ Agar to valyuta d1.rates da bo'lsa — to‘g‘ridan-to‘g‘ri ishlatamiz
+    if (data.result !== "success" || !data.rates) {
+      throw new Error(data["error-type"] || "Upstream API response error");
+    }
+
+    const usdRates = data.rates;
+
+    if (!usdRates[base]) {
+      return res.status(400).json({
+        ok: false,
+        error: `Valyuta qo'llab-quvvatlanmaydi: ${base}`
+      });
+    }
+
+    const resultRates = {};
+
+    // Formula: rate(FROM -> TO) = rate(USD->TO) / rate(USD->FROM)
     for (const t of targets) {
-      if (d1.rates[t]) {
-        rates[t] = d1.rates[t];
-      }
+      if (!usdRates[t]) continue;
+      const rate = usdRates[t] / usdRates[base];
+      resultRates[t] = rate;
     }
 
-    // 3️⃣ Agar KGS yo‘q bo‘lsa — USD orqali hisoblaymiz
-    if (targets.includes("KGS") && !rates["KGS"]) {
-      const api2 = `https://open.er-api.com/v6/latest/USD`;
-      const r2 = await fetch(api2);
-      const d2 = await r2.json();
-
-      if (d2.result !== "success") {
-        throw new Error("API USD error");
-      }
-
-      // UZS → USD → KGS formulasi
-      if (d1.rates["USD"] && d2.rates["KGS"]) {
-        const uzsToUsd = d1.rates["USD"];
-        const usdToKgs = d2.rates["KGS"];
-        rates["KGS"] = uzsToUsd * usdToKgs;
-      }
+    if (Object.keys(resultRates).length === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: "So'ralgan yo'nalishlar uchun kurs topilmadi"
+      });
     }
 
     return res.status(200).json({
       ok: true,
       base,
-      rates
+      rates: resultRates
     });
-
   } catch (err) {
+    console.error("Rates API error:", err);
     return res.status(500).json({
       ok: false,
-      error: err.message
+      error: "Server xatosi yoki tashqi API muammosi",
+      details: err.message
     });
   }
 }
