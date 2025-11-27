@@ -1,962 +1,371 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AiSend · Demo konvertor</title>
-  <style>
-    :root {
-      --bg-main: #020805;
-      --bg-card: #07140b;
-      --bg-card-soft: #0a1b10;
-      --neon: #b0ff3b;
-      --neon-soft: #7cff53;
-      --accent: #1cff72;
-      --accent-soft: #16a34a;
-      --danger: #b91c1c;
-      --text-main: #f9fafb;
-      --text-soft: #cbd5f5;
-      --divider: rgba(255, 255, 255, 0.08);
-      --radius-xl: 26px;
-      --radius-lg: 20px;
-      --radius-pill: 999px;
-    }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter",
-        "SF Pro Text", sans-serif;
-      background: radial-gradient(circle at top, #052e16 0, #020805 55%);
-      color: var(--text-main);
-      padding: 16px 14px 24px;
-    }
-
-    body.no-scroll {
-      overflow: hidden;
-    }
-
-    .container {
-      max-width: 540px;
-      margin: 0 auto;
-    }
-
-    /* HEADER */
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: radial-gradient(circle at 30% 20%, #bbf7d0, #16a34a 60%, #052e16 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #022c22;
-      box-shadow: 0 0 18px rgba(74, 222, 128, 0.55);
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .brand-title {
-      font-size: 20px;
-      letter-spacing: 0.03em;
-    }
-
-    .brand-sub {
-      font-size: 11px;
-      color: var(--text-soft);
-      opacity: 0.82;
-    }
-
-    .profile-btn {
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(163, 230, 53, 0.5);
-      background: linear-gradient(135deg, #052e16, #022c22);
-      color: var(--text-main);
-      padding: 7px 14px;
-      font-size: 13px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.4);
-    }
-
-    .profile-btn span.chevron {
-      font-size: 12px;
-      opacity: 0.9;
-    }
-
-    /* TAGS */
-
-    .tag-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .tag {
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      background: rgba(15, 23, 42, 0.7);
-      color: var(--text-soft);
-    }
-
-    .tag.green {
-      border-color: rgba(34, 197, 94, 0.4);
-      background: rgba(6, 95, 70, 0.9);
-      color: #bbf7d0;
-    }
-
-    /* CARDS */
-
-    .card {
-      background: radial-gradient(circle at top left, #052e16 0, #020617 55%);
-      border-radius: var(--radius-xl);
-      border: 1px solid rgba(34, 197, 94, 0.32);
-      padding: 18px 18px 20px;
-      box-shadow:
-        0 24px 40px rgba(0, 0, 0, 0.7),
-        0 0 40px rgba(34, 197, 94, 0.35);
-      margin-bottom: 14px;
-    }
-
-    .card--secondary {
-      background: linear-gradient(145deg, #020617, #03120a);
-      border-color: rgba(34, 197, 94, 0.22);
-      box-shadow: 0 18px 32px rgba(0, 0, 0, 0.6);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-    }
-
-    .card-caption {
-      font-size: 12px;
-      color: var(--text-soft);
-      opacity: 0.9;
-    }
-
-    .pill {
-      border-radius: var(--radius-pill);
-      padding: 4px 10px;
-      font-size: 11px;
-      border: 1px solid rgba(34, 197, 94, 0.4);
-      background: radial-gradient(circle at top, #052e16 0, #022c22 60%, #020617 100%);
-      color: #bbf7d0;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
-    }
-
-    /* FORM */
-
-    .field {
-      margin-top: 10px;
-      margin-bottom: 8px;
-    }
-
-    .field-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: var(--text-soft);
-      margin-bottom: 4px;
-    }
-
-    .field-label span.main {
-      font-size: 13px;
-      color: var(--text-main);
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
-
-    .select,
-    .input {
-      width: 100%;
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
-      color: var(--text-main);
-      padding: 10px 14px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .select {
-      appearance: none;
-      padding-right: 28px;
-      background-image: linear-gradient(45deg, transparent 50%, #a3e635 50%),
-        linear-gradient(135deg, #a3e635 50%, transparent 50%);
-      background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%;
-      background-size: 7px 7px, 7px 7px;
-      background-repeat: no-repeat;
-    }
-
-    .input::placeholder {
-      color: rgba(148, 163, 184, 0.7);
-    }
-
-    .toggle-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 8px;
-    }
-
-    .toggle-row .label {
-      font-size: 12px;
-      color: var(--text-soft);
-    }
-
-    .toggle-row .hint {
-      font-size: 11px;
-      color: rgba(148, 163, 184, 0.9);
-    }
-
-    .toggle-switch {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: #bbf7d0;
-    }
-
-    .toggle-switch input {
-      width: 36px;
-      height: 20px;
-      border-radius: 999px;
-      appearance: none;
-      position: relative;
-      background: #022c22;
-      border: 1px solid #16a34a;
-      cursor: pointer;
-    }
-
-    .toggle-switch input::before {
-      content: "";
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      background: #bbf7d0;
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
-      transition: transform 0.18s ease;
-    }
-
-    .toggle-switch input:checked {
-      background: linear-gradient(90deg, #16a34a, #22c55e);
-    }
-
-    .toggle-switch input:checked::before {
-      transform: translateX(14px);
-    }
-
-    /* BUTTONS */
-
-    .btn {
-      width: 100%;
-      margin-top: 14px;
-      border-radius: 22px;
-      border: none;
-      padding: 13px 18px;
-      font-size: 16px;
-      font-weight: 600;
-      color: #022c22;
-      background: linear-gradient(120deg, #bef264, #4ade80);
-      box-shadow:
-        0 18px 32px rgba(22, 163, 74, 0.55),
-        0 0 24px rgba(190, 242, 100, 0.7);
-      cursor: pointer;
-    }
-
-    .btn:active {
-      transform: translateY(1px);
-      box-shadow:
-        0 8px 18px rgba(22, 163, 74, 0.6),
-        0 0 16px rgba(190, 242, 100, 0.7);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border-radius: 20px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      color: var(--text-main);
-      box-shadow: none;
-      font-size: 14px;
-    }
-
-    .btn-danger {
-      background: rgba(185, 28, 28, 0.1);
-      border: 1px solid rgba(248, 113, 113, 0.6);
-      color: #fecaca;
-      box-shadow: 0 14px 26px rgba(185, 28, 28, 0.45);
-    }
-
-    .btn-loading {
-      position: relative;
-      color: transparent !important;
-    }
-
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      border: 2px solid rgba(22, 163, 74, 0.25);
-      border-top-color: #16a34a;
-      animation: spin 0.75s linear infinite;
-      margin: 0 auto;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .error-text {
-      margin-top: 6px;
-      font-size: 12px;
-      color: #fecaca;
-    }
-
-    .result-box {
-      margin-top: 12px;
-      border-radius: 18px;
-      padding: 12px 14px;
-      background: radial-gradient(circle at left, rgba(22, 163, 74, 0.3), #020617);
-      border: 1px solid rgba(34, 197, 94, 0.4);
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .base-rate {
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--text-soft);
-    }
-
-    /* TRANSFER */
-
-    .section-label {
-      margin: 16px 4px 2px;
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      color: rgba(148, 163, 184, 0.85);
-      text-transform: uppercase;
-    }
-
-    .contact-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 12px;
-      margin-bottom: 8px;
-    }
-
-    .avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #bbf7d0, #22c55e, #052e16);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #022c22;
-      box-shadow: 0 0 14px rgba(74, 222, 128, 0.7);
-    }
-
-    .contact-main {
-      font-size: 14px;
-    }
-
-    .contact-sub {
-      font-size: 12px;
-      color: var(--text-soft);
-    }
-
-    .send-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .send-row .input {
-      flex: 1;
-    }
-
-    .send-row .mini-label {
-      font-size: 11px;
-      color: var(--text-soft);
-      margin-bottom: 2px;
-    }
-
-    .send-status {
-      margin-top: 8px;
-      font-size: 12px;
-    }
-
-    .send-status.ok {
-      color: #bbf7d0;
-    }
-
-    .send-status.err {
-      color: #fecaca;
-    }
-
-    /* PROFILE MODAL */
-
-    .modal-bg {
-      position: fixed;
-      inset: 0;
-      background: rgba(3, 7, 18, 0.9);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.18s ease;
-      z-index: 40;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      padding: 0 10px 18px;
-    }
-
-    .modal-bg.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-sheet {
-      width: 100%;
-      max-width: 520px;
-      border-radius: 24px;
-      background: linear-gradient(145deg, #020617, #022c22);
-      border: 1px solid rgba(34, 197, 94, 0.6);
-      padding: 16px 18px 18px;
-      transform: translateY(18px);
-      opacity: 0;
-      transition: opacity 0.18s ease, transform 0.18s ease;
-      box-shadow:
-        0 -10px 30px rgba(0, 0, 0, 0.8),
-        0 0 26px rgba(22, 163, 74, 0.6);
-    }
-
-    .modal-sheet.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .modal-close {
-      border: none;
-      background: transparent;
-      color: var(--text-soft);
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .modal-divider {
-      margin: 10px 0 12px;
-      height: 1px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(148, 163, 184, 0.45),
-        transparent
-      );
-    }
-
-    .modal-row {
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
-
-    .modal-row span.label {
-      color: var(--text-soft);
-    }
-
-    .modal-actions {
-      margin-top: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .footer {
-      margin-top: 12px;
-      font-size: 11px;
-      text-align: center;
-      color: rgba(148, 163, 184, 0.85);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AiSend</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
+
+body {
+  background: #041f0f;
+  color: white;
+  padding: 14px;
+}
+
+.container { max-width: 600px; margin: auto; }
+
+.header {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 20px;
+}
+
+.header h2 { font-size: 28px; font-weight: bold; }
+
+.profile-btn {
+  background: rgba(255,255,255,0.08);
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+}
+
+/* CARD */
+.card {
+  background: rgba(0, 50, 0, 0.45);
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(0,255,120,0.15);
+  backdrop-filter: blur(4px);
+}
+
+.card .title { font-size: 22px; font-weight: bold; margin-bottom: 10px; }
+
+/* INPUT */
+input, select {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+  padding: 14px;
+  color: white;
+  margin-top: 6px;
+}
+
+.btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 15px;
+  background: linear-gradient(90deg, #afff54, #61ff3f);
+  border-radius: 22px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #041f0f;
+}
+
+/* PROFILE MODAL */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal {
+  width: 100%;
+  background: rgba(0,40,0,0.85);
+  padding: 24px;
+  border-radius: 26px 26px 0 0;
+  border: 1px solid rgba(0,255,120,0.25);
+}
+
+.modal-title {
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+
+.modal-item { margin-bottom: 10px; font-size: 18px; }
+
+.close-x {
+  float: right; cursor: pointer; font-size: 22px;
+}
+
+/* SEND MONEY STATUS */
+.send-status {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #00ff6a;
+}
+.send-status.err { color: #ff6a6a; }
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="brand">
-        <div class="brand-logo">A</div>
-        <div class="brand-text">
-          <div class="brand-title">AiSend</div>
-          <div class="brand-sub">
-            Chegarasiz valyuta almashinuvi · demo UI
-          </div>
-        </div>
-      </div>
-      <button class="profile-btn" id="profileOpen">
-        <span>Profil</span>
-        <span class="chevron">▾</span>
-      </button>
-    </header>
+<div class="container">
 
-    <div class="tag-row">
-      <span class="tag green">AiSend · Demo konvertor</span>
-      <span class="tag">Beta build</span>
-    </div>
+<div class="header">
+  <h2>AiSend</h2>
+  <button class="profile-btn" id="profileOpen">Profil</button>
+</div>
+<!-- AiSend Pay -->
+<div class="card">
+  <div class="title">AiSend Pay</div>
+  <p>UZS balansdan KZT/KGS kartaga tezkor o'tkazmalar (demo).</p>
+</div>
 
-    <!-- MAIN CONVERTER CARD -->
-    <section class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">AiSend Pay</div>
-          <div class="card-caption">
-            UZS balansdan KZT/KGS kartaga tezkor o‘tkazmalar (demo).
-          </div>
-        </div>
-        <div class="pill">
-          <span class="pill-dot"></span>
-          <span>Onlayn kurslar</span>
-        </div>
-      </div>
-<!-- DIRECTION -->
-      <div class="field">
-        <div class="field-label">
-          <span class="main">Yo‘nalishni tanlang</span>
-        </div>
-        <select id="direction" class="select">
-          <option value="UZS_KZT">UZS → KZT</option>
-          <option value="UZS_KGS">UZS → KGS</option>
-        </select>
-      </div>
+<!-- Direction -->
+<div class="card">
+  <label>Yo‘nalishni tanlang</label>
+  <select id="direction">
+    <option value="UZS_KZT">UZS → KZT</option>
+    <option value="UZS_KGS">UZS → KGS</option>
+  </select>
 
-      <!-- AMOUNT -->
-      <div class="field">
-        <div class="field-label">
-          <span class="main">Miqdor</span>
-          <span>1 UZS ≈ demo kurs</span>
-        </div>
-        <input
-          id="amount"
-          class="input"
-          inputmode="decimal"
-          placeholder="Miqdor kiriting"
-        />
-      </div>
+  <label>Miqdor</label>
+  <input id="amount" placeholder="Miqdor kiriting">
 
-      <!-- TOGGLE -->
-      <div class="toggle-row">
-        <div>
-          <div class="label">Onlayn kurslar</div>
-          <div class="hint">
-            O‘chirib qo‘ysangiz, demo kurslar ishlatiladi.
-          </div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="liveToggle" checked />
-          <span>Yoqilgan</span>
-        </label>
-      </div>
-
-      <!-- CALC BTN + RESULT -->
-      <button class="btn" id="calcBtn">Hisoblash</button>
-
-      <div id="resultBox" class="result-box">
-        0 UZS ≈ 0 KZT
-      </div>
-      <div id="baseRate" class="base-rate">
-        1 UZS ≈ 0.0400 KZT (demo kurs)
-      </div>
-
-      <p id="errorText" class="error-text"></p>
-    </section>
-
-    <!-- TRANSFER SECTION -->
-    <div class="section-label">TRANSFER</div>
-
-    <section class="card card--secondary">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Send Money</div>
-          <div class="card-caption">
-            UZS balans → AiSend do‘st · 0% komissiya (demo).
-          </div>
-        </div>
-      </div>
-
-      <div class="contact-row">
-        <div class="avatar">AV</div>
-        <div>
-          <div class="contact-main">Alisher Valiyev</div>
-          <div class="contact-sub">+998 90 123 45 67</div>
-        </div>
-      </div>
-
-      <div class="send-row">
-        <div style="flex: 1">
-          <div class="field-label">
-            <span class="main">Miqdor</span>
-          </div>
-          <input
-            id="sendAmount"
-            class="input"
-            inputmode="decimal"
-            placeholder="Miqdor kiriting"
-          />
-        </div>
-        <div style="width: 96px">
-          <div class="field-label">
-            <span class="main">Valyuta</span>
-          </div>
-          <select id="sendCurrency" class="select">
-            <option value="UZS">UZS</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-label">
-          <span class="main">Izoh</span>
-          <span>Masalan: “Uyg‘a pul”</span>
-        </div>
-        <input
-          id="sendNote"
-          class="input"
-          placeholder="Izoh qoldiring (demo)"
-        />
-      </div>
-
-      <button class="btn" id="sendBtn">
-        Yuborish uchun ushlab turing
-      </button>
-
-      <div id="sendStatus" class="send-status">
-        Demo: to‘lov yuborildi ✅
-      </div>
-    </section>
-
-    <p class="footer">
-      AiSend demo interfeysi. Fikr va takliflar — keyingi bosqichlar uchun
-      asos bo‘ladi.
-    </p>
+  <div style="margin-top:14px;display:flex;justify-content:space-between;">
+    <span>Onlayn kurslar</span>
+    <input type="checkbox" id="liveToggle" checked>
   </div>
 
-  <!-- PROFILE MODAL -->
-  <div class="modal-bg" id="profileBg">
-    <div class="modal-sheet" id="profileSheet">
-      <div class="modal-header">
-        <div class="modal-title">Telegram profil</div>
-        <button class="modal-close" id="profileClose">✕</button>
-      </div>
+  <button class="btn" id="calcBtn">Hisoblash</button>
 
-      <div class="modal-row">
-        <span class="label">Ism:&nbsp;</span>
-        <span id="pf_name">-</span>
-      </div>
-      <div class="modal-row">
-        <span class="label">ID:&nbsp;</span>
-        <span id="pf_id">-</span>
-      </div>
-      <div class="modal-row">
-        <span class="label">Username:&nbsp;</span>
-        <span id="pf_username">-</span>
-      </div>
+  <div id="resultMain" style="margin-top:18px; font-size:20px;">0 UZS ≈ 0 KZT</div>
+  <div id="resultSub" style="opacity:0.8; margin-top:6px; font-size:14px;">1 UZS ≈ demo kurs</div>
 
-      <div class="modal-divider"></div>
+  <div id="errorText" style="color:#ff8080; margin-top:6px;"></div>
+</div>
 
-      <div class="modal-actions">
-        <button class="btn btn-secondary">
-          Sozlamalar (tez orada)
-        </button>
-        <button class="btn btn-danger">
-          Chiqish (tez orada)
-        </button>
-      </div>
+<!-- SEND MONEY -->
+<div class="card">
+  <div class="title">Send Money</div>
+  <p>UZS balans → AiSend do‘st · 0% komissiya (demo).</p>
+
+  <div style="display:flex;align-items:center;margin:14px 0;">
+    <div style="width:55px;height:55px;border-radius:50%;background:#82ff70;display:flex;justify-content:center;align-items:center;font-weight:bold;font-size:20px;color:#041f0f;">AV</div>
+    <div style="margin-left:14px;">
+      <b>Alisher Valiyev</b><br>
+      <span style="opacity:0.8;">+998 90 123 45 67</span>
     </div>
   </div>
+
+  <label>Miqdor</label>
+  <input id="sendAmount">
+
+  <label style="margin-top:10px;">Valyuta</label>
+  <select id="sendCurrency">
+    <option value="UZS">UZS</option>
+  </select>
+
+  <label style="margin-top:10px;">Izoh (ixtiyoriy)</label>
+  <input id="sendNote" placeholder="Masalan: 'Uyga pul'">
+
+  <button class="btn" id="sendHoldBtn">Yuborish uchun ushlab turing</button>
+
+  <div id="sendStatus" class="send-status"></div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="modal-bg" id="profileBg">
+  <div class="modal">
+    <div class="modal-title">
+      Telegram profil
+      <span class="close-x" id="profileClose">✕</span>
+    </div>
+
+    <div class="modal-item">Ism: <span id="pf_name">-</span></div>
+    <div class="modal-item">ID: <span id="pf_id">-</span></div>
+    <div class="modal-item">Username: <span id="pf_username">-</span></div>
+
+    <button class="btn" style="margin-top:20px;background:#ffffff10;color:white;border:1px solid #ffffff30;">
+      Sozlamalar (tez orada)
+    </button>
+
+    <button class="btn" style="margin-top:10px;background:#ff4c4c;color:white;">
+      Chiqish (tez orada)
+    </button>
+  </div>
+</div>
 <script>
-    // ===== FORMAT HELPERS =====
-    function formatMoney(num) {
-      if (!isFinite(num)) return "0";
-      return new Intl.NumberFormat("uz-UZ", {
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 0,
-      }).format(num);
-    }
+// Telegram URL parametrlari
+function getTelegramParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    id: params.get("tg_id") || "",
+    name: params.get("tg_name") || "",
+    username: params.get("tg_username") || ""
+  };
+}
 
-    function formatRate(num) {
-      if (!isFinite(num)) return "0";
-      return new Intl.NumberFormat("uz-UZ", {
-        maximumFractionDigits: 6,
-        minimumFractionDigits: 4,
-      }).format(num);
-    }
+function initProfileSheet() {
+  const { id, name, username } = getTelegramParams();
+  document.getElementById("pf_name").textContent = name || "-";
+  document.getElementById("pf_id").textContent = id || "-";
+  document.getElementById("pf_username").textContent =
+    username ? "@" + username : "-";
+}
+initProfileSheet();
 
-    // ===== DOM REFS =====
-    const directionEl = document.getElementById("direction");
-    const amountInput = document.getElementById("amount");
-    const liveToggle = document.getElementById("liveToggle");
-    const calcBtn = document.getElementById("calcBtn");
-    const resultBox = document.getElementById("resultBox");
-    const baseRate = document.getElementById("baseRate");
-    const errorText = document.getElementById("errorText");
+// MODAL OPEN/CLOSE
+document.getElementById("profileOpen").onclick = () => {
+  document.getElementById("profileBg").style.display = "flex";
+};
+document.getElementById("profileClose").onclick = () => {
+  document.getElementById("profileBg").style.display = "none";
+};
 
-    const sendAmountInput = document.getElementById("sendAmount");
-    const sendCurrencyEl = document.getElementById("sendCurrency");
-    const sendBtn = document.getElementById("sendBtn");
-    const sendStatus = document.getElementById("sendStatus");
+// ====== CURRENCY LOGIC ======
+const DEMO_RATES = {
+  UZS_KZT: 0.040,
+  UZS_KGS: 0.0069
+};
 
-    const profileBtn = document.getElementById("profileOpen");
-    const profileBg = document.getElementById("profileBg");
-    const profileSheet = document.getElementById("profileSheet");
-    const profileClose = document.getElementById("profileClose");
-    const pfName = document.getElementById("pf_name");
-    const pfId = document.getElementById("pf_id");
-    const pfUsername = document.getElementById("pf_username");
+let lastOnlineRate = null;
 
-    // ===== RATES =====
-    const DEMO_RATES = {
-      UZS_KZT: 0.04,
-      UZS_KGS: 0.00727,
-    };
+async function fetchLiveRate(from, to) {
+  const url =
+    "https://v6.exchangerate-api.com/v6/2b0b1b1c5d8aeff/rate/" +
+    from + "/" + to;
+  const res = await fetch(url);
+  const data = await res.json();
+  return parseFloat(data.conversion_rate);
+}
 
-    let lastOnlineRate = null;
+function formatNumber(n) {
+  return n.toLocaleString("en-US");
+}
+function formatRate(n) {
+  return n.toFixed(6);
+}
 
-    function getDirectionParts() {
-      const val = directionEl.value || "UZS_KZT";
-      const [from, to] = val.split("_");
-      return { from, to };
-    }
+function getDirectionParts() {
+  const dir = document.getElementById("direction").value; // UZS_KZT
+  return { from: dir.split("_")[0], to: dir.split("_")[1] };
+}
 
-    async function fetchLiveRate(from, to) {
-      const url = `https://ai-send.vercel.app/api/rate?base=${from}&symbols=${to}`;
-      const res = await fetch(url);
-      const data = await res.json();
-      if (!data.ok || !data.rates || typeof data.rates[to] !== "number") {
-        throw new Error("Rate not found");
-      }
-      return data.rates[to];
-    }
+async function recalc() {
+  const amountEl = document.getElementById("amount");
+  const liveToggle = document.getElementById("liveToggle");
 
-    async function recalc() {
-      const rawVal = amountInput.value.trim().replace(/\s+/g, "").replace(",", ".");
-      const val = parseFloat(rawVal);
-      const { from, to } = getDirectionParts();
-      const onlineMode = liveToggle.checked;
+  const raw = amountEl.value.trim();
+  const val = parseFloat(raw.replace(",", ".") || "0");
 
-      errorText.textContent = "";
+  const { from, to } = getDirectionParts();
+  const dir = document.getElementById("direction").value;
 
-      if (!rawVal || isNaN(val) || val <= 0) {
-        resultBox.textContent = `0 ${from} ≈ 0 ${to}`;
-        baseRate.textContent = `1 ${from} ≈ demo kurs`;
-        if (rawVal) {
-          errorText.textContent = "Miqdor noto‘g‘ri. Iltimos, qayta kiriting.";
-        } else {
-          errorText.textContent = "Miqdor kiriting.";
-        }
-        return;
-      }
+  const resultMain = document.getElementById("resultMain");
+  const resultSub = document.getElementById("resultSub");
+  const errorText = document.getElementById("errorText");
 
-      let rate = DEMO_RATES[directionEl.value] || 0;
-      let label = "demo kurs";
+  errorText.textContent = "";
 
-      if (onlineMode) {
-        try {
-          rate = await fetchLiveRate(from, to);
-          lastOnlineRate = rate;
-          label = "onlayn API";
-        } catch (err) {
-          console.error("Live rate error:", err);
-          errorText.textContent =
-            "Onlayn kurslarni yuklashda muammo. Demo kurs ishlatildi.";
-        }
-      } else if (lastOnlineRate != null) {
+  if (!raw || isNaN(val) || val <= 0) {
+    resultMain.textContent = `0 ${from} ≈ 0 ${to}`;
+    resultSub.textContent =
+      `1 ${from} ≈ ${formatRate(DEMO_RATES[dir])} ${to} (demo kurs)`;
+    errorText.textContent = "Miqdor kiriting.";
+    return;
+  }
+
+  let rate = DEMO_RATES[dir];
+  let modeText = "demo kurs";
+
+  if (liveToggle.checked) {
+    try {
+      rate = await fetchLiveRate(from, to);
+      lastOnlineRate = rate;
+      modeText = "onlayn API";
+    } catch (e) {
+      if (lastOnlineRate) {
         rate = lastOnlineRate;
-        label = "oxirgi onlayn kurs";
+        modeText = "oxirgi onlayn kurs";
+      } else {
+        rate = DEMO_RATES[dir];
+        modeText = "demo kurs";
       }
-
-      const result = val * rate;
-      resultBox.textContent = `${formatMoney(val)} ${from} ≈ ${formatMoney(
-        result
-      )} ${to}`;
-      baseRate.textContent = `1 ${from} ≈ ${formatRate(rate)} ${to} (${label})`;
+      errorText.textContent = "Onlayn kurs yuklanmadi.";
     }
+  }
 
-    // Calc button behaviour
-    calcBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const oldText = calcBtn.textContent;
-      calcBtn.disabled = true;
-      calcBtn.classList.add("btn-loading");
-      calcBtn.innerHTML = '<span class="spinner"></span>';
-      await recalc();
-      setTimeout(() => {
-        calcBtn.disabled = false;
-        calcBtn.classList.remove("btn-loading");
-        calcBtn.textContent = oldText;
-      }, 600);
-    });
+  const result = val * rate;
+  resultMain.textContent =
+    `${formatNumber(val)} ${from} ≈ ${formatNumber(result)} ${to}`;
+  resultSub.textContent =
+    `1 ${from} ≈ ${formatRate(rate)} ${to} (${modeText})`;
+}
 
-    directionEl.addEventListener("change", recalc);
-    liveToggle.addEventListener("change", recalc);
-    amountInput.addEventListener("input", () => {
-      errorText.textContent = "";
-    });
+document.getElementById("calcBtn").onclick = recalc;
 
-    // ===== SEND MONEY DEMO =====
-    sendBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const raw = sendAmountInput.value.trim().replace(/\s+/g, "").replace(",", ".");
-      const val = parseFloat(raw);
+// ===== SEND MONEY =====
+let lastSendPayload = null;
 
-      sendStatus.className = "send-status";
+const sendAmountEl = document.getElementById("sendAmount");
+const sendCurrencyEl = document.getElementById("sendCurrency");
+const sendNoteEl = document.getElementById("sendNote");
+const sendStatusEl = document.getElementById("sendStatus");
+const holdBtn = document.getElementById("sendHoldBtn");
 
-      if (!raw || isNaN(val) || val <= 0) {
-        sendStatus.textContent = "Miqdor kiriting.";
-        sendStatus.classList.add("err");
-        return;
-      }
+let holdTimer = null;
 
-      const oldText = sendBtn.textContent;
-      sendBtn.disabled = true;
-      sendBtn.classList.add("btn-loading");
-      sendBtn.innerHTML = '<span class="spinner"></span>';
+function startHold(e) {
+  e.preventDefault();
+  if (holdTimer) clearTimeout(holdTimer);
 
-      setTimeout(() => {
-        sendBtn.disabled = false;
-        sendBtn.classList.remove("btn-loading");
-        sendBtn.textContent = oldText;
+  sendStatusEl.textContent = "Ushlab turilmoqda...";
 
-        sendStatus.textContent = "Demo: to‘lov yuborildi ✅";
-        sendStatus.classList.add("ok");
-      }, 900);
-    });
+  holdTimer = setTimeout(() => {
+    holdTimer = null;
+    doFakeSend();
+  }, 700);
+}
 
-    // ===== PROFILE FROM URL =====
-    function initProfileFromUrl() {
-      const params = new URLSearchParams(window.location.search);
+function cancelHold() {
+  if (holdTimer) {
+    clearTimeout(holdTimer);
+    holdTimer = null;
+    sendStatusEl.textContent = "Bekor qilindi.";
+    sendStatusEl.className = "send-status err";
+  }
+}
 
-      const tgName = (params.get("tg_name") || "").trim();
-      const tgId = (params.get("tg_id") || "").trim();
-      const tgUsernameRaw = (params.get("tg_username") || "").trim();
-      const tgUsername = tgUsernameRaw
-        ? "@" + tgUsernameRaw.replace(/^@+/, "")
-        : "-";
+holdBtn.addEventListener("mousedown", startHold);
+holdBtn.addEventListener("touchstart", startHold);
 
-      const hasAny = tgName || tgId || tgUsernameRaw;
+["mouseup","mouseleave","touchend","touchcancel"].forEach(ev=>{
+  holdBtn.addEventListener(ev, cancelHold);
+});
 
-      if (!hasAny) {
-        // Agar Telegram ma'lumotlari kelmagan bo'lsa, profil tugmasini yashirish mumkin
-        // profileBtn.style.display = "none";
-        return;
-      }
+function doFakeSend() {
+  const raw = sendAmountEl.value.trim();
+  const amount = parseFloat(raw.replace(",", "."));
+  const currency = sendCurrencyEl.value;
+  const note = sendNoteEl.value.trim();
 
-      if (pfName) pfName.textContent = tgName || "-";
-      if (pfId) pfId.textContent = tgId || "-";
-      if (pfUsername) pfUsername.textContent = tgUsername;
-    }
+  if (!raw || isNaN(amount) || amount <= 0) {
+    sendStatusEl.textContent = "Miqdor kiriting.";
+    sendStatusEl.className = "send-status err";
+    return;
+  }
 
-    // ===== PROFILE MODAL TOGGLING =====
-    function openProfile() {
-      profileBg.classList.add("show");
-      profileSheet.classList.add("show");
-      document.body.classList.add("no-scroll");
-    }
+  const pack = `${amount}|${currency}|${note}`;
 
-    function closeProfile() {
-      profileBg.classList.remove("show");
-      profileSheet.classList.remove("show");
-      document.body.classList.remove("no-scroll");
-    }
+  if (lastSendPayload === pack) {
+    sendStatusEl.textContent =
+      "Oldingi amaliyot bilan bir xil. Demo rejimda qayta yuborilmadi.";
+    sendStatusEl.className = "send-status err";
+    return;
+  }
 
-    profileBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      openProfile();
-    });
+  lastSendPayload = pack;
 
-    profileClose.addEventListener("click", (e) => {
-      e.preventDefault();
-      closeProfile();
-    });
-
-    profileBg.addEventListener("click", (e) => {
-      if (e.target === profileBg) {
-        closeProfile();
-      }
-    });
-
-    // ===== INITIALIZE =====
-    (async function init() {
-      initProfileFromUrl();
-      await recalc();
-    })();
-  </script>
+  sendStatusEl.textContent = "Demo: to‘lov yuborildi ✅";
+  sendStatusEl.className = "send-status";
+}
+</script>
 </body>
 </html>
