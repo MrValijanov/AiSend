@@ -2,20 +2,28 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8" />
-  <title>AiSend Pay · Demo konvertor</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AiSend Pay · Demo konvertor</title>
   <style>
     :root {
-      --bg-main: #050816;
-      --bg-card: #111827;
-      --bg-card-soft: #020617;
-      --accent: #22c55e;
-      --accent-soft: #22c55e33;
-      --accent-2: #0ea5e9;
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --danger: #f97373;
-      --radius-xl: 22px;
+      --bg: #020615;
+      --card: #050b1f;
+      --card-soft: #081226;
+      --accent-from: #10c66f;
+      --accent-to: #08a6ff;
+      --accent-soft: rgba(16, 198, 111, 0.18);
+      --border-soft: #1a2740;
+      --text-main: #f9fbff;
+      --text-soft: #9aa6c2;
+      --text-muted: #6b7690;
+      --danger: #ff4e5c;
+      --success: #24e08a;
+      --chip-bg: rgba(12, 180, 255, 0.08);
+      --chip-border: rgba(12, 180, 255, 0.35);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.75);
     }
 
     * {
@@ -27,527 +35,574 @@
     }
 
     body {
-      background: radial-gradient(circle at top, #1e293b 0, #020617 45%, #000 100%);
       min-height: 100vh;
+      background: radial-gradient(circle at top, #071633 0, #020615 55%, #000 100%);
       color: var(--text-main);
       display: flex;
       justify-content: center;
-      align-items: stretch;
-      padding: 20px 10px 26px;
+      align-items: flex-start;
+      padding: 24px 12px 32px;
     }
 
-    .shell {
+    .app {
       width: 100%;
-      max-width: 480px;
+      max-width: 420px;
       margin: 0 auto;
     }
 
+    /* HEADER */
     .app-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
+      justify-content: space-between;
+      margin-bottom: 18px;
     }
 
-    .app-title {
-      font-size: 24px;
+    .brand-title {
+      font-size: 26px;
       font-weight: 700;
+      letter-spacing: 0.03em;
     }
 
-    .pill-row {
+    .tag-row {
       display: flex;
       gap: 8px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-soft);
     }
 
-    .pill {
+    .chip {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--chip-border);
+      background: var(--chip-bg);
+      backdrop-filter: blur(12px);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      background: #020617;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #11d37f;
+      box-shadow: 0 0 12px rgba(17, 211, 127, 0.9);
+    }
+
+    .beta-chip {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text-muted);
-      border: 1px solid #1f2937;
     }
 
-    .pill-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 4px #22c55e33;
-    }
-
-    .pill-beta {
-      background: #111827;
-      border-color: #1f2937;
-    }
-
-    .card {
-      background: linear-gradient(145deg, #020617, #020617, #020617);
+    /* MAIN CARD */
+    .pay-card {
+      background: radial-gradient(circle at top left, #0b2540, #050b1f 55%, #020615 100%);
       border-radius: var(--radius-xl);
-      padding: 18px 16px 18px;
-      box-shadow:
-        0 22px 45px rgba(0, 0, 0, 0.9),
-        0 0 0 1px rgba(15, 23, 42, 0.9);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 22px;
+      border: 1px solid rgba(87, 112, 170, 0.52);
       position: relative;
       overflow: hidden;
     }
 
-    .card::before {
+    .pay-card::before {
       content: "";
       position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at 10% -10%, #22c55e33 0, transparent 52%),
-        radial-gradient(circle at 110% 10%, #0ea5e933 0, transparent 52%);
-      opacity: 0.5;
+      inset: -120px;
+      background: radial-gradient(circle at 20% 0%, rgba(8, 190, 255, 0.22), transparent 55%);
+      opacity: 0.9;
       pointer-events: none;
     }
 
-    .card-inner {
+    .pay-card-inner {
       position: relative;
       z-index: 1;
     }
 
-    .card-header {
+    .pay-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 18px;
     }
 
-    .product {
+    .pay-left {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .product-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: conic-gradient(from 200deg, #22c55e, #0ea5e9, #22c55e);
+    .pay-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 30% 0%, #4bffe2, #0b9dff 55%, #0643ff 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #022c22;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.8);
       font-weight: 800;
       font-size: 20px;
-      box-shadow:
-        0 0 0 1px #022c22,
-        0 18px 35px rgba(22, 163, 74, 0.6);
+      color: #03101b;
     }
 
-    .product-text-title {
+    .pay-title-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .pay-name {
+      font-size: 18px;
       font-weight: 700;
-      letter-spacing: 0.02em;
     }
 
-    .product-text-sub {
+    .pay-sub {
       font-size: 12px;
-      color: var(--text-muted);
+      color: var(--text-soft);
     }
 
-    .mode-pill {
+    .live-status {
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(5, 255, 167, 0.1);
+      border: 1px solid rgba(5, 255, 167, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--success);
+      font-weight: 500;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 14px rgba(36, 224, 138, 0.85);
+    }
+
+    /* CURRENCY CARDS */
+    .currency-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .cur-card {
+      background: linear-gradient(160deg, rgba(9, 21, 53, 0.96), rgba(7, 15, 35, 0.96));
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(140, 175, 255, 0.38);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .cur-label {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .cur-main-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cur-code-pill {
+      min-width: 46px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(3, 10, 40, 0.95);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid #1f2937;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .mode-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-soft);
-    }
-
-    .mode-pill strong {
-      color: #bbf7d0;
+      justify-content: center;
       font-weight: 600;
+      font-size: 13px;
+      border: 1px solid rgba(154, 180, 255, 0.55);
     }
 
-    .field-group-label {
+    .cur-name {
       font-size: 11px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 12px;
-      margin-bottom: 6px;
-    }
-
-    .pair-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      align-items: center;
-    }
-
-    .pair-card {
-      background: #020617;
-      border-radius: 18px;
-      padding: 10px 12px;
-      border: 1px solid #1f2937;
-      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.6);
-    }
-
-    .pair-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .pair-main {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-    }
-
-    .pair-code-pill {
-      font-size: 12px;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: #020617;
-      border: 1px solid #1f2937;
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9);
-    }
-
-    .pair-sub {
-      font-size: 11px;
-      color: var(--text-muted);
+      color: var(--text-soft);
     }
 
     .swap-pill {
-      width: 40px;
-      height: 40px;
-      border-radius: 22px;
-      background: radial-gradient(circle at 30% 20%, #22c55e, #0ea5e9);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0%, #48ffb6, #08a6ff 75%);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow:
-        0 0 0 1px rgba(15, 23, 42, 0.9),
-        0 18px 35px rgba(16, 185, 129, 0.75);
+      border: 1px solid rgba(160, 232, 255, 0.7);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+      cursor: pointer;
     }
 
     .swap-pill span {
       font-size: 20px;
-      filter: drop-shadow(0 4px 6px rgba(15, 23, 42, 0.8));
+      filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
     }
 
-    .direction-select-wrapper {
-      margin-top: 16px;
+    /* DIRECTION SELECT */
+    .section-label {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .direction-select {
+      width: 100%;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(159, 190, 255, 0.6);
+      padding: 10px 14px;
+      background: radial-gradient(circle at 0 50%, rgba(14, 197, 120, 0.12), rgba(4, 17, 48, 0.95));
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      appearance: none;
       position: relative;
     }
 
-    .field-label-row {
+    .direction-wrapper {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .direction-wrapper::after {
+      content: "▾";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--text-soft);
+      pointer-events: none;
+    }
+
+    /* AMOUNT */
+    .amount-label-row {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 4px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .demo-rate-hint {
       font-size: 11px;
       color: var(--text-muted);
     }
 
-    .field-label-row span:last-child {
-      color: #a5b4fc;
-    }
-
-    .select {
+    .amount-input {
       width: 100%;
-      padding: 10px 12px;
-      border-radius: 16px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      color: var(--text-main);
-      font-size: 14px;
-      outline: none;
-      appearance: none;
-    }
-
-    .select:focus {
-      border-color: var(--accent-2);
-      box-shadow: 0 0 0 1px #0ea5e966;
-    }
-
-    .select-arrow {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(4px);
-      font-size: 16px;
-      pointer-events: none;
-      color: #6b7280;
-    }
-
-    .amount-wrapper {
-      margin-top: 14px;
-    }
-
-    .input {
-      width: 100%;
-      padding: 11px 12px;
-      border-radius: 16px;
-      border: 1px solid #1f2937;
-      background: #020617;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(133, 168, 255, 0.65);
+      padding: 10px 14px;
+      background: rgba(5, 11, 30, 0.95);
       color: var(--text-main);
       font-size: 15px;
       outline: none;
     }
 
-    .input::placeholder {
-      color: #4b5563;
+    .amount-input::placeholder {
+      color: rgba(135, 151, 190, 0.7);
     }
 
-    .input:focus {
-      border-color: var(--accent-2);
-      box-shadow: 0 0 0 1px #0ea5e966;
-    }
-
-    .hint {
+    .help-text {
+      margin-top: 5px;
       font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 6px;
-      line-height: 1.5;
+      color: var(--text-soft);
+      line-height: 1.4;
     }
 
-    .hint strong {
-      color: #4ade80;
-      font-weight: 500;
+    .help-text strong {
+      color: var(--success);
     }
 
-    .btn-primary {
-      margin-top: 18px;
-      width: 100%;
-      border: none;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      background: linear-gradient(90deg, #22c55e, #0ea5e9);
-      color: #022c22;
-      box-shadow:
-        0 18px 40px rgba(16, 185, 129, 0.7),
-        0 0 0 1px rgba(15, 23, 42, 0.9);
-      cursor: pointer;
+    /* ONLINE TOGGLE */
+    .mode-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+      margin-bottom: 16px;
+      gap: 10px;
     }
 
-    .btn-primary:active {
-      transform: translateY(1px);
-      box-shadow:
-        0 12px 24px rgba(16, 185, 129, 0.6),
-        0 0 0 1px rgba(15, 23, 42, 0.9);
-    }
-
-    .result-card {
-      margin-top: 14px;
-      padding: 10px 12px;
-      border-radius: 18px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
-    }
-
-    .result-main {
-      font-size: 17px;
-      font-weight: 600;
-    }
-
-    .result-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .error {
-      margin-top: 8px;
-      font-size: 11px;
-      color: var(--danger);
-    }
-
-    .footer {
-      margin-top: 10px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: center;
-      line-height: 1.5;
-    }
-
-    .footer strong {
-      color: #a5b4fc;
-      font-weight: 500;
-    }
-
-    .mode-toggle-row {
-      margin-top: 10px;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .mode-toggle-row label {
+    .toggle-group {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      cursor: pointer;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-soft);
     }
 
-    .toggle {
-      width: 30px;
-      height: 16px;
+    .toggle-switch {
+      width: 38px;
+      height: 22px;
       border-radius: 999px;
-      background: #020617;
-      border: 1px solid #1f2937;
-      padding: 2px;
+      background: rgba(14, 27, 60, 0.96);
+      border: 1px solid rgba(129, 167, 255, 0.6);
       position: relative;
-      box-sizing: border-box;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input {
+      display: none;
     }
 
     .toggle-knob {
       position: absolute;
       top: 2px;
       left: 2px;
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: #6b7280;
-      transition: transform 0.18s ease, background 0.18s ease;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 0%, #58ffd2, #0fb2ff);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+      transition: transform 0.18s ease-out;
     }
 
-    .toggle.on {
-      border-color: var(--accent);
-      background: #022c22;
+    .toggle-switch input:checked + .toggle-knob {
+      transform: translateX(14px);
     }
 
-    .toggle.on .toggle-knob {
-      transform: translateX(12px);
-      background: #22c55e;
+    .mode-hint {
+      font-size: 11px;
+      color: var(--success);
+      text-align: right;
+    }
+
+    /* BUTTON */
+    .btn-primary {
+      width: 100%;
+      margin-top: 4px;
+      border-radius: var(--radius-pill);
+      border: none;
+      padding: 12px 14px;
+      background: linear-gradient(90deg, var(--accent-from), var(--accent-to));
+      color: #04121f;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: capitalize;
+      box-shadow: 0 16px 40px rgba(8, 190, 255, 0.55);
+      cursor: pointer;
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 10px 24px rgba(8, 190, 255, 0.5);
+    }
+
+    /* RESULT */
+    .result-card {
+      margin-top: 14px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(151, 183, 255, 0.55);
+      background: radial-gradient(circle at 0 0, rgba(21, 219, 143, 0.12), rgba(3, 11, 30, 0.96));
+      padding: 12px 14px;
+    }
+
+    .result-main {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .result-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .error-text {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--danger);
+      min-height: 13px;
+    }
+
+    /* PROFILE BOX */
+    .profile-box {
+      margin-top: 18px;
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(126, 148, 210, 0.7);
+      padding: 10px 12px;
+      background: radial-gradient(circle at 0 0, rgba(12, 180, 255, 0.12), rgba(2, 6, 21, 0.96));
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .pf-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .pf-item {
+      display: flex;
+      gap: 4px;
+    }
+
+    .pf-item span {
+      color: var(--text-muted);
+    }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 14px;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .footer strong {
+      color: var(--text-soft);
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
-  <div class="shell">
+  <div class="app">
     <header class="app-header">
-      <div class="app-title">AiSend</div>
+      <div>
+        <div class="brand-title">AiSend</div>
+        <div class="tag-row">
+          <span class="chip">
+            <span class="chip-dot"></span>
+            AiSend · Demo konvertor
+          </span>
+          <span class="chip beta-chip">Beta build</span>
+        </div>
+      </div>
     </header>
 
-    <div class="pill-row">
-      <div class="pill">
-        <span class="pill-dot"></span>
-        AiSend · Demo konvertor
-      </div>
-      <div class="pill pill-beta">
-        Beta build
-      </div>
-    </div>
-
-    <main class="card">
-      <div class="card-inner">
-        <div class="card-header">
-          <div class="product">
-            <div class="product-icon">A</div>
-            <div>
-              <div class="product-text-title">AiSend Pay</div>
-              <div class="product-text-sub">Chegarasiz valyuta almashinuvi</div>
+    <main class="pay-card">
+      <div class="pay-card-inner">
+        <div class="pay-header">
+          <div class="pay-left">
+            <div class="pay-logo">A</div>
+            <div class="pay-title-text">
+              <div class="pay-name">AiSend Pay</div>
+              <div class="pay-sub">Chegarasiz valyuta almashinuv</div>
             </div>
           </div>
-          <div class="mode-pill" id="mode-pill">
-            <span class="mode-dot"></span>
-            <span><strong>Onlayn</strong> kurslar</span>
+          <div class="live-status">
+            <span class="live-dot"></span>
+            Onlayn kurslar
           </div>
         </div>
 
-        <div class="field-group-label">Yo‘nalish</div>
-        <div class="pair-row">
-          <div class="pair-card">
-            <div class="pair-label">UZS</div>
-            <div class="pair-main">
-              <span class="pair-code-pill">UZS</span>
-              <span class="pair-sub">Asosiy balans</span>
+        <div class="currency-row">
+          <div class="cur-card">
+            <div class="cur-label">UZS</div>
+            <div class="cur-main-row">
+              <div class="cur-code-pill">UZS</div>
+              <div class="cur-name">Asosiy balans</div>
             </div>
           </div>
-          <div class="swap-pill" id="swap-btn">
+
+          <button id="swapBtn" class="swap-pill" type="button">
             <span>⇄</span>
-          </div>
-          <div class="pair-card">
-            <div class="pair-label">KZT / KGS</div>
-            <div class="pair-main">
-              <span class="pair-code-pill">KZT/KGS</span>
-              <span class="pair-sub">Qabul qiluvchi karta</span>
+          </button>
+
+          <div class="cur-card">
+            <div class="cur-label">KZT / KGS</div>
+            <div class="cur-main-row">
+              <div class="cur-code-pill">KZT/KGS</div>
+              <div class="cur-name">Qabul qiluvchi karta</div>
             </div>
           </div>
         </div>
 
-        <div class="direction-select-wrapper">
-          <div class="field-label-row">
-            <span>Yo‘nalishni tanlang</span>
-            <span id="direction-label">UZS → KZT</span>
-          </div>
-          <select id="direction" class="select">
+        <div class="section-label">Yo‘nalishni tanlang</div>
+        <div class="direction-wrapper">
+          <select id="directionSelect" class="direction-select">
             <option value="UZS_KZT">UZS → KZT</option>
             <option value="KZT_UZS">KZT → UZS</option>
             <option value="UZS_KGS">UZS → KGS</option>
             <option value="KGS_UZS">KGS → UZS</option>
           </select>
-          <span class="select-arrow">▾</span>
         </div>
 
-        <div class="amount-wrapper">
-          <div class="field-label-row">
-            <span>Miqdor</span>
-            <span id="pair-label">1 UZS ≈ demo kurs</span>
-          </div>
-          <input
-            id="amount"
-            type="number"
-            inputmode="decimal"
-            class="input"
-            placeholder="Miqdor kiriting"
-          />
-          <div class="hint" id="mode-hint">
-            Kurslar <strong>onlayn API</strong> orqali olinmoqda. Hali rasmiy AiSend serveri ulanmagan.
-          </div>
+        <div class="amount-label-row">
+          <span>MiQDOR</span>
+          <span class="demo-rate-hint"><span id="baseRateHint">1 UZS ≈ demo kurs</span></span>
         </div>
 
-        <div class="mode-toggle-row">
-          <label>
-            <div class="toggle on" id="mode-toggle">
-              <div class="toggle-knob"></div>
-            </div>
-            <span>Onlayn kurslar yoqilgan. O‘chirsangiz, demo kurslar ishlatiladi.</span>
+        <input
+          id="amountInput"
+          class="amount-input"
+          type="text"
+          inputmode="decimal"
+          placeholder="Miqdor kiriting"
+        />
+
+        <p class="help-text">
+          Kurslar <strong>onlayn API</strong> orqali olinmoqda. Hali rasmiy AiSend
+          serveri ulanmagan.
+        </p>
+
+        <div class="mode-row">
+          <label class="toggle-group">
+            <span>Onlayn kurslar yoqilgan.</span>
+            <label class="toggle-switch">
+              <input id="onlineToggle" type="checkbox" checked />
+              <span class="toggle-knob"></span>
+            </label>
           </label>
+          <div id="modeHint" class="mode-hint">
+            Onlayn kurslar yoqilgan. O‘chirsangiz, demo kurslar ishlatiladi.
+          </div>
         </div>
 
-        <button class="btn-primary" id="calc-btn">Hisoblash</button>
+        <button id="calcBtn" class="btn-primary" type="button">
+          Hisoblash
+        </button>
 
         <div class="result-card">
-          <div class="result-main" id="result-main">0 UZS ≈ 0 KZT</div>
-          <div class="result-sub" id="result-sub">
-            1 UZS ≈ 0.0400 KZT (demo kurs)
+          <div id="resultMain" class="result-main">0 UZS ≈ 0 KZT</div>
+          <div id="resultSub" class="result-sub">
+            1 UZS ≈ 0.04 KZT (demo kurs)
           </div>
         </div>
 
-        <div class="error" id="error-text"></div>
+        <div id="errorText" class="error-text"></div>
+
+        <div id="profileBox" class="profile-box">
+          AiSend demo interfeysi. Telegram orqali kirganda bu yerda foydalanuvchi
+          profili ko‘rinadi.
+        </div>
       </div>
     </main>
 
     <footer class="footer">
-      AiSend <strong>demo</strong> interfeysi. Fikr va takliflar — keyingi bosqich uchun asos bo‘ladi.
+      AiSend <strong>demo</strong> interfeysi. Fikr va takliflar — keyingi bosqich
+      uchun asos bo‘ladi.
     </footer>
   </div>
-
-  <script>
-    // Demo kurslar – offline rejim uchun
+<script>
+    // ==== Statik demo kurslar (fallback) ====
     const DEMO_RATES = {
       UZS_KZT: 0.04,
       KZT_UZS: 25,
@@ -555,152 +610,161 @@
       KGS_UZS: 140,
     };
 
-    const PAIRS = {
-      UZS_KZT: { from: "UZS", to: "KZT" },
-      KZT_UZS: { from: "KZT", to: "UZS" },
-      UZS_KGS: { from: "UZS", to: "KGS" },
-      KGS_UZS: { from: "KGS", to: "UZS" },
-    };
+    const directionSelect = document.getElementById("directionSelect");
+    const amountInput = document.getElementById("amountInput");
+    const resultMain = document.getElementById("resultMain");
+    const resultSub = document.getElementById("resultSub");
+    const errorText = document.getElementById("errorText");
+    const modeHint = document.getElementById("modeHint");
+    const baseRateHint = document.getElementById("baseRateHint");
+    const calcBtn = document.getElementById("calcBtn");
+    const onlineToggle = document.getElementById("onlineToggle");
+    const swapBtn = document.getElementById("swapBtn");
 
-    const directionEl = document.getElementById("direction");
-    const directionLabelEl = document.getElementById("direction-label");
-    const amountEl = document.getElementById("amount");
-    const resultMainEl = document.getElementById("result-main");
-    const resultSubEl = document.getElementById("result-sub");
-    const errorTextEl = document.getElementById("error-text");
-    const pairLabelEl = document.getElementById("pair-label");
-    const modeHintEl = document.getElementById("mode-hint");
-    const calcBtn = document.getElementById("calc-btn");
-    const swapBtn = document.getElementById("swap-btn");
-    const modeToggleEl = document.getElementById("mode-toggle");
-    const modePillEl = document.getElementById("mode-pill");
+    let lastOnlineRate = null;
 
-    let onlineMode = true;
+    function getDirectionParts() {
+      const val = directionSelect.value; // masalan: "UZS_KZT"
+      const [from, to] = val.split("_");
+      return { from, to };
+    }
 
     function formatNumber(num) {
-      return new Intl.NumberFormat("ru-RU", {
+      return new Intl.NumberFormat("uz-UZ", {
         maximumFractionDigits: 2,
+        minimumFractionDigits: 0,
       }).format(num);
     }
 
-    function getCurrentPair() {
-      const key = directionEl.value;
-      return { key, ...PAIRS[key] };
+    function formatRate(num) {
+      return new Intl.NumberFormat("uz-UZ", {
+        maximumFractionDigits: 6,
+        minimumFractionDigits: 4,
+      }).format(num);
     }
 
-    function updateLabels() {
-      const { key, from, to } = getCurrentPair();
-      directionLabelEl.textContent = directionEl.options[directionEl.selectedIndex].text;
-      pairLabelEl.textContent = `1 ${from} ≈ demo kurs`;
-      const demoRate = DEMO_RATES[key];
-      resultMainEl.textContent = `0 ${from} ≈ 0 ${to}`;
-      resultSubEl.textContent = `1 ${from} ≈ ${demoRate} ${to} (demo kurs)`;
-    }
-
-    // Onlayn kurslarni AiSend backendidan olish
     async function fetchLiveRate(from, to) {
-      const url = `https://ai-send.vercel.app/api/rates?from=${from}&to=${to}`;
+      const params = new URLSearchParams({ from, to });
+      const url = `/api/rates?${params.toString()}`;
+
       const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error("HTTP error");
+      }
+
       const data = await res.json();
 
-      if (!data.ok || !data.rates) {
-        throw new Error("API error");
+      // Vercel API: { success: true, base, rates: {KZT: ...} }
+      if (data.success === false || !data.rates) {
+        throw new Error(data.error || "Rate not found");
       }
 
       const rate = data.rates[to];
       if (typeof rate !== "number") {
         throw new Error("Rate not found");
       }
-
       return rate;
     }
 
     async function recalc() {
-      errorTextEl.textContent = "";
-      const { key, from, to } = getCurrentPair();
-      const rawVal = amountEl.value;
-      const val = parseFloat(rawVal || "0");
+      errorText.textContent = "";
 
-      if (!val || val <= 0) {
-        resultMainEl.textContent = "0 " + from + " ≈ 0 " + to;
-        resultSubEl.textContent = `Miqdor kiriting.`;
+      const rawVal = (amountInput.value || "").trim();
+      const normalized = rawVal.replace(",", ".");
+      const val = parseFloat(normalized);
+      const { from, to } = getDirectionParts();
+
+      if (!rawVal || isNaN(val) || val <= 0) {
+        resultMain.textContent = `0 ${from} ≈ 0 ${to}`;
+        resultSub.textContent = `1 ${from} ≈ ${DEMO_RATES[directionSelect.value]} ${to} (demo kurs)`;
+        baseRateHint.textContent = `1 ${from} ≈ demo kurs`;
+        errorText.textContent = "Miqdor kiriting.";
         return;
       }
 
-      let rate = DEMO_RATES[key];
-      let usedDemo = true;
+      let rate = DEMO_RATES[directionSelect.value];
+      const onlineMode = onlineToggle.checked;
 
       if (onlineMode) {
         try {
-          const liveRate = await fetchLiveRate(from, to);
-          if (typeof liveRate === "number" && liveRate > 0) {
-            rate = liveRate;
-            usedDemo = false;
-          }
+          rate = await fetchLiveRate(from, to);
+          lastOnlineRate = rate;
         } catch (err) {
-          console.log("Live rate error:", err);
-          errorTextEl.textContent =
-            "Kurslarni yuklashda muammo. Hozircha demo kurslardan foydalanilmoqda.";
+          console.error("Live rate error:", err);
+          errorText.textContent =
+            "Onlayn kurslarni yuklashda muammo. Hozircha demo kurslardan foydalanilmoqda.";
         }
       }
 
       const result = val * rate;
-      resultMainEl.textContent = `${formatNumber(val)} ${from} ≈ ${formatNumber(
+      resultMain.textContent = `${formatNumber(val)} ${from} ≈ ${formatNumber(
         result
       )} ${to}`;
-      resultSubEl.textContent = usedDemo
-        ? `1 ${from} ≈ ${rate} ${to} (demo kurs)`
-        : `1 ${from} ≈ ${rate.toFixed(6)} ${to} (onlayn API)`;
+
+      const baseRate = lastOnlineRate ?? DEMO_RATES[directionSelect.value];
+      const modeLabel = lastOnlineRate ? "onlayn API" : "demo kurs";
+
+      resultSub.textContent = `1 ${from} ≈ ${formatRate(
+        baseRate
+      )} ${to} (${modeLabel})`;
+      baseRateHint.textContent = `1 ${from} ≈ ${modeLabel}`;
     }
 
-    // Toggle online/demo
-    function setMode(isOnline) {
-      onlineMode = isOnline;
-      if (onlineMode) {
-        modeToggleEl.classList.add("on");
-        modeHintEl.innerHTML =
-          'Kurslar <strong>onlayn API</strong> orqali olinmoqda. Hali rasmiy AiSend serveri ulanmagan.';
-        modePillEl.innerHTML =
-          '<span class="mode-dot"></span><span><strong>Onlayn</strong> kurslar</span>';
+    calcBtn.addEventListener("click", recalc);
+    amountInput.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") recalc();
+    });
+
+    onlineToggle.addEventListener("change", () => {
+      if (onlineToggle.checked) {
+        modeHint.textContent =
+          "Onlayn kurslar yoqilgan. O‘chirsangiz, demo kurslar ishlatiladi.";
       } else {
-        modeToggleEl.classList.remove("on");
-        modeHintEl.innerHTML =
-          "Onlayn API o‘chirildi. Hozircha faqat demo kurslar ishlatilmoqda.";
-        modePillEl.innerHTML =
-          '<span class="mode-dot" style="background:#6b7280; box-shadow:none;"></span><span><strong>Demo</strong> kurslar</span>';
+        modeHint.textContent = "Demo kurslar ishlatilmoqda.";
+        lastOnlineRate = null;
       }
-    }
-
-    modeToggleEl.addEventListener("click", () => {
-      setMode(!onlineMode);
-    });
-
-    directionEl.addEventListener("change", () => {
-      updateLabels();
-      recalc();
-    });
-
-    amountEl.addEventListener("input", () => {
-      recalc();
-    });
-
-    calcBtn.addEventListener("click", () => {
       recalc();
     });
 
     swapBtn.addEventListener("click", () => {
-      const current = directionEl.value;
-      if (current === "UZS_KZT") directionEl.value = "KZT_UZS";
-      else if (current === "KZT_UZS") directionEl.value = "UZS_KZT";
-      else if (current === "UZS_KGS") directionEl.value = "KGS_UZS";
-      else if (current === "KGS_UZS") directionEl.value = "UZS_KGS";
-      updateLabels();
+      const current = directionSelect.value;
+      let next = current;
+      if (current === "UZS_KZT") next = "KZT_UZS";
+      else if (current === "KZT_UZS") next = "UZS_KZT";
+      else if (current === "UZS_KGS") next = "KGS_UZS";
+      else if (current === "KGS_UZS") next = "UZS_KGS";
+      directionSelect.value = next;
       recalc();
     });
 
-    // Dastlabki holat
-    setMode(true);
-    updateLabels();
+    directionSelect.addEventListener("change", recalc);
+
+    // ===== PROFILE INIT FROM URL =====
+    (function initProfile() {
+      const params = new URLSearchParams(window.location.search);
+      const tgId = params.get("tg_id");
+      const tgName = params.get("tg_name");
+      const tgUsername = params.get("tg_username");
+
+      if (tgId) {
+        const p = document.getElementById("profileBox");
+        if (p) {
+          p.innerHTML = `
+            <div class="profile">
+              <div class="pf-title">Telegram profili</div>
+              <div class="pf-item"><span>ID:</span> ${tgId}</div>
+              <div class="pf-item"><span>Ism:</span> ${tgName || "-"}</div>
+              <div class="pf-item"><span>Username:</span> ${
+                tgUsername ? "@" + tgUsername : "-"
+              }</div>
+            </div>
+          `;
+        }
+      }
+    })();
+
+    // Boshlang‘ich hisob
+    recalc();
   </script>
 </body>
 </html>
