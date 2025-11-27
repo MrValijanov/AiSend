@@ -2,332 +2,787 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AiSend</title>
+  <title>AiSend · Demo konvertor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        sans-serif;
-      background: linear-gradient(180deg, #081f0f, #040a05 60%);
-      color: #fff;
+      padding: 0;
     }
 
-    .container {
-      padding: 18px;
-      max-width: 480px;
-      margin: auto;
+    html, body {
+      height: 100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(circle at top, #12210a, #050706 55%, #020402);
+      color: #f4ffec;
     }
 
-    h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin: 0 0 8px 0;
-    }
-
-    .tag-row {
+    body {
       display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
+      justify-content: center;
+      padding: 10px 10px 20px;
     }
 
-    .tag {
-      padding: 4px 10px;
-      border-radius: 12px;
+    .app {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 24px;
+      padding: 18px 16px 16px;
+      background: radial-gradient(circle at top left, #172d11, #050906 60%, #020302);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(150, 255, 120, 0.11);
+    }
+
+    /* HEADER */
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .app-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 30% 20%, #56ff6d, #0c290c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: #021303;
+      box-shadow: 0 0 20px rgba(120, 255, 120, 0.55);
+    }
+
+    .app-title-block h1 {
+      font-size: 22px;
+      letter-spacing: 0.02em;
+    }
+
+    .app-title-block p {
+      font-size: 12px;
+      color: #c6f1b6;
+    }
+
+    .badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      margin-top: 2px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(214, 255, 170, 0.32);
+      background: rgba(4, 28, 4, 0.96);
+      color: #d3ffb9;
+    }
+
+    .badge.badge-secondary {
+      border-color: rgba(255, 222, 120, 0.5);
+      background: rgba(51, 38, 3, 0.9);
+      color: #ffeaaa;
+    }
+
+    /* PROFILE LINK (TOP RIGHT) */
+
+    .profile-link {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      padding: 4px 14px;
       font-size: 13px;
-      opacity: 0.85;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(6, 30, 8, 0.92);
+      color: #eaffea;
+      letter-spacing: 0.02em;
     }
 
-    .tag.green {
-      background: rgba(0, 255, 90, 0.15);
-      color: #00ff90;
-    }
-
-    .tag.yellow {
-      background: rgba(255, 230, 0, 0.15);
-      color: #ffe600;
-    }
+    /* MAIN CARD */
 
     .card {
-      background: rgba(16, 45, 20, 0.45);
-      border: 1px solid rgba(120, 255, 120, 0.15);
       border-radius: 22px;
-      padding: 18px;
+      padding: 18px 16px 16px;
+      background: radial-gradient(circle at 0% 0%, #1b3812, #050a05 70%);
+      border: 1px solid rgba(207, 255, 152, 0.3);
+      box-shadow: 0 16px 30px rgba(4, 12, 3, 0.9);
       margin-bottom: 18px;
-      box-shadow: 0 0 25px rgba(0, 255, 50, 0.12);
     }
 
-    .title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 8px;
+    .card-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
     }
 
-    .balance {
-      font-size: 32px;
-      font-weight: 700;
-      margin-top: 4px;
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 2px;
     }
 
-    .btn {
-      width: 100%;
-      padding: 16px;
-      font-size: 20px;
-      font-weight: bold;
-      border-radius: 22px;
-      border: none;
-      background: linear-gradient(90deg, #00ff66, #d4ff55);
-      color: #000;
+    .card-sub {
+      font-size: 12px;
+      color: #d3fcd1;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(180, 255, 150, 0.6);
+      background: radial-gradient(circle at 0 0, #1c7b1c, #042606);
+      font-size: 11px;
+      color: #eaffdf;
+      white-space: nowrap;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #47ff47;
+      box-shadow: 0 0 10px rgba(60, 255, 120, 0.9);
+    }
+
+    .direction-chip-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(5, 14, 5, 0.9);
+      border: 1px solid rgba(184, 255, 168, 0.32);
+      font-size: 12px;
+      color: #ecffe2;
       margin-top: 10px;
     }
 
-    .profile-card {
-      background: rgba(70, 70, 70, 0.2);
-      border: 1px dashed rgba(255, 255, 0, 0.4);
+    .direction-chip-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(3, 18, 3, 0.98);
+      border: 1px solid rgba(188, 253, 172, 0.6);
+      font-size: 11px;
     }
 
-    .pf-item {
-      margin: 3px 0;
+    /* FORM SECTION */
+
+    .section {
+      margin-bottom: 16px;
+      padding: 14px 14px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(189, 255, 152, 0.28);
+      background: radial-gradient(circle at 0 0, #142410, #050805 80%);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: #e8ffd1;
+      margin-bottom: 6px;
+    }
+
+    .select-row {
+      position: relative;
+    }
+
+    .select-row select {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(214, 255, 170, 0.35);
+      background: rgba(4, 14, 4, 0.95);
+      color: #f3ffe7;
+      font-size: 14px;
+      appearance: none;
+    }
+
+    .select-row::after {
+      content: "▾";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: #c4f6ad;
+      pointer-events: none;
+    }
+
+    .amount-input-wrap {
+      position: relative;
+      margin-top: 6px;
+    }
+
+    .amount-input {
+      width: 100%;
+      padding: 11px 80px 11px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(214, 255, 170, 0.4);
+      background: rgba(4, 14, 4, 0.96);
+      color: #fafff4;
       font-size: 15px;
+    }
+
+    .amount-suffix {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #c2f0b3;
+      opacity: 0.9;
+    }
+
+    .hint-label {
+      font-size: 11px;
+      color: #b1e5a0;
+      margin-top: 4px;
+    }
+
+    /* SWITCH */
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      gap: 10px;
+    }
+
+    .switch-label-main {
+      font-size: 12px;
+      color: #f0ffe2;
+    }
+
+    .switch-label-sub {
+      font-size: 11px;
+      color: #a7dd92;
+    }
+
+    .switch {
+      position: relative;
+      width: 54px;
+      height: 30px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #172612, #071006);
+      border: 1px solid rgba(168, 255, 140, 0.4);
+      transition: 0.25s;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: radial-gradient(circle at 30% 20%, #7bff5e, #134214);
+      border-radius: 50%;
+      box-shadow: 0 0 14px rgba(165, 255, 150, 0.9);
+      transition: 0.25s;
+    }
+
+    .switch input:checked + .slider {
+      background: linear-gradient(135deg, #35aa2a, #0a2209);
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translate(18px, -50%);
+    }
+
+    /* BUTTON & RESULT */
+
+    .primary-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 11px 0;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(90deg, #76ff41, #e4ff7b);
+      color: #031104;
+      font-size: 16px;
+      font-weight: 600;
+      box-shadow: 0 14px 30px rgba(160, 255, 100, 0.5);
+    }
+
+    .result-card {
+      margin-top: 12px;
+      border-radius: 18px;
+      padding: 12px 12px 10px;
+      background: radial-gradient(circle at 0 0, #050803, #020402 70%);
+      border: 1px solid rgba(210, 255, 190, 0.22);
+    }
+
+    .result-main {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .result-sub {
+      font-size: 12px;
+      color: #c7f1bb;
+      margin-top: 2px;
+    }
+
+    .error-text {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #ffb0b0;
+    }
+
+    /* FOOTER */
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 11px;
+      color: #d0f1c2;
+      opacity: 0.9;
+      line-height: 1.4;
+    }
+
+    /* PROFILE SHEET / OVERLAY */
+
+    .profile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 20;
+    }
+
+    .profile-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .profile-sheet {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: -60%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 14px 18px 18px;
+      background: radial-gradient(circle at top, #071d08, #020603);
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.9);
+      transform: translateY(100%);
+      transition: transform 0.25s ease, bottom 0.25s ease;
+      z-index: 30;
+    }
+
+    .profile-sheet.open {
+      bottom: 0;
+      transform: translateY(0);
+    }
+
+    .profile-sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .profile-sheet-header h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #f3ffdd;
+    }
+
+    .sheet-close {
+      border: none;
+      background: transparent;
+      color: #9fbf7a;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .profile-sheet-body {
+      font-size: 14px;
+      color: #c0e3b0;
+    }
+
+    .pf-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .pf-row span {
+      opacity: 0.8;
+    }
+
+    .pf-row strong {
+      font-weight: 600;
+    }
+
+    .sheet-divider {
+      margin: 10px 0;
+      border: 0;
+      border-top: 1px dashed rgba(170, 255, 170, 0.35);
+    }
+
+    .sheet-item {
+      width: 100%;
+      margin-top: 8px;
+      padding: 9px 0;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(12, 32, 10, 0.96);
+      color: #e6ffe0;
+      font-size: 14px;
+    }
+
+    .sheet-item-danger {
+      border-color: rgba(255, 120, 120, 0.55);
+      color: #ffb3b3;
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
+  <div class="app">
+    <!-- Profil tugmasi -->
+    <button class="profile-link" id="profileBtn">Profil</button>
 
-    <h1>AiSend</h1>
-    <div class="tag-row">
-      <div class="tag green">AiSend · Demo konvertor</div>
-      <div class="tag yellow">Beta build</div>
-    </div>
+    <!-- HEADER -->
+    <header>
+      <div class="header-row">
+        <div class="app-avatar">A</div>
+        <div class="app-title-block">
+          <h1>AiSend</h1>
+          <p>Chegarasiz valyuta almashtiruvchi · demo UI</p>
+        </div>
+      </div>
 
-    <!-- AiSend Pay karta -->
+      <div class="badge-row">
+        <span class="badge">AiSend · Demo konvertor</span>
+        <span class="badge badge-secondary">Beta build</span>
+      </div>
+    </header>
+
+    <!-- MAIN CARD -->
     <section class="card">
-      <div class="title">AiSend Pay</div>
-      <p>UZS balansdan KZT/KGS kartaga tezkor o‘tkazmalar. Demo rejim.</p>
+      <div class="card-top-row">
+        <div>
+          <h2 class="card-title">AiSend Pay</h2>
+          <p class="card-sub">
+            UZS balansdan KZT/KGS kartaga tezkor o‘tkazmalar. Demo rejim.
+          </p>
 
-      <div class="tag-row" style="margin-top:14px;">
-        <div class="tag green">Onlayn kurslar</div>
+          <div class="direction-chip-row">
+            <span class="direction-chip-tag">↔</span>
+            <span>UZS balans → KZT/KGS karta</span>
+          </div>
+        </div>
+
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Onlayn kurslar</span>
+        </div>
       </div>
     </section>
 
-    <!-- PROFIL KARTA (yuqoriga ko‘tarilgan) -->
-    <section id="tg-profile" class="card profile-card">
-      <h2 style="margin-top:0;">Telegram profil</h2>
-      <div class="pf-item">Ism: <span id="pf_name">-</span></div>
-      <div class="pf-item">ID: <span id="pf_id">-</span></div>
-      <div class="pf-item">Username: <span id="pf_user">-</span></div>
-    </section>
-
-<!-- KONVERTOR FORMA -->
-    <section class="card">
-      <div class="field-label">Yo‘nalishni tanlang</div>
-      <select id="direction" class="select">
-        <option value="UZS_KZT">UZS → KZT</option>
-        <option value="UZS_KGS">UZS → KGS</option>
-        <option value="KZT_UZS">KZT → UZS</option>
-        <option value="KGS_UZS">KGS → UZS</option>
-      </select>
-
-      <div class="field-label" style="margin-top:16px;">
-        Miqdor
-        <span style="float:right;font-size:12px;opacity:0.8;">
-          1 UZS ≈ demo kurs
-        </span>
+    <!-- KONVERTOR FORMASI -->
+    <section class="section">
+      <div class="section-label">Yo‘nalishni tanlang</div>
+      <div class="select-row">
+        <select id="direction">
+          <option value="UZS_KZT">UZS → KZT</option>
+          <option value="KZT_UZS">KZT → UZS</option>
+          <option value="UZS_KGS">UZS → KGS</option>
+          <option value="KGS_UZS">KGS → UZS</option>
+        </select>
       </div>
 
-      <div class="input-row-suffix">
+      <div class="section-label" style="margin-top: 10px;">Miqdor</div>
+      <div class="amount-input-wrap">
         <input
           id="amount"
-          class="input"
+          class="amount-input"
           type="text"
           inputmode="decimal"
           placeholder="Miqdor kiriting"
         />
-        <div class="suffix-pill" id="amountSuffix">UZS</div>
+        <span id="amountSuffix" class="amount-suffix">UZS</span>
+      </div>
+      <div class="hint-label" id="modeHint">
+        1 UZS ≈ demo kurs
       </div>
 
-      <div class="toggle-row">
+      <div class="switch-row">
         <div>
-          <div class="toggle-label-main" id="onlineLabel">
+          <div class="switch-label-main" id="onlineLabelMain">
             Onlayn kurslar yoqilgan.
           </div>
-          <div class="toggle-help">
+          <div class="switch-label-sub">
             O‘chirib qo‘ysangiz, demo kurslar ishlatiladi.
           </div>
         </div>
-        <label class="toggle">
-          <input id="onlineToggle" type="checkbox" checked />
+        <label class="switch">
+          <input type="checkbox" id="onlineToggle" checked />
           <span class="slider"></span>
         </label>
       </div>
 
-      <button id="calcBtn" class="btn">Hisoblash</button>
+      <button id="calcBtn" class="primary-btn">Hisoblash</button>
 
       <div class="result-card">
-        <div class="result-main" id="resultMain">0 UZS ≈ 0 KZT</div>
-        <div class="result-sub" id="resultSub">
-          1 UZS ≈ 0.0400 KZT (demo kurs)
+        <div id="resultMain" class="result-main">0 UZS ≈ 0 KZT</div>
+        <div id="resultSub" class="result-sub">
+          1 UZS ≈ 0,0400 KZT (demo kurs)
         </div>
+        <div id="errorText" class="error-text"></div>
       </div>
-
-      <div class="error" id="errorText">Miqdor kiriting.</div>
     </section>
 
-    <div class="footer">
-      AiSend demo interfeysi. Fikr va takliflar — keyingi bosqichlar uchun asos
-      bo‘ladi.
-    </div>
-</div> <!-- .container -->
+    <p class="footer-note">
+      AiSend demo interfeysi. Fikr va takliflar — keyingi bosqichlar uchun
+      asos bo‘ladi.
+    </p>
 
-  <script>
-    // Demo kurslar (fallback)
-    const DEMO_RATES = {
-      UZS_KZT: 0.04,
-      KZT_UZS: 25,
-      UZS_KGS: 0.007,
-      KGS_UZS: 140,
-    };
+    <!-- PROFILE OVERLAY & SHEET -->
+    <div id="profileOverlay" class="profile-overlay"></div>
 
-    const API_BASE = "/api/rates";
+    <section id="profileSheet" class="profile-sheet">
+      <div class="profile-sheet-header">
+        <h2>Telegram profil</h2>
+        <button class="sheet-close" id="profileClose">×</button>
+      </div>
 
-    // DOM elementlar
-    const directionSelect = document.getElementById("direction");
-    const amountInput = document.getElementById("amount");
-    const amountSuffix = document.getElementById("amountSuffix");
-    const resultMain = document.getElementById("resultMain");
-    const resultSub = document.getElementById("resultSub");
-    const errorText = document.getElementById("errorText");
-    const onlineToggle = document.getElementById("onlineToggle");
-    const onlineLabel = document.getElementById("onlineLabel");
-    const modeHint = document.getElementById("modeHint");
-    const calcBtn = document.getElementById("calcBtn");
+      <div class="profile-sheet-body">
+        <div class="pf-row">
+          <span>Ism:</span>
+          <strong id="pf_name">-</strong>
+        </div>
+        <div class="pf-row">
+          <span>ID:</span>
+          <strong id="pf_id">-</strong>
+        </div>
+        <div class="pf-row">
+          <span>Username:</span>
+          <strong id="pf_username">-</strong>
+        </div>
 
-    let onlineMode = true;
-    let lastOnlineRate = null;
+        <hr class="sheet-divider" />
 
-    function formatNumber(num) {
-      return new Intl.NumberFormat("uz-UZ", {
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 0,
-      }).format(num);
-    }
+        <button class="sheet-item">
+          Sozlamalar (tez orada)
+        </button>
+        <button class="sheet-item sheet-item-danger">
+          Chiqish (tez orada)
+        </button>
+      </div>
+    </section>
 
-    function formatRate(num) {
-      return new Intl.NumberFormat("uz-UZ", {
-        maximumFractionDigits: 6,
-        minimumFractionDigits: 4,
-      }).format(num);
-    }
+    <script>
+      // ==== DEMO KURSLAR ====
+      const DEMO_RATES = {
+        UZS_KZT: 0.04,
+        KZT_UZS: 25,
+        UZS_KGS: 0.0072,
+        KGS_UZS: 140,
+      };
 
-    function getDirectionParts() {
-      const key = directionSelect.value;
-      const [from, to] = key.split("_");
-      return { key, from, to };
-    }
+      const directionEl = document.getElementById("direction");
+      const amountEl = document.getElementById("amount");
+      const amountSuffixEl = document.getElementById("amountSuffix");
+      const resultMainEl = document.getElementById("resultMain");
+      const resultSubEl = document.getElementById("resultSub");
+      const errorTextEl = document.getElementById("errorText");
+      const modeHintEl = document.getElementById("modeHint");
+      const toggleEl = document.getElementById("onlineToggle");
+      const calcBtn = document.getElementById("calcBtn");
 
-    async function fetchLiveRate(from, to) {
-      const url = `${API_BASE}?from=${encodeURIComponent(
-        from
-      )}&to=${encodeURIComponent(to)}`;
-      const res = await fetch(url);
-      if (!res.ok) {
-        throw new Error("HTTP error");
-      }
-      const data = await res.json();
-      if (!data.success || !data.rates || typeof data.rates[to] !== "number") {
-        throw new Error("Rate not found");
-      }
-      return data.rates[to];
-    }
+      let lastOnlineRate = null;
 
-    async function recalc() {
-      errorText.textContent = "";
-      const rawVal = (amountInput.value || "").trim().replace(",", ".");
-      const val = parseFloat(rawVal);
-      const { key, from, to } = getDirectionParts();
-
-      // suffixni yangilash
-      amountSuffix.textContent = from;
-
-      if (!rawVal || isNaN(val) || val <= 0) {
-        resultMain.textContent = `0 ${from} ≈ 0 ${to}`;
-        const baseDemo = DEMO_RATES[key] || 0;
-        resultSub.textContent = `1 ${from} ≈ ${formatRate(
-          baseDemo
-        )} ${to} (demo kurs)`;
-        errorText.textContent = "Miqdor kiriting.";
-        return;
+      function formatNumber(num) {
+        return new Intl.NumberFormat("uz-UZ", {
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+        }).format(num);
       }
 
-      let rate = DEMO_RATES[key] || 0;
+      function formatRate(num) {
+        return new Intl.NumberFormat("uz-UZ", {
+          maximumFractionDigits: 6,
+          minimumFractionDigits: 4,
+        }).format(num);
+      }
 
-      if (onlineMode) {
-        try {
-          const live = await fetchLiveRate(from, to);
-          rate = live;
-          lastOnlineRate = live;
-        } catch (err) {
-          console.error("Live rate error:", err);
-          errorText.textContent =
-            "Onlayn kurslarni yuklashda muammo. Demo kurslar ishlatildi.";
+      function getDirectionParts() {
+        const dir = directionEl.value;
+        switch (dir) {
+          case "UZS_KZT":
+            return { from: "UZS", to: "KZT" };
+          case "KZT_UZS":
+            return { from: "KZT", to: "UZS" };
+          case "UZS_KGS":
+            return { from: "UZS", to: "KGS" };
+          case "KGS_UZS":
+            return { from: "KGS", to: "UZS" };
+          default:
+            return { from: "UZS", to: "KZT" };
         }
       }
 
-      const result = val * rate;
-      resultMain.textContent = `${formatNumber(result)} ${to}`;
+      async function fetchLiveRate(from, to) {
+        const base = String(from).toUpperCase();
+        const target = String(to).toUpperCase();
+        const url = `https://ai-send.vercel.app/api/rates?from=${base}&to=${target}`;
 
-      const baseRate = lastOnlineRate ?? DEMO_RATES[key] ?? rate;
-      const modeLabel = lastOnlineRate ? "onlayn API" : "demo kurs";
-      resultSub.textContent = `1 ${from} ≈ ${formatRate(
-        baseRate
-      )} ${to} (${modeLabel})`;
-    }
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error("HTTP error");
+        }
+        const data = await res.json();
+        const rate = data?.rates?.[target];
 
-    // Toggle hodisasi
-    onlineToggle.addEventListener("change", () => {
-      onlineMode = onlineToggle.checked;
-      if (onlineMode) {
-        onlineLabel.textContent = "Onlayn kurslar yoqilgan.";
-        modeHint.textContent = "Onlayn kurslar";
-      } else {
-        onlineLabel.textContent = "Onlayn kurslar o‘chirilgan (demo).";
-        modeHint.textContent = "Demo rejim";
-        lastOnlineRate = null;
+        if (typeof rate !== "number") {
+          throw new Error("Rate not found");
+        }
+        return rate;
       }
-      recalc();
-    });
+async function recalc() {
+        errorTextEl.textContent = "";
 
-    directionSelect.addEventListener("change", recalc);
-    calcBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      recalc();
-    });
+        const rawVal = (amountEl.value || "").trim();
+        const val = parseFloat(rawVal.replace(",", "."));
+        const { from, to } = getDirectionParts();
 
-    // ===== URL dan Telegram profilini olish =====
-    (function initProfile() {
-      const params = new URLSearchParams(window.location.search);
-      const tgId = params.get("tg_id");
-      const tgName = params.get("tg_name");
-      const tgUsername = params.get("tg_username");
+        amountSuffixEl.textContent = from;
 
-      const nameEl = document.getElementById("pf_name");
-      const idEl = document.getElementById("pf_id");
-      const userEl = document.getElementById("pf_user");
+        if (!rawVal || isNaN(val) || val <= 0) {
+          resultMainEl.textContent = `0 ${from} ≈ 0 ${to}`;
+          resultSubEl.textContent = `1 ${from} ≈ ${
+            DEMO_RATES[directionEl.value]
+          } (${toggleEl.checked ? "onlayn API / demo fallback" : "demo kurs"})`;
+          errorTextEl.textContent = "Miqdor kiriting.";
+          return;
+        }
 
-      if (tgId && idEl) idEl.textContent = tgId;
-      if (tgName && nameEl) nameEl.textContent = tgName;
-      if (tgUsername && userEl) {
-        userEl.textContent = "@" + tgUsername;
-      } else if (userEl) {
-        userEl.textContent = "-";
+        let rate = DEMO_RATES[directionEl.value];
+
+        if (toggleEl.checked) {
+          try {
+            rate = await fetchLiveRate(from, to);
+            lastOnlineRate = rate;
+            modeHintEl.textContent = "Onlayn kurslar yoqilgan.";
+          } catch (err) {
+            console.error("Live rate error:", err);
+            errorTextEl.textContent =
+              "Onlayn kurslarni yuklashda muammo. Hozircha demo kurs ishlatildi.";
+            modeHintEl.textContent =
+              "Onlayn kurslar vaqtinchalik o‘chdi, demo kurs ishlatilmoqda.";
+            rate = DEMO_RATES[directionEl.value];
+          }
+        } else {
+          lastOnlineRate = null;
+          modeHintEl.textContent =
+            "Onlayn kurslar o‘chirilgan. Demo kurslar ishlatiladi.";
+        }
+
+        const result = val * rate;
+        resultMainEl.textContent = `${formatNumber(val)} ${from} ≈ ${formatNumber(
+          result
+        )} ${to}`;
+
+        const baseRate = lastOnlineRate ?? DEMO_RATES[directionEl.value];
+        const modeLabel = lastOnlineRate ? "onlayn API" : "demo kurs";
+        resultSubEl.textContent = `1 ${from} ≈ ${formatRate(
+          baseRate
+        )} ${to} (${modeLabel})`;
       }
-    })();
 
-    // Boshlang‘ich hisob
-    recalc();
-  </script>
+      calcBtn.addEventListener("click", recalc);
+      directionEl.addEventListener("change", recalc);
+      toggleEl.addEventListener("change", recalc);
+      amountEl.addEventListener("input", () => {
+        errorTextEl.textContent = "";
+      });
+
+      // ==== PROFILE SHEET LOGIC ====
+      function initProfileSheet() {
+        const params = new URLSearchParams(window.location.search);
+
+        const tgName = (params.get("tg_name") || "").trim() || "-";
+        const tgId = (params.get("tg_id") || "").trim() || "-";
+        const tgUsernameRaw = (params.get("tg_username") || "").trim();
+        const tgUsername = tgUsernameRaw || "-";
+
+        const nameEl = document.getElementById("pf_name");
+        const idEl = document.getElementById("pf_id");
+        const usernameEl = document.getElementById("pf_username");
+
+        if (nameEl) nameEl.textContent = tgName;
+        if (idEl) idEl.textContent = tgId;
+        if (usernameEl) {
+          usernameEl.textContent = tgUsername === "-" ? "-" : "@" + tgUsername;
+        }
+
+        const btn = document.getElementById("profileBtn");
+        const sheet = document.getElementById("profileSheet");
+        const overlay = document.getElementById("profileOverlay");
+        const closeBtn = document.getElementById("profileClose");
+
+        if (!btn || !sheet || !overlay || !closeBtn) return;
+
+        function openSheet() {
+          sheet.classList.add("open");
+          overlay.classList.add("open");
+        }
+
+        function closeSheet() {
+          sheet.classList.remove("open");
+          overlay.classList.remove("open");
+        }
+
+        btn.addEventListener("click", openSheet);
+        overlay.addEventListener("click", closeSheet);
+        closeBtn.addEventListener("click", closeSheet);
+      }
+
+      // ==== START ====
+      window.addEventListener("load", () => {
+        initProfileSheet();
+        recalc();
+      });
+    </script>
+  </div>
 </body>
 </html>
