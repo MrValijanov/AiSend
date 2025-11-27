@@ -1,763 +1,692 @@
 <!DOCTYPE html>
 <html lang="uz">
-<head>
-  <meta charset="UTF-8" />
-  <title>AiSend Pay · Demo konvertor</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>AiSend · Demo konvertor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg-main: #020403;
+        --bg-card: #050806;
+        --bg-gradient: radial-gradient(circle at top left, #202f11, #050806 60%, #020403 100%);
+        --accent: #c8ff6a;
+        --accent-soft: #9dfd3b;
+        --accent-dark: #1e2c0f;
+        --text-main: #f7ffe7;
+        --text-dim: #a8c18a;
+        --text-muted: #7f9164;
+        --danger: #ff5b5b;
+      }
 
-  <style>
-    :root {
-      --bg-main: #050b08;
-      --bg-card: #101b14;
-      --bg-card-soft: #152218;
-      --accent-lime: #d9ff5a;
-      --accent-lime-soft: rgba(217, 255, 90, 0.12);
-      --accent-green: #27c93f;
-      --accent-green-soft: rgba(39, 201, 63, 0.25);
-      --accent-blue: #27c0ff;
-      --text-main: #f7fdf8;
-      --text-soft: #a5b9a7;
-      --text-muted: #758576;
-      --danger: #ff4f6a;
-      --border-soft: rgba(255, 255, 255, 0.06);
-      --shadow-hero: 0 24px 70px rgba(0, 0, 0, 0.7);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-pill: 999px;
-    }
+      * {
+        box-sizing: border-box;
+      }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(circle at top, #16210e 0, #020403 55%, #000 100%);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Roboto", "Segoe UI", sans-serif;
+        color: var(--text-main);
+      }
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #182816 0, #050b08 55%);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: stretch;
-    }
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+      }
 
-    .app {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      padding: 16px 16px 32px;
-      margin-inline: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+      main {
+        width: 100%;
+        max-width: 480px;
+        padding: 16px 14px 24px;
+      }
 
-    /* ===== TOP BAR ===== */
+      /* Header */
+      .top-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
 
-    .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 4px 2px 0;
-    }
+      .logo-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: radial-gradient(circle at 20% 10%, #83ff4e, #1a3b16 70%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 20px;
+        color: #021104;
+        box-shadow: 0 0 18px rgba(120, 255, 90, 0.35);
+      }
 
-    .brand-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+      .app-title {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+      }
 
-    .logo-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 16px;
-      background: radial-gradient(circle at 30% 10%, #ffffff 0, #6fff72 20%, #1c8c3a 60%, #021307 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 14px rgba(111, 255, 114, 0.5);
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      color: #021307;
-    }
+      .app-subtitle {
+        font-size: 11px;
+        color: var(--text-dim);
+        margin-top: 2px;
+      }
 
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
+      .pill-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
 
-    .brand-name {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
+      .pill {
+        font-size: 11px;
+        padding: 3px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(164, 214, 111, 0.6);
+        background: rgba(5, 12, 3, 0.9);
+        color: var(--text-dim);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
 
-    .brand-tag-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--text-soft);
-    }
+      .pill-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4bff52;
+        box-shadow: 0 0 6px #4bff52;
+      }
 
-    .chip {
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(0, 0, 0, 0.25);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      backdrop-filter: blur(10px);
-    }
+      .pill-beta {
+        border-color: rgba(255, 222, 128, 0.7);
+        color: #ffe98b;
+      }
 
-    .chip-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #21e46b;
-      box-shadow: 0 0 8px #21e46b;
-    }
+      /* Main card */
+      .card-main {
+        margin-top: 14px;
+        padding: 16px 16px 18px;
+        border-radius: 22px;
+        background: var(--bg-gradient);
+        border: 1px solid rgba(189, 255, 141, 0.18);
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.75);
+      }
 
-    .top-menu-btn {
-      width: 34px;
-      height: 34px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(12, 19, 14, 0.9);
-      color: var(--text-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
+      .card-main-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
 
-    /* ===== HERO CARD ===== */
+      .card-main-title {
+        font-size: 18px;
+        font-weight: 700;
+      }
 
-    .hero-section {
-      margin-top: 2px;
-    }
+      .card-main-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--text-dim);
+      }
 
-    .hero-card {
-      position: relative;
-      border-radius: var(--radius-xl);
-      padding: 16px 16px 18px;
-      background: radial-gradient(circle at 0% 0%, rgba(217, 255, 90, 0.25) 0, rgba(21, 40, 22, 0.2) 32%, #050b08 75%);
-      border: 1px solid rgba(217, 255, 90, 0.32);
-      box-shadow: var(--shadow-hero);
-      overflow: hidden;
-    }
+      .badge-online {
+        font-size: 11px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: rgba(7, 18, 3, 0.95);
+        border: 1px solid rgba(173, 255, 115, 0.7);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #ccffad;
+      }
 
-    .hero-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 120% -20%, rgba(39, 192, 255, 0.35), transparent 55%);
-      opacity: 0.7;
-      pointer-events: none;
-    }
+      .badge-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #37ff57;
+        box-shadow: 0 0 8px #37ff57;
+      }
 
-    .hero-inner {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+      /* Direction chips */
+      .direction-row {
+        margin-top: 10px;
+        margin-bottom: 8px;
+      }
 
-    .hero-top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-    }
+      .direction-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+      }
 
-    .hero-title-block {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      max-width: 70%;
-    }
+      .direction-select-wrap {
+        position: relative;
+      }
 
-    .hero-title {
-      font-size: 15px;
-      font-weight: 600;
-    }
+      select.direction {
+        width: 100%;
+        padding: 10px 34px 10px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(182, 239, 126, 0.55);
+        background: radial-gradient(circle at top left, #16220d, #050806);
+        color: var(--text-main);
+        font-size: 14px;
+        appearance: none;
+      }
 
-    .hero-subtitle {
-      font-size: 11px;
-      color: var(--text-soft);
-    }
+      .direction-select-wrap::after {
+        content: "▾";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 10px;
+        color: var(--text-muted);
+      }
 
-    .hero-chip {
-      align-self: flex-start;
-      margin-top: 4px;
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      display: inline-flex;
-      gap: 6px;
-      align-items: center;
-    }
+      /* Amount */
+      .amount-row {
+        margin-top: 10px;
+      }
 
-    .hero-chip-icon {
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(217, 255, 90, 0.18);
-      font-size: 11px;
-    }
+      .amount-label-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
 
-    .hero-status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(7, 26, 12, 0.82);
-      border: 1px solid rgba(50, 235, 135, 0.32);
-      font-size: 11px;
-      color: var(--accent-lime);
-    }
+      .amount-input-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 16px;
+        padding: 10px 12px;
+        background: radial-gradient(circle at top left, #161f0f, #050806);
+        border: 1px solid rgba(151, 219, 95, 0.6);
+      }
 
-    .hero-balance-row {
-      margin-top: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
+      .amount-input-wrap input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-main);
+      }
 
-    .hero-balance {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
+      .amount-input-wrap input::placeholder {
+        color: #4f5f44;
+      }
 
-    .hero-balance-label {
-      font-size: 11px;
-      color: var(--text-soft);
-    }
+      .amount-currency {
+        font-size: 13px;
+        color: var(--text-dim);
+        font-weight: 500;
+      }
 
-    .hero-balance-value {
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
+      /* Toggle */
+      .mode-row {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 12px;
+      }
 
-    .hero-balance-cur {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-soft);
-      margin-left: 4px;
-    }
+      .mode-left {
+        display: flex;
+        flex-direction: column;
+      }
 
-    .hero-orb-wrap {
-      position: relative;
-      width: 70px;
-      height: 70px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      .mode-main {
+        color: #d3f8aa;
+      }
 
-    .hero-orb-glow {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 10%, rgba(255, 255, 255, 0.7), var(--accent-lime) 30%, #2ac947 55%, #0b1b0f 100%);
-      filter: blur(4px);
-      opacity: 0.9;
-    }
+      .mode-sub {
+        color: var(--text-muted);
+        font-size: 11px;
+        margin-top: 2px;
+      }
 
-    .hero-orb {
-      position: relative;
-      width: 56px;
-      height: 56px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at 30% 10%, #ffffff, #9dff79 20%, #27c93f 60%, #021307 100%);
-      box-shadow: 0 0 18px rgba(111, 255, 114, 0.9);
-      color: #021307;
-      font-size: 22px;
-      font-weight: 700;
-    }
+      .switch {
+        position: relative;
+        width: 44px;
+        height: 24px;
+      }
 
-    .hero-bottom-row {
-      margin-top: 6px;
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      font-size: 11px;
-      color: var(--text-soft);
-    }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
 
-    .hero-pill {
-      flex: 1;
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.42);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      text-align: center;
-      white-space: nowrap;
-    }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background-color: #101711;
+        border-radius: 999px;
+        border: 1px solid rgba(164, 214, 111, 0.9);
+        transition: 0.2s;
+      }
 
-    .hero-pill:last-child {
-      flex: 1.2;
-      border-style: dashed;
-      border-color: rgba(217, 255, 90, 0.7);
-      color: var(--accent-lime);
-    }
+      .slider::before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        top: 3px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 20%, #baff7a, #436f25);
+        box-shadow: 0 0 6px rgba(154, 255, 122, 0.7);
+        transition: 0.2s;
+      }
 
-    /* ===== CONVERTER CARD (pastga tayyor joy) ===== */
+      input:checked + .slider {
+        background: radial-gradient(circle at 0 0, #c8ff6a, #19260f 60%);
+      }
 
-    .card-main {
-      margin-top: 10px;
-      border-radius: var(--radius-xl);
-      background: var(--bg-card);
-      padding: 16px 16px 18px;
-      border: 1px solid var(--border-soft);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+      input:checked + .slider::before {
+        transform: translateX(16px);
+      }
 
-    .section-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-soft);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
+      /* Button */
+      .btn-primary {
+        width: 100%;
+        margin-top: 14px;
+        padding: 13px 16px;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(90deg, #c8ff6a, #9dfd3b, #e6ff9c);
+        color: #050b03;
+        font-size: 16px;
+        font-weight: 700;
+        box-shadow: 0 14px 30px rgba(137, 255, 78, 0.4);
+      }
 
-    .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
+      /* Result */
+      .result-card {
+        margin-top: 14px;
+        padding: 14px 16px 16px;
+        border-radius: 18px;
+        background: radial-gradient(circle at top left, #050806, #020403);
+        border: 1px solid rgba(135, 193, 78, 0.45);
+      }
 
-    .direction-select {
-      width: 100%;
-      border-radius: 18px;
-      padding: 10px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: var(--bg-card-soft);
-      color: var(--text-main);
-      font-size: 14px;
-    }
+      .result-main {
+        font-size: 20px;
+        font-weight: 650;
+      }
 
-    label {
-      font-size: 12px;
-      color: var(--text-soft);
-      margin-bottom: 4px;
-      display: block;
-    }
+      .result-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--text-dim);
+      }
 
-    .input-shell {
-      border-radius: 18px;
-      background: var(--bg-card-soft);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
+      .error-text {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--danger);
+      }
 
-    .input-shell input {
-      flex: 1;
-      border: none;
-      outline: none;
-      background: transparent;
-      color: var(--text-main);
-      font-size: 16px;
-    }
+      /* Profile card */
+      .profile-card {
+        margin-top: 18px;
+        padding: 12px 14px 14px;
+        border-radius: 18px;
+        border: 1px dashed rgba(149, 200, 91, 0.7);
+        background: radial-gradient(circle at top left, #050806, #020403);
+        color: var(--text-dim);
+        font-size: 12px;
+      }
 
-    .input-shell input::placeholder {
-      color: var(--text-muted);
-    }
+      .profile-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #eaffc9;
+        margin-bottom: 6px;
+      }
 
-    .amount-suffix {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
+      .profile-item {
+        font-size: 12px;
+        margin-bottom: 2px;
+      }
 
-    .mode-row {
-      margin-top: 2px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      font-size: 11px;
-      color: var(--text-soft);
-    }
-
-    .toggle-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .toggle-label-main {
-      color: var(--accent-lime);
-    }
-
-    .toggle {
-      position: relative;
-      width: 42px;
-      height: 22px;
-      border-radius: 999px;
-      background: rgba(10, 20, 14, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      padding: 2px;
-      transition: background 0.2s ease, border-color 0.2s ease;
-    }
-
-    .toggle-thumb {
-      width: 17px;
-      height: 17px;
-      border-radius: 999px;
-      background: #c4cdd0;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-      transform: translateX(0);
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .toggle.on {
-      background: rgba(27, 225, 119, 0.16);
-      border-color: rgba(27, 225, 119, 0.7);
-    }
-
-    .toggle.on .toggle-thumb {
-      background: var(--accent-lime);
-      transform: translateX(18px);
-      box-shadow: 0 0 10px rgba(39, 201, 63, 0.8);
-    }
-
-    .btn-main {
-      margin-top: 10px;
-      width: 100%;
-      border-radius: 20px;
-      padding: 14px 16px;
-      border: none;
-      outline: none;
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: #021307;
-      background: linear-gradient(90deg, #23d160, #d9ff5a);
-      box-shadow: 0 12px 35px rgba(37, 206, 96, 0.55);
-    }
-
-    .btn-main:active {
-      transform: translateY(1px);
-      box-shadow: 0 8px 24px rgba(37, 206, 96, 0.4);
-    }
-
-    .result-card {
-      margin-top: 8px;
-      border-radius: 18px;
-      background: #050b08;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .result-main {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .result-sub {
-      font-size: 11px;
-      color: var(--text-soft);
-    }
-
-    .error-text {
-      margin-top: 6px;
-      font-size: 11px;
-      color: var(--danger);
-    }
-
-    /* FOOTER NOTE */
-
-    .footer-note {
-      margin-top: 10px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: center;
-      padding: 10px 8px 0;
-    }
-  </style>
-</head>
-
+      .footer {
+        margin-top: 14px;
+        text-align: center;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
 <body>
-  <div class="app">
-    <!-- ===== TOP BAR ===== -->
-    <header class="top-bar">
-      <div class="brand-left">
+    <main>
+      <!-- Header -->
+      <header class="top-bar">
         <div class="logo-circle">A</div>
-        <div class="brand-text">
-          <div class="brand-name">AiSend</div>
-          <div class="brand-tag-row">
-            <span class="chip">
-              <span class="chip-dot"></span>
-              Demo konvertor
-            </span>
-            <span class="chip">Beta build</span>
+        <div>
+          <div class="app-title">AiSend</div>
+          <div class="app-subtitle">Chegarasiz valyuta almashinuvi · demo UI</div>
+          <div class="pill-row">
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span>AiSend · Demo konvertor</span>
+            </div>
+            <div class="pill pill-beta">Beta build</div>
           </div>
         </div>
-      </div>
-      <button class="top-menu-btn">⋮</button>
-    </header>
+      </header>
 
-    <!-- ===== HERO CARD ===== -->
-    <section class="hero-section">
-      <article class="hero-card">
-        <div class="hero-inner">
-          <div class="hero-top-row">
-            <div class="hero-title-block">
-              <div class="hero-title">AiSend Pay</div>
-              <div class="hero-subtitle">
-                Chegarasiz valyuta almashinuvi · UZS balansdan KZT/KGS kartaga.
-              </div>
-              <div class="hero-chip">
-                <span class="hero-chip-icon">⇄</span>
-                <span>UZS balans → KZT/KGS karta</span>
-              </div>
-            </div>
-
-            <div class="hero-status-pill">
-              <span class="chip-dot" style="box-shadow:0 0 10px #21e46b;"></span>
-              Onlayn kurslar
-            </div>
-          </div>
-
-          <div class="hero-balance-row">
-            <div class="hero-balance">
-              <span class="hero-balance-label">Demo balans (namuna)</span>
-              <span class="hero-balance-value">
-                1 250 000
-                <span class="hero-balance-cur">UZS</span>
-              </span>
-            </div>
-
-            <div class="hero-orb-wrap">
-              <div class="hero-orb-glow"></div>
-              <div class="hero-orb">⇄</div>
-            </div>
-          </div>
-
-          <div class="hero-bottom-row">
-            <div class="hero-pill">Tezkor ayirboshlash</div>
-            <div class="hero-pill">0% AiSend komissiya (demo)</div>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- ===== MAIN CONVERTER CARD (ishlaydigan qism) ===== -->
-    <section class="card-main">
-      <div class="section-title">Yo‘nalishni tanlang</div>
-
-      <div class="row">
-        <select id="direction" class="direction-select">
-          <option value="UZS_KZT">UZS → KZT</option>
-          <option value="UZS_KGS">UZS → KGS</option>
-          <option value="KZT_UZS">KZT → UZS</option>
-          <option value="KGS_UZS">KGS → UZS</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="amount">Miqdor</label>
-        <div class="input-shell">
-          <input id="amount" type="text" inputmode="decimal" placeholder="Miqdor kiriting" />
-          <span class="amount-suffix" id="amountSuffix">UZS</span>
-        </div>
-      </div>
-
-      <div class="mode-row">
-        <div class="toggle-wrap">
-          <div id="modeToggle" class="toggle on">
-            <div class="toggle-thumb"></div>
-          </div>
+      <!-- Main converter -->
+      <section class="card-main">
+        <div class="card-main-header">
           <div>
-            <div class="toggle-label-main" id="modeLabel">Onlayn kurslar yoqilgan</div>
-            <div>O‘chirib qo‘ysangiz, demo kurslar ishlatiladi.</div>
+            <div class="card-main-title">AiSend Pay</div>
+            <div class="card-main-sub">
+              UZS balansdan KZT/KGS kartaga tezkor o‘tkazmalar. Demo rejim.
+            </div>
+          </div>
+          <div class="badge-online">
+            <span class="badge-dot"></span>
+            <span>Onlayn kurslar</span>
           </div>
         </div>
-      </div>
 
-      <button class="btn-main" id="calcBtn">Hisoblash</button>
-
-      <div class="result-card">
-        <div class="result-main" id="resultMain">0 UZS ≈ 0 KZT</div>
-        <div class="result-sub" id="resultSub">
-          1 UZS ≈ 0.0400 KZT (demo kurs)
+        <!-- Direction -->
+        <div class="direction-row">
+          <div class="direction-label">Yo‘nalishni tanlang</div>
+          <div class="direction-select-wrap">
+            <select id="direction" class="direction">
+              <option value="UZS_KZT">UZS → KZT</option>
+              <option value="KZT_UZS">KZT → UZS</option>
+              <option value="UZS_KGS">UZS → KGS</option>
+              <option value="KGS_UZS">KGS → UZS</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div class="error-text" id="errorText"></div>
-    </section>
+        <!-- Amount -->
+        <div class="amount-row">
+          <div class="amount-label-row">
+            <span>Miqdor</span>
+            <span id="amountHint">1 UZS ≈ demo kurs</span>
+          </div>
+          <div class="amount-input-wrap">
+            <input
+              id="amount"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              placeholder="Miqdor kiriting"
+            />
+            <span id="amountCurrency" class="amount-currency">UZS</span>
+          </div>
+        </div>
 
-    <div class="footer-note">
-      AiSend <b>demo</b> interfeysi. Fikr va takliflar — keyingi bosqich uchun
-      asos bo‘ladi.
-    </div>
-  </div>
+        <!-- Mode -->
+        <div class="mode-row">
+          <div class="mode-left">
+            <span id="modeMain" class="mode-main">Onlayn kurslar yoqilgan.</span>
+            <span id="modeSub" class="mode-sub">
+              O‘chirib qo‘ysangiz, demo kurslar ishlatiladi.
+            </span>
+          </div>
+          <label class="switch">
+            <input id="onlineToggle" type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
 
-  <script>
-    // DEMO + ONLINE KURSLAR LOGIKASI
-    const DEMO_RATES = {
-      UZS_KZT: 0.04,
-      UZS_KGS: 0.0072,
-      KZT_UZS: 25,
-      KGS_UZS: 140
-    };
+        <!-- Button -->
+        <button id="calcBtn" class="btn-primary">Hisoblash</button>
 
-    const directionEl = document.getElementById("direction");
-    const amountEl = document.getElementById("amount");
-    const amountSuffixEl = document.getElementById("amountSuffix");
-    const modeToggleEl = document.getElementById("modeToggle");
-    const modeLabelEl = document.getElementById("modeLabel");
-    const calcBtnEl = document.getElementById("calcBtn");
-    const resultMainEl = document.getElementById("resultMain");
-    const resultSubEl = document.getElementById("resultSub");
-    const errorTextEl = document.getElementById("errorText");
+        <!-- Result -->
+        <div class="result-card">
+          <div id="resultMain" class="result-main">0 UZS ≈ 0 KZT</div>
+          <div id="resultSub" class="result-sub">
+            1 UZS ≈ 0.04 KZT (demo kurs)
+          </div>
+          <div id="errorText" class="error-text"></div>
+        </div>
+      </section>
 
-    let onlineMode = true;
-    let lastOnlineRate = null;
+      <!-- Profile from Telegram (optional) -->
+      <section id="profile" class="profile-card">
+        <div class="profile-title">Telegram profil</div>
+        <div class="profile-item">
+          AiSend demo interfeysi. Telegram mini-app orqali kirganda bu yerda
+          foydalanuvchi profili ko‘rinadi.
+        </div>
+      </section>
 
-    function getDirectionParts() {
-      const val = directionEl.value;
-      const [from, to] = val.split("_");
-      return { from, to };
-    }
+      <footer class="footer">
+        AiSend demo interfeysi. Fikr va takliflar — keyingi bosqichlar uchun
+        asos bo‘ladi.
+      </footer>
+    </main>
 
-    function updateAmountSuffix() {
-      const { from } = getDirectionParts();
-      amountSuffixEl.textContent = from;
-    }
+    <script>
+// === Demo kurslar ===
+      const DEMO_RATES = {
+        UZS_KZT: 0.04,
+        KZT_UZS: 25,
+        UZS_KGS: 0.0072,
+        KGS_UZS: 138,
+      };
 
-    async function fetchLiveRate(from, to) {
-      const base = String(from).toUpperCase();
-      const target = String(to).toUpperCase();
-      const url = `https://ai-send.vercel.app/api/rates?from=${encodeURIComponent(
-        base
-      )}&to=${encodeURIComponent(target)}`;
+      // Elements
+      const directionSelect = document.getElementById("direction");
+      const amountInput = document.getElementById("amount");
+      const amountCurrency = document.getElementById("amountCurrency");
+      const amountHint = document.getElementById("amountHint");
+      const calcBtn = document.getElementById("calcBtn");
+      const resultMain = document.getElementById("resultMain");
+      const resultSub = document.getElementById("resultSub");
+      const errorText = document.getElementById("errorText");
+      const onlineToggle = document.getElementById("onlineToggle");
+      const modeMain = document.getElementById("modeMain");
+      const modeSub = document.getElementById("modeSub");
+      const profileEl = document.getElementById("profile");
 
-      const res = await fetch(url);
-      if (!res.ok) {
-        throw new Error("HTTP error");
+      let onlineMode = true;
+      let lastOnlineRate = null;
+
+      function formatNumber(num) {
+        if (!isFinite(num)) return "0";
+        return new Intl.NumberFormat("uz-UZ", {
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 0,
+        }).format(num);
       }
-      const data = await res.json();
-      if (!data.ok || !data.rates || typeof data.rates[target] !== "number") {
-        throw new Error("Rate not found");
-      }
-      return data.rates[target];
-    }
 
-    function formatNumber(num) {
-      return new Intl.NumberFormat("uz-UZ", {
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 0
-      }).format(num);
-    }
-
-    function formatRate(num) {
-      return new Intl.NumberFormat("uz-UZ", {
-        maximumFractionDigits: 6,
-        minimumFractionDigits: 4
-      }).format(num);
-    }
-
-    async function recalc() {
-      errorTextEl.textContent = "";
-      lastOnlineRate = null;
-
-      const raw = (amountEl.value || "").trim().replace(",", ".");
-      const val = parseFloat(raw);
-      const { from, to } = getDirectionParts();
-
-      if (!raw || isNaN(val) || val <= 0) {
-        resultMainEl.textContent = `0 ${from} ≈ 0 ${to}`;
-        resultSubEl.textContent = `1 ${from} ≈ demo kurs`;
-        errorTextEl.textContent = "Miqdor kiriting.";
-        return;
+      function formatRate(num) {
+        if (!isFinite(num)) return "0";
+        return new Intl.NumberFormat("uz-UZ", {
+          maximumFractionDigits: 6,
+          minimumFractionDigits: 4,
+        }).format(num);
       }
 
-      let rate = DEMO_RATES[directionEl.value];
-
-      if (onlineMode) {
-        try {
-          rate = await fetchLiveRate(from, to);
-          lastOnlineRate = rate;
-        } catch (err) {
-          console.error("Live rate error:", err);
-          errorTextEl.textContent =
-            "Onlayn kurslarni yuklashda muammo. Hozircha demo kurs ishlatildi.";
+      function getDirectionParts() {
+        const key = directionSelect.value;
+        switch (key) {
+          case "UZS_KZT":
+            return { key, from: "UZS", to: "KZT" };
+          case "KZT_UZS":
+            return { key, from: "KZT", to: "UZS" };
+          case "UZS_KGS":
+            return { key, from: "UZS", to: "KGS" };
+          case "KGS_UZS":
+            return { key, from: "KGS", to: "UZS" };
+          default:
+            return { key: "UZS_KZT", from: "UZS", to: "KZT" };
         }
       }
 
-      const result = val * rate;
-      resultMainEl.textContent = `${formatNumber(val)} ${from} ≈ ${formatNumber(
-        result
-      )} ${to}`;
+      async function fetchLiveRate(from, to) {
+        const url =
+          "https://ai-send.vercel.app/api/rates?from=" +
+          encodeURIComponent(from) +
+          "&to=" +
+          encodeURIComponent(to);
 
-      const baseRate = lastOnlineRate ?? DEMO_RATES[directionEl.value];
-      const modeLabel = lastOnlineRate ? "onlayn API" : "demo kurs";
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error("HTTP error");
+        }
+        const data = await res.json();
 
-      resultSubEl.textContent = `1 ${from} ≈ ${formatRate(
-        baseRate
-      )} ${to} (${modeLabel})`;
-    }
+        if (
+          data == null ||
+          data.rates == null ||
+          data.ok === false ||
+          data.success === false
+        ) {
+          throw new Error(data && (data.error || data["error-type"]) || "API error");
+        }
 
-    // Toggle on/off
-    modeToggleEl.addEventListener("click", () => {
-      onlineMode = !onlineMode;
-      modeToggleEl.classList.toggle("on", onlineMode);
-      if (onlineMode) {
-        modeLabelEl.textContent = "Onlayn kurslar yoqilgan";
-      } else {
-        modeLabelEl.textContent = "Onlayn kurslar o‘chirilgan";
+        const rate = data.rates[to];
+        if (typeof rate !== "number") {
+          throw new Error("Rate not found");
+        }
+        return rate;
       }
+
+      async function recalc() {
+        const rawVal = amountInput.value.trim();
+        const { key, from, to } = getDirectionParts();
+
+        amountCurrency.textContent = from;
+
+        if (!rawVal) {
+          resultMain.textContent = `0 ${from} ≈ 0 ${to}`;
+          resultSub.textContent = `1 ${from} ≈ ${formatRate(
+            DEMO_RATES[key] || 0
+          )} ${to} (demo kurs)`;
+          errorText.textContent = "";
+          return;
+        }
+
+        const val = parseFloat(rawVal.replace(",", "."));
+        if (!isFinite(val) || val <= 0) {
+          resultMain.textContent = `0 ${from} ≈ 0 ${to}`;
+          resultSub.textContent = `1 ${from} ≈ ${formatRate(
+            DEMO_RATES[key] || 0
+          )} ${to} (demo kurs)`;
+          errorText.textContent = "Miqdor noto‘g‘ri kiritildi.";
+          return;
+        }
+
+        errorText.textContent = "";
+
+        let rate = DEMO_RATES[key] || 0;
+
+        if (onlineMode) {
+          try {
+            rate = await fetchLiveRate(from, to);
+            lastOnlineRate = rate;
+          } catch (err) {
+            console.error("Live rate error:", err);
+            errorText.textContent =
+              "Onlayn kurslarni yuklashda muammo. Demo kurs ishlatilmoqda.";
+            // fallback to demo
+            rate = DEMO_RATES[key] || 0;
+          }
+        }
+
+        const result = val * rate;
+
+        resultMain.textContent = `${formatNumber(val)} ${from} ≈ ${formatNumber(
+          result
+        )} ${to}`;
+
+        const baseRate =
+          onlineMode && lastOnlineRate != null ? lastOnlineRate : DEMO_RATES[key] || 0;
+        const modeLabel = onlineMode && lastOnlineRate != null ? "onlayn API" : "demo kurs";
+
+        resultSub.textContent = `1 ${from} ≈ ${formatRate(
+          baseRate
+        )} ${to} (${modeLabel})`;
+        amountHint.textContent = `1 ${from} ≈ ${modeLabel}`;
+      }
+
+      // Toggle on/off
+      onlineToggle.addEventListener("change", () => {
+        onlineMode = onlineToggle.checked;
+        if (onlineMode) {
+          modeMain.textContent = "Onlayn kurslar yoqilgan.";
+          modeSub.textContent =
+            "Real API orqali kurslar olinadi. Internet bo‘lmasa demo kurs ishlaydi.";
+        } else {
+          modeMain.textContent = "Onlayn kurslar o‘chirilgan.";
+          modeSub.textContent = "Hozircha faqat demo kurslar ishlatilmoqda.";
+        }
+        recalc();
+      });
+
+      directionSelect.addEventListener("change", () => {
+        recalc();
+      });
+
+      calcBtn.addEventListener("click", () => {
+        recalc();
+      });
+
+      amountInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          recalc();
+        }
+      });
+
+      // === Telegram profile init from URL ===
+      (function initProfile() {
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const tgId = params.get("tg_id");
+          const tgName = params.get("tg_name");
+          const tgUsername = params.get("tg_username");
+
+          if (!tgId && !tgName && !tgUsername) {
+            return;
+          }
+
+          if (!profileEl) return;
+
+          const safeName = (tgName || "").trim() || "Noma’lum foydalanuvchi";
+          const userLine = tgUsername ? "@" + tgUsername.trim() : "—";
+
+          profileEl.innerHTML = `
+            <div class="profile-title">Telegram profil</div>
+            <div class="profile-item"><strong>Ism:</strong> ${safeName}</div>
+            <div class="profile-item"><strong>ID:</strong> ${tgId || "—"}</div>
+            <div class="profile-item"><strong>Username:</strong> ${userLine}</div>
+          `;
+        } catch (e) {
+          console.error("Profile init error:", e);
+        }
+      })();
+
+      // Initial calc
       recalc();
-    });
-
-    directionEl.addEventListener("change", () => {
-      updateAmountSuffix();
-      recalc();
-    });
-
-    calcBtnEl.addEventListener("click", recalc);
-    amountEl.addEventListener("input", () => {
-      errorTextEl.textContent = "";
-    });
-
-    // Boshlang‘ich holat
-    updateAmountSuffix();
-    recalc();
-  </script>
-</body>
+    </script>
+  </body>
 </html>
