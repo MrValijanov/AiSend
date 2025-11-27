@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Aisend | Valyuta ayirboshlash</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, #5D2EEB, #8F41F5);
+      color: #ffffff;
+      padding: 20px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.12);
+      padding: 20px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    h1 { margin-top: 0; }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    .result {
+      margin-top: 12px;
+      white-space: pre-line;
+      font-weight: 500;
+    }
+    .label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Aisend</h1>
+  <p>Real va avtomatik yangilanuvchi kurslar</p>
+
+  <div id="rates" class="card">
+    Kurslar yuklanmoqda...
+  </div>
+
+  <div class="card">
+    <h3>Hisoblash</h3>
+    <div class="label">Miqdor:</div>
+    <input id="amount" type="number" placeholder="Miqdor kiriting">
+
+    <div class="label" style="margin-top:10px;">Yo‘nalish:</div>
+    <select id="direction">
+      <option value="KZT_UZS">KZT → UZS</option>
+      <option value="UZS_KZT">UZS → KZT</option>
+      <option value="KGS_UZS">KGS → UZS</option>
+      <option value="UZS_KGS">UZS → KGS</option>
+    </select>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    let kzt = 0;
+    let kgs = 0;
+
+    function format(num) {
+      return num.toLocaleString("uz-UZ", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      });
+    }
+
+    // Backenddan real kurslarni olib kelamiz
+    fetch("/api/rates")
+      .then(res => res.json())
+      .then(data => {
+        kzt = data.KZT_UZS;
+        kgs = data.KGS_UZS;
+        document.getElementById("rates").innerHTML =
+          `<p>1 KZT = ${format(kzt)} UZS</p>
+           <p>1 KGS = ${format(kgs)} UZS</p>`;
+      })
+      .catch(() => {
+        document.getElementById("rates").innerText =
+          "Kurslarni yuklashda xatolik. Internetni tekshiring.";
+      });
+
+    const amountEl = document.getElementById("amount");
+    const dirEl = document.getElementById("direction");
+    const resultEl = document.getElementById("result");
+
+    function recalc() {
+      const val = Number(amountEl.value || 0);
+      if (!val || !kzt || !kgs) {
+        resultEl.textContent = "";
+        return;
+      }
+
+      const dir = dirEl.value;
+      let res = 0;
+      let txt = "";
+
+      if (dir === "KZT_UZS") {
+        res = val * kzt;
+        txt = `${format(val)} KZT ≈ ${format(res)} UZS`;
+      } else if (dir === "UZS_KZT") {
+        res = val / kzt;
+        txt = `${format(val)} UZS ≈ ${format(res)} KZT`;
+      } else if (dir === "KGS_UZS") {
+        res = val * kgs;
+        txt = `${format(val)} KGS ≈ ${format(res)} UZS`;
+      } else if (dir === "UZS_KGS") {
+        res = val / kgs;
+        txt = `${format(val)} UZS ≈ ${format(res)} KGS`;
+      }
+
+      resultEl.textContent = txt;
+    }
+
+    amountEl.addEventListener("input", recalc);
+    dirEl.addEventListener("change", recalc);
+  </script>
+</body>
+</html>
