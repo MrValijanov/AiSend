@@ -109,25 +109,30 @@
 
     /* Profile modal */
     .modal-bg {
-      position: fixed;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(5px);
-      display: none;
-      justify-content: center;
-      align-items: flex-end;
-      padding: 20px;
-    }
+  position: fixed;
+  inset: 0;                     /* top/right/bottom/left = 0 */
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;        /* pastdan chiqadigan sheet */
+  justify-content: center;      /* markazda (o‘ngga siljimaydi) */
+  padding: 12px 12px 24px;      /* yon va pastdan safe padding */
+  box-sizing: border-box;
+  z-index: 50;
+}
 
     .modal {
-      width: 100%;
-      max-width: 500px;
-      background: #112600;
-      padding: 20px;
-      border-radius: 24px 24px 0 0;
-      border: 1px solid #1aff3a55;
-    }
+  width: 100%;
+  max-width: 480px;             /* katta ekranlar uchun cheklov */
+  background: #071f10;
+  border-radius: 24px 24px 0 0;
+  border: 1px solid #2bff5a33;
+  padding: 20px 18px 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
+  color: #f5fff5;
+  box-sizing: border-box;
+  max-height: 70vh;             /* ekran bo‘yiga sig‘sin */
+  overflow-y: auto;             /* ichida scroll bo‘lsin */
+}
 
     .modal-title {
       font-size: 22px;
