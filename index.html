@@ -897,13 +897,58 @@
       }
     });
 
-    function initProfileSheet() {
-      // 1) URL parametrlaridan
-      const params = new URLSearchParams(window.location.search);
-      let name = params.get("tg_name") || "";
-      let id = params.get("tg_id") || "";
-      let username = params.get("tg_username") || "";
+<script>
+  function initProfileSheet() {
+    let tgId = null;
+    let tgName = null;
+    let tgUsername = null;
 
+    // 1) Avval URL parametrlarni o‘qib ko‘ramiz
+    const params = new URLSearchParams(window.location.search);
+    tgId = params.get("tg_id");
+    tgName = params.get("tg_name");
+    tgUsername = params.get("tg_username");
+
+    // 2) Agar URL bo‘sh bo‘lsa, Telegram WebApp’dan olishga harakat qilamiz
+    try {
+      if ((!tgId || !tgName) &&
+          window.Telegram &&
+          Telegram.WebApp &&
+          Telegram.WebApp.initDataUnsafe &&
+          Telegram.WebApp.initDataUnsafe.user) {
+
+        const u = Telegram.WebApp.initDataUnsafe.user;
+        tgId = tgId || (u.id ? String(u.id) : "");
+        const fullName = [u.first_name, u.last_name].filter(Boolean).join(" ");
+        tgName = tgName || (fullName || "");
+        tgUsername = tgUsername || (u.username || "");
+      }
+    } catch (e) {
+      console.log("Telegram WebApp user info error:", e);
+    }
+
+    // 3) DOM elementlarga yozamiz
+    const nameEl = document.getElementById("pf_name");
+    const idEl = document.getElementById("pf_id");
+    const usernameEl = document.getElementById("pf_username");
+
+    if (nameEl) nameEl.textContent = tgName || "-";
+    if (idEl) idEl.textContent = tgId || "-";
+    if (usernameEl) {
+      usernameEl.textContent = tgUsername ? ("@" + tgUsername) : "-";
+    }
+
+    // 4) WebApp tayyor deb Telegramga bildiramiz (ixtiyoriy, lekin chiroyli)
+    if (window.Telegram && Telegram.WebApp && Telegram.WebApp.ready) {
+      Telegram.WebApp.ready();
+    }
+  }
+
+  // sahifa yuklanganda chaqirilishini unutmang:
+  window.addEventListener("load", () => {
+    initProfileSheet();
+  });
+</script>
       // 2) Telegram WebApp initDataUnsafe dan (agar mavjud bo'lsa)
       try {
         if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
