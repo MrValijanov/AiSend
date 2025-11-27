@@ -64,6 +64,61 @@
       letter-spacing: 0.03em;
     }
 
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin: 0 0 16px 0;
+  border-radius: 16px;
+  background: linear-gradient(120deg, #101827, #050816);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+.profile-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 30% 0, #34d399, #10b981, #047857);
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9);
+}
+
+.profile-avatar span {
+  font-weight: 700;
+  font-size: 18px;
+  color: #0b1120;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.profile-username {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.profile-id {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.hidden {
+  display: none;
+}
+
     .tag-row {
       display: flex;
       gap: 8px;
@@ -490,7 +545,20 @@
         <div class="tag-row">
           <span class="chip">
             <span class="chip-dot"></span>
-            AiSend · Demo konvertor
+        
+  <!-- PROFIL KARTASI -->
+<div id="profile-card" class="profile-card hidden">
+  <div class="profile-avatar">
+    <span id="profile-avatar-letter">A</span>
+  </div>
+  <div class="profile-info">
+    <div id="profile-name" class="profile-name">AiSend foydalanuvchisi</div>
+    <div id="profile-username" class="profile-username">@username</div>
+    <div id="profile-id" class="profile-id">ID: 0</div>
+  </div>
+</div>
+
+  AiSend · Demo konvertor
           </span>
           <span class="chip beta-chip">Beta build</span>
         </div>
@@ -739,32 +807,48 @@
 
     directionSelect.addEventListener("change", recalc);
 
-    // ===== PROFILE INIT FROM URL =====
-    (function initProfile() {
-      const params = new URLSearchParams(window.location.search);
-      const tgId = params.get("tg_id");
-      const tgName = params.get("tg_name");
-      const tgUsername = params.get("tg_username");
+<script>
+  (function initProfile() {
+    const params = new URLSearchParams(window.location.search);
 
-      if (tgId) {
-        const p = document.getElementById("profileBox");
-        if (p) {
-          p.innerHTML = `
-            <div class="profile">
-              <div class="pf-title">Telegram profili</div>
-              <div class="pf-item"><span>ID:</span> ${tgId}</div>
-              <div class="pf-item"><span>Ism:</span> ${tgName || "-"}</div>
-              <div class="pf-item"><span>Username:</span> ${
-                tgUsername ? "@" + tgUsername : "-"
-              }</div>
-            </div>
-          `;
-        }
-      }
-    })();
+    const tgId = params.get("tg_id");
+    const tgName = params.get("tg_name");
+    const tgUsername = params.get("tg_username");
 
-    // Boshlang‘ich hisob
-    recalc();
-  </script>
+    const card = document.getElementById("profile-card");
+    const nameEl = document.getElementById("profile-name");
+    const userEl = document.getElementById("profile-username");
+    const idEl = document.getElementById("profile-id");
+    const avatarLetterEl = document.getElementById("profile-avatar-letter");
+
+    if (!card || !nameEl || !avatarLetterEl) return;
+
+    // Agar parametrlar bo‘lmasa – kartani yashiramiz
+    if (!tgId && !tgName && !tgUsername) {
+      card.classList.add("hidden");
+      return;
+    }
+
+    const cleanName = (tgName || "").trim() || "AiSend foydalanuvchisi";
+    nameEl.textContent = cleanName;
+
+    if (tgUsername) {
+      userEl.textContent = "@" + tgUsername;
+      userEl.style.display = "block";
+    } else {
+      userEl.style.display = "none";
+    }
+
+    if (tgId) {
+      idEl.textContent = "ID: " + tgId;
+      idEl.style.display = "block";
+    } else {
+      idEl.style.display = "none";
+    }
+
+    avatarLetterEl.textContent = cleanName[0].toUpperCase();
+    card.classList.remove("hidden");
+  })();
+</script>
 </body>
 </html>
