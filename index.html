@@ -4,426 +4,584 @@
   <meta charset="UTF-8" />
   <title>AiSend Pay · Demo konvertor</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
+    :root {
+      --bg-main: #050b08;
+      --bg-card: #101b14;
+      --bg-card-soft: #152218;
+      --accent-lime: #d9ff5a;
+      --accent-lime-soft: rgba(217, 255, 90, 0.12);
+      --accent-green: #27c93f;
+      --accent-green-soft: rgba(39, 201, 63, 0.25);
+      --accent-blue: #27c0ff;
+      --text-main: #f7fdf8;
+      --text-soft: #a5b9a7;
+      --text-muted: #758576;
+      --danger: #ff4f6a;
+      --border-soft: rgba(255, 255, 255, 0.06);
+      --shadow-hero: 0 24px 70px rgba(0, 0, 0, 0.7);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-pill: 999px;
+    }
+
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Roboto", "Segoe UI", sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #182816 0, #050b08 55%);
+      color: var(--text-main);
       min-height: 100vh;
-      background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000 100%);
-      color: #e5e7eb;
       display: flex;
       justify-content: center;
-      padding: 20px 12px 32px;
+      align-items: stretch;
     }
 
     .app {
       width: 100%;
-      max-width: 420px;
+      max-width: 480px;
+      min-height: 100vh;
+      padding: 16px 16px 32px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
-    .app-header {
+    /* ===== TOP BAR ===== */
+
+    .top-bar {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .app-title {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-    }
-
-    .pill-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: #9ca3af;
-      background: rgba(15, 23, 42, 0.95);
-    }
-
-    .pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      display: inline-block;
-      margin-right: 6px;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
-    }
-
-    .pill-beta {
-      border-color: rgba(251, 191, 36, 0.5);
-      color: #facc15;
-    }
-
-    .card {
-      border-radius: 26px;
-      padding: 18px 18px 20px;
-      background: radial-gradient(circle at top left, #0ea5e9 0, #1e293b 40%, #020617 100%);
-      box-shadow:
-        0 18px 45px rgba(15, 23, 42, 0.9),
-        0 0 0 1px rgba(148, 163, 184, 0.25);
-    }
-
-    .card-header {
-      display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
+      padding: 4px 2px 0;
     }
 
-    .badge {
-      width: 46px;
-      height: 46px;
-      border-radius: 1rem;
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 30% 10%, #ffffff 0, #6fff72 20%, #1c8c3a 60%, #021307 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at top left, #22c55e 0, #0ea5e9 40%, #0369a1 100%);
-      box-shadow: 0 12px 24px rgba(34, 197, 94, 0.4);
-      color: #0b1120;
+      box-shadow: 0 0 14px rgba(111, 255, 114, 0.5);
       font-weight: 800;
-      font-size: 22px;
+      letter-spacing: 0.03em;
+      color: #021307;
     }
 
-    .card-title-block {
+    .brand-text {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .card-title {
+    .brand-name {
       font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-tag-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .chip {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      backdrop-filter: blur(10px);
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #21e46b;
+      box-shadow: 0 0 8px #21e46b;
+    }
+
+    .top-menu-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(12, 19, 14, 0.9);
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    /* ===== HERO CARD ===== */
+
+    .hero-section {
+      margin-top: 2px;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      padding: 16px 16px 18px;
+      background: radial-gradient(circle at 0% 0%, rgba(217, 255, 90, 0.25) 0, rgba(21, 40, 22, 0.2) 32%, #050b08 75%);
+      border: 1px solid rgba(217, 255, 90, 0.32);
+      box-shadow: var(--shadow-hero);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 120% -20%, rgba(39, 192, 255, 0.35), transparent 55%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .hero-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: 70%;
+    }
+
+    .hero-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .hero-subtitle {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .hero-chip {
+      align-self: flex-start;
+      margin-top: 4px;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .hero-chip-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(217, 255, 90, 0.18);
+      font-size: 11px;
+    }
+
+    .hero-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(7, 26, 12, 0.82);
+      border: 1px solid rgba(50, 235, 135, 0.32);
+      font-size: 11px;
+      color: var(--accent-lime);
+    }
+
+    .hero-balance-row {
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .hero-balance {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-balance-label {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .hero-balance-value {
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: 0.02em;
     }
 
-    .card-subtitle {
+    .hero-balance-cur {
       font-size: 12px;
-      color: #9ca3af;
+      font-weight: 500;
+      color: var(--text-soft);
+      margin-left: 4px;
     }
 
-    .online-tag {
-      font-size: 11px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(34, 197, 94, 0.6);
-      color: #bbf7d0;
-      display: inline-flex;
+    .hero-orb-wrap {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      flex-shrink: 0;
+      display: flex;
       align-items: center;
-      gap: 6px;
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.7);
+      justify-content: center;
     }
 
-    .online-dot {
-      width: 8px;
-      height: 8px;
+    .hero-orb-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
       border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+      background: radial-gradient(circle at 30% 10%, rgba(255, 255, 255, 0.7), var(--accent-lime) 30%, #2ac947 55%, #0b1b0f 100%);
+      filter: blur(4px);
+      opacity: 0.9;
+    }
+
+    .hero-orb {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 10%, #ffffff, #9dff79 20%, #27c93f 60%, #021307 100%);
+      box-shadow: 0 0 18px rgba(111, 255, 114, 0.9);
+      color: #021307;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .hero-bottom-row {
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .hero-pill {
+      flex: 1;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .hero-pill:last-child {
+      flex: 1.2;
+      border-style: dashed;
+      border-color: rgba(217, 255, 90, 0.7);
+      color: var(--accent-lime);
+    }
+
+    /* ===== CONVERTER CARD (pastga tayyor joy) ===== */
+
+    .card-main {
+      margin-top: 10px;
+      border-radius: var(--radius-xl);
+      background: var(--bg-card);
+      padding: 16px 16px 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .section-title {
-      margin-top: 6px;
-      margin-bottom: 6px;
       font-size: 13px;
-      letter-spacing: 0.06em;
-      color: #9ca3af;
+      font-weight: 600;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
-    .currency-row {
+    .row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 12px;
     }
 
-    .currency-card {
-      flex: 1;
-      padding: 10px;
+    .direction-select {
+      width: 100%;
       border-radius: 18px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .currency-label {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .currency-code {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .currency-caption {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .swap-btn {
-      width: 52px;
-      height: 52px;
-      border-radius: 999px;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at top, #22c55e 0, #0ea5e9 60%, #0369a1 100%);
-      box-shadow:
-        0 16px 30px rgba(34, 197, 94, 0.4),
-        0 0 0 3px rgba(15, 23, 42, 0.9);
-      color: #0b1120;
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .direction-select-wrapper {
-      margin-top: 6px;
-      margin-bottom: 10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: var(--bg-card-soft);
+      color: var(--text-main);
+      font-size: 14px;
     }
 
     label {
       font-size: 12px;
-      color: #9ca3af;
-      display: block;
+      color: var(--text-soft);
       margin-bottom: 4px;
+      display: block;
     }
 
-    select,
-    input[type="text"],
-    input[type="number"] {
-      width: 100%;
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.95);
+    .input-shell {
+      border-radius: 18px;
+      background: var(--bg-card-soft);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 10px 12px;
-      color: #e5e7eb;
-      font-size: 14px;
-      outline: none;
-    }
-
-    select:focus,
-    input:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
-    }
-
-    .hint {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 4px;
-    }
-
-    .mode-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 10px;
-      margin-bottom: 14px;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .mode-left {
+    .input-shell input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 16px;
+    }
+
+    .input-shell input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .amount-suffix {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .mode-row {
+      margin-top: 2px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
       font-size: 11px;
-      color: #9ca3af;
-      max-width: 65%;
+      color: var(--text-soft);
+    }
+
+    .toggle-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toggle-label-main {
+      color: var(--accent-lime);
     }
 
     .toggle {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-    }
-
-    .toggle-label {
-      font-size: 11px;
-    }
-
-    .toggle-switch {
-      width: 46px;
-      height: 24px;
-      border-radius: 999px;
-      padding: 3px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.8);
       position: relative;
-    }
-
-    .toggle-knob {
-      width: 18px;
-      height: 18px;
+      width: 42px;
+      height: 22px;
       border-radius: 999px;
-      background: #64748b;
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      transition: all 0.18s ease-out;
-      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.9);
-    }
-
-    .toggle-switch.on {
-      border-color: rgba(34, 197, 94, 0.9);
-      background: radial-gradient(circle at top, #22c55e 0, #16a34a 45%, #14532d 100%);
-    }
-
-    .toggle-switch.on .toggle-knob {
-      left: 23px;
-      background: #ecfdf5;
-    }
-
-    .btn-primary {
-      margin-top: 4px;
-      width: 100%;
-      border: none;
-      border-radius: 999px;
-      padding: 13px 16px;
-      background: linear-gradient(to right, #22c55e, #0ea5e9);
-      color: #022c22;
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: 0.03em;
+      background: rgba(10, 20, 14, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       cursor: pointer;
-      box-shadow:
-        0 16px 30px rgba(34, 197, 94, 0.5),
-        0 0 0 1px rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      align-items: center;
+      padding: 2px;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
-    .btn-primary:active {
+    .toggle-thumb {
+      width: 17px;
+      height: 17px;
+      border-radius: 999px;
+      background: #c4cdd0;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+      transform: translateX(0);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .toggle.on {
+      background: rgba(27, 225, 119, 0.16);
+      border-color: rgba(27, 225, 119, 0.7);
+    }
+
+    .toggle.on .toggle-thumb {
+      background: var(--accent-lime);
+      transform: translateX(18px);
+      box-shadow: 0 0 10px rgba(39, 201, 63, 0.8);
+    }
+
+    .btn-main {
+      margin-top: 10px;
+      width: 100%;
+      border-radius: 20px;
+      padding: 14px 16px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #021307;
+      background: linear-gradient(90deg, #23d160, #d9ff5a);
+      box-shadow: 0 12px 35px rgba(37, 206, 96, 0.55);
+    }
+
+    .btn-main:active {
       transform: translateY(1px);
-      box-shadow:
-        0 10px 18px rgba(34, 197, 94, 0.45),
-        0 0 0 1px rgba(15, 23, 42, 1);
+      box-shadow: 0 8px 24px rgba(37, 206, 96, 0.4);
     }
 
     .result-card {
-      margin-top: 12px;
-      padding: 14px 14px 12px;
+      margin-top: 8px;
       border-radius: 18px;
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: #050b08;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
 
     .result-main {
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .result-sub {
-      margin-top: 4px;
-      font-size: 12px;
-      color: #9ca3af;
+      font-size: 11px;
+      color: var(--text-soft);
     }
 
     .error-text {
-      margin-top: 8px;
+      margin-top: 6px;
       font-size: 11px;
-      color: #f97373;
-      min-height: 14px;
+      color: var(--danger);
     }
 
-    .profile-card {
-      margin-top: 16px;
-      padding: 13px 14px;
-      border-radius: 18px;
-      border: 1px dashed rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.9);
-    }
+    /* FOOTER NOTE */
 
-    .pf-title {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .pf-item {
-      font-size: 12px;
-      color: #e5e7eb;
-      margin: 2px 0;
-    }
-
-    .pf-item span.label {
-      color: #9ca3af;
-    }
-
-    .pf-empty {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .footer-text {
+    .footer-note {
       margin-top: 10px;
-      font-size: 10px;
-      color: #6b7280;
+      font-size: 11px;
+      color: var(--text-muted);
       text-align: center;
+      padding: 10px 8px 0;
     }
   </style>
 </head>
+
 <body>
   <div class="app">
-    <div class="app-header">
-      <div class="app-title">AiSend</div>
-    </div>
-
-    <div class="pill-row">
-      <div class="pill"><span class="pill-dot"></span>AiSend · Demo konvertor</div>
-      <div class="pill pill-beta">Beta build</div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="badge">A</div>
-          <div class="card-title-block">
-            <div class="card-title">AiSend Pay</div>
-            <div class="card-subtitle">Chegarasiz valyuta almashtiruvi</div>
+    <!-- ===== TOP BAR ===== -->
+    <header class="top-bar">
+      <div class="brand-left">
+        <div class="logo-circle">A</div>
+        <div class="brand-text">
+          <div class="brand-name">AiSend</div>
+          <div class="brand-tag-row">
+            <span class="chip">
+              <span class="chip-dot"></span>
+              Demo konvertor
+            </span>
+            <span class="chip">Beta build</span>
           </div>
         </div>
-        <div class="online-tag" id="online-tag">
-          <span class="online-dot"></span>
-          Onlayn kurslar
-        </div>
       </div>
+      <button class="top-menu-btn">⋮</button>
+    </header>
 
-      <div class="section-title">YO‘NALISH</div>
-      <div class="currency-row">
-        <div class="currency-card" id="from-card">
-          <div class="currency-label">UZS</div>
-          <div class="currency-code" id="from-code">UZS</div>
-          <div class="currency-caption" id="from-caption">Asosiy balans</div>
-        </div>
-        <button class="swap-btn" id="swap-btn">⇄</button>
-        <div class="currency-card" id="to-card">
-          <div class="currency-label">KZT / KGS</div>
-          <div class="currency-code" id="to-code">KZT/KGS</div>
-          <div class="currency-caption" id="to-caption">Qabul qiluvchi karta</div>
-        </div>
-      </div>
+    <!-- ===== HERO CARD ===== -->
+    <section class="hero-section">
+      <article class="hero-card">
+        <div class="hero-inner">
+          <div class="hero-top-row">
+            <div class="hero-title-block">
+              <div class="hero-title">AiSend Pay</div>
+              <div class="hero-subtitle">
+                Chegarasiz valyuta almashinuvi · UZS balansdan KZT/KGS kartaga.
+              </div>
+              <div class="hero-chip">
+                <span class="hero-chip-icon">⇄</span>
+                <span>UZS balans → KZT/KGS karta</span>
+              </div>
+            </div>
 
-      <div class="direction-select-wrapper">
-        <label for="direction">Yo‘nalishni tanlang</label>
-        <select id="direction">
+            <div class="hero-status-pill">
+              <span class="chip-dot" style="box-shadow:0 0 10px #21e46b;"></span>
+              Onlayn kurslar
+            </div>
+          </div>
+
+          <div class="hero-balance-row">
+            <div class="hero-balance">
+              <span class="hero-balance-label">Demo balans (namuna)</span>
+              <span class="hero-balance-value">
+                1 250 000
+                <span class="hero-balance-cur">UZS</span>
+              </span>
+            </div>
+
+            <div class="hero-orb-wrap">
+              <div class="hero-orb-glow"></div>
+              <div class="hero-orb">⇄</div>
+            </div>
+          </div>
+
+          <div class="hero-bottom-row">
+            <div class="hero-pill">Tezkor ayirboshlash</div>
+            <div class="hero-pill">0% AiSend komissiya (demo)</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===== MAIN CONVERTER CARD (ishlaydigan qism) ===== -->
+    <section class="card-main">
+      <div class="section-title">Yo‘nalishni tanlang</div>
+
+      <div class="row">
+        <select id="direction" class="direction-select">
           <option value="UZS_KZT">UZS → KZT</option>
           <option value="UZS_KGS">UZS → KGS</option>
           <option value="KZT_UZS">KZT → UZS</option>
@@ -431,92 +589,93 @@
         </select>
       </div>
 
-      <div class="amount-wrapper">
+      <div>
         <label for="amount">Miqdor</label>
-        <input id="amount" type="text" inputmode="decimal" placeholder="Miqdor kiriting" />
-        <div class="hint" id="rate-hint">1 UZS ≈ demo kurs</div>
+        <div class="input-shell">
+          <input id="amount" type="text" inputmode="decimal" placeholder="Miqdor kiriting" />
+          <span class="amount-suffix" id="amountSuffix">UZS</span>
+        </div>
       </div>
 
       <div class="mode-row">
-        <div class="mode-left">
-          Kurslar onlayn API orqali olinmoqda. Hali rasmiy AiSend serveri ulanmagan.
-        </div>
-        <div class="toggle" id="mode-toggle">
-          <div class="toggle-switch on" id="mode-switch">
-            <div class="toggle-knob"></div>
+        <div class="toggle-wrap">
+          <div id="modeToggle" class="toggle on">
+            <div class="toggle-thumb"></div>
           </div>
-          <div class="toggle-label" id="mode-label">
-            Onlayn kurslar yoqilgan.
+          <div>
+            <div class="toggle-label-main" id="modeLabel">Onlayn kurslar yoqilgan</div>
+            <div>O‘chirib qo‘ysangiz, demo kurslar ishlatiladi.</div>
           </div>
         </div>
       </div>
 
-      <button class="btn-primary" id="calc-btn">Hisoblash</button>
+      <button class="btn-main" id="calcBtn">Hisoblash</button>
 
       <div class="result-card">
-        <div class="result-main" id="result-main">0 UZS ≈ 0 KZT</div>
-        <div class="result-sub" id="result-sub">1 UZS ≈ 0.04 KZT (demo kurs)</div>
-      </div>
-
-      <div class="error-text" id="error-text"></div>
-
-      <div class="profile-card" id="profile-card">
-        <div class="pf-title">Telegram profil</div>
-        <div class="pf-empty" id="profile-empty">
-          AiSend demo interfeysi. Telegram orqali kirganda bu yerda foydalanuvchi profili ko‘rinadi.
-        </div>
-        <div id="profile-data" style="display:none;">
-          <div class="pf-item">
-            <span class="label">ID:</span>
-            <span id="pf-id">-</span>
-          </div>
-          <div class="pf-item">
-            <span class="label">Ism:</span>
-            <span id="pf-name">-</span>
-          </div>
-          <div class="pf-item">
-            <span class="label">Username:</span>
-            <span id="pf-username">-</span>
-          </div>
+        <div class="result-main" id="resultMain">0 UZS ≈ 0 KZT</div>
+        <div class="result-sub" id="resultSub">
+          1 UZS ≈ 0.0400 KZT (demo kurs)
         </div>
       </div>
-    </div>
 
-    <div class="footer-text">
-      AiSend demo interfeysi. Fikr va takliflar — keyingi bosqich uchun asos bo‘ladi.
+      <div class="error-text" id="errorText"></div>
+    </section>
+
+    <div class="footer-note">
+      AiSend <b>demo</b> interfeysi. Fikr va takliflar — keyingi bosqich uchun
+      asos bo‘ladi.
     </div>
   </div>
-<script>
+
+  <script>
+    // DEMO + ONLINE KURSLAR LOGIKASI
     const DEMO_RATES = {
       UZS_KZT: 0.04,
+      UZS_KGS: 0.0072,
       KZT_UZS: 25,
-      UZS_KGS: 0.007,
       KGS_UZS: 140
     };
 
-    const directionSelect = document.getElementById("direction");
-    const amountInput = document.getElementById("amount");
-    const calcBtn = document.getElementById("calc-btn");
-    const resultMain = document.getElementById("result-main");
-    const resultSub = document.getElementById("result-sub");
-    const rateHint = document.getElementById("rate-hint");
-    const errorText = document.getElementById("error-text");
-
-    const modeToggle = document.getElementById("mode-toggle");
-    const modeSwitch = document.getElementById("mode-switch");
-    const modeLabel = document.getElementById("mode-label");
-    const onlineTag = document.getElementById("online-tag");
-
-    const swapBtn = document.getElementById("swap-btn");
-    const fromCodeEl = document.getElementById("from-code");
-    const toCodeEl = document.getElementById("to-code");
+    const directionEl = document.getElementById("direction");
+    const amountEl = document.getElementById("amount");
+    const amountSuffixEl = document.getElementById("amountSuffix");
+    const modeToggleEl = document.getElementById("modeToggle");
+    const modeLabelEl = document.getElementById("modeLabel");
+    const calcBtnEl = document.getElementById("calcBtn");
+    const resultMainEl = document.getElementById("resultMain");
+    const resultSubEl = document.getElementById("resultSub");
+    const errorTextEl = document.getElementById("errorText");
 
     let onlineMode = true;
     let lastOnlineRate = null;
 
     function getDirectionParts() {
-      const [from, to] = directionSelect.value.split("_");
+      const val = directionEl.value;
+      const [from, to] = val.split("_");
       return { from, to };
+    }
+
+    function updateAmountSuffix() {
+      const { from } = getDirectionParts();
+      amountSuffixEl.textContent = from;
+    }
+
+    async function fetchLiveRate(from, to) {
+      const base = String(from).toUpperCase();
+      const target = String(to).toUpperCase();
+      const url = `https://ai-send.vercel.app/api/rates?from=${encodeURIComponent(
+        base
+      )}&to=${encodeURIComponent(target)}`;
+
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error("HTTP error");
+      }
+      const data = await res.json();
+      if (!data.ok || !data.rates || typeof data.rates[target] !== "number") {
+        throw new Error("Rate not found");
+      }
+      return data.rates[target];
     }
 
     function formatNumber(num) {
@@ -533,38 +692,22 @@
       }).format(num);
     }
 
-    async function fetchLiveRate(from, to) {
-      const url = `/api/rates?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
-      const res = await fetch(url);
-
-      if (!res.ok) {
-        throw new Error("HTTP error: " + res.status);
-      }
-
-      const data = await res.json();
-
-      if (!data.ok || !data.rates || typeof data.rates[to] !== "number") {
-        throw new Error("Rate not found");
-      }
-
-      return data.rates[to];
-    }
-
     async function recalc() {
-      errorText.textContent = "";
+      errorTextEl.textContent = "";
+      lastOnlineRate = null;
 
-      const rawVal = amountInput.value.trim().replace(",", ".");
-      const val = parseFloat(rawVal);
+      const raw = (amountEl.value || "").trim().replace(",", ".");
+      const val = parseFloat(raw);
       const { from, to } = getDirectionParts();
 
-      if (!rawVal || isNaN(val) || val <= 0) {
-        resultMain.textContent = `0 ${from} ≈ 0 ${to}`;
-        resultSub.textContent = `1 ${from} ≈ ${formatRate(DEMO_RATES[directionSelect.value] || 0)} ${to} (demo kurs)`;
-        errorText.textContent = "Miqdor kiriting.";
+      if (!raw || isNaN(val) || val <= 0) {
+        resultMainEl.textContent = `0 ${from} ≈ 0 ${to}`;
+        resultSubEl.textContent = `1 ${from} ≈ demo kurs`;
+        errorTextEl.textContent = "Miqdor kiriting.";
         return;
       }
 
-      let rate = DEMO_RATES[directionSelect.value] || 0;
+      let rate = DEMO_RATES[directionEl.value];
 
       if (onlineMode) {
         try {
@@ -572,95 +715,48 @@
           lastOnlineRate = rate;
         } catch (err) {
           console.error("Live rate error:", err);
-          errorText.textContent =
-            "Onlayn kurslarni yuklashda muammo. Hozircha demo kurslar ishlatilmoqda.";
+          errorTextEl.textContent =
+            "Onlayn kurslarni yuklashda muammo. Hozircha demo kurs ishlatildi.";
         }
       }
 
       const result = val * rate;
-      resultMain.textContent = `${formatNumber(val)} ${from} ≈ ${formatNumber(result)} ${to}`;
+      resultMainEl.textContent = `${formatNumber(val)} ${from} ≈ ${formatNumber(
+        result
+      )} ${to}`;
 
-      const baseRate = lastOnlineRate ?? (DEMO_RATES[directionSelect.value] || 0);
-      const modeLabelText = lastOnlineRate ? "onlayn API" : "demo kurs";
-      resultSub.textContent = `1 ${from} ≈ ${formatRate(baseRate)} ${to} (${modeLabelText})`;
-      rateHint.textContent = `1 ${from} ≈ ${modeLabelText}`;
+      const baseRate = lastOnlineRate ?? DEMO_RATES[directionEl.value];
+      const modeLabel = lastOnlineRate ? "onlayn API" : "demo kurs";
+
+      resultSubEl.textContent = `1 ${from} ≈ ${formatRate(
+        baseRate
+      )} ${to} (${modeLabel})`;
     }
 
-    calcBtn.addEventListener("click", () => {
-      recalc();
-    });
-
-    amountInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        recalc();
-      }
-    });
-
-    directionSelect.addEventListener("change", () => {
-      const { from, to } = getDirectionParts();
-      fromCodeEl.textContent = from;
-      toCodeEl.textContent = to;
-      recalc();
-    });
-
-    modeToggle.addEventListener("click", () => {
+    // Toggle on/off
+    modeToggleEl.addEventListener("click", () => {
       onlineMode = !onlineMode;
-
+      modeToggleEl.classList.toggle("on", onlineMode);
       if (onlineMode) {
-        modeSwitch.classList.add("on");
-        modeLabel.textContent = "Onlayn kurslar yoqilgan.";
-        onlineTag.style.opacity = "1";
+        modeLabelEl.textContent = "Onlayn kurslar yoqilgan";
       } else {
-        modeSwitch.classList.remove("on");
-        modeLabel.textContent = "Onlayn kurslar o‘chirilgan (demo).";
-        onlineTag.style.opacity = "0.5";
+        modeLabelEl.textContent = "Onlayn kurslar o‘chirilgan";
       }
-
       recalc();
     });
 
-    swapBtn.addEventListener("click", () => {
-      const value = directionSelect.value;
-      let newValue = value;
-
-      if (value === "UZS_KZT") newValue = "KZT_UZS";
-      else if (value === "KZT_UZS") newValue = "UZS_KZT";
-      else if (value === "UZS_KGS") newValue = "KGS_UZS";
-      else if (value === "KGS_UZS") newValue = "UZS_KGS";
-
-      directionSelect.value = newValue;
-      const { from, to } = getDirectionParts();
-      fromCodeEl.textContent = from;
-      toCodeEl.textContent = to;
+    directionEl.addEventListener("change", () => {
+      updateAmountSuffix();
       recalc();
     });
-// ===== PROFILE INIT FROM URL =====
-    (function initProfile() {
-      const params = new URLSearchParams(window.location.search);
-      const tgId = params.get("tg_id");
-      const tgName = params.get("tg_name");
-      const tgUsername = params.get("tg_username");
 
-      const emptyEl = document.getElementById("profile-empty");
-      const dataWrap = document.getElementById("profile-data");
-      const idEl = document.getElementById("pf-id");
-      const nameEl = document.getElementById("pf-name");
-      const usernameEl = document.getElementById("pf-username");
+    calcBtnEl.addEventListener("click", recalc);
+    amountEl.addEventListener("input", () => {
+      errorTextEl.textContent = "";
+    });
 
-      if (tgId || tgName || tgUsername) {
-        emptyEl.style.display = "none";
-        dataWrap.style.display = "block";
-
-        idEl.textContent = tgId || "-";
-        nameEl.textContent = tgName || "-";
-        usernameEl.textContent = tgUsername ? ("@" + tgUsername) : "-";
-      } else {
-        emptyEl.style.display = "block";
-        dataWrap.style.display = "none";
-      }
-    })();
-
-    // Boshlang‘ich hisob
+    // Boshlang‘ich holat
+    updateAmountSuffix();
     recalc();
   </script>
 </body>
