@@ -2,26 +2,26 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8" />
-  <title>AiSend · Super balance (demo)</title>
+  <title>AiSend · Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg-main: #021d08;
-      --bg-card: #062b10;
-      --bg-card-soft: #093518;
-      --accent: #a6ff3b;
-      --accent-soft: #cbff7a;
-      --accent-dark: #66c420;
+      --bg: #020b04;
+      --card: #062511;
+      --card-soft: #083318;
+      --accent: #a5ff3f;
+      --accent-soft: #1e5c1d;
+      --accent-text: #031202;
       --danger: #ff4b4b;
-      --text-main: #ffffff;
-      --text-muted: #9bb7a1;
-      --border-soft: rgba(255,255,255,0.06);
-      --shadow-soft: 0 16px 40px rgba(0,0,0,0.7);
-      --radius-xl: 26px;
-      --radius-lg: 22px;
+      --muted: #7da786;
+      --border: #145226;
+      --text: #f8fff5;
+      --text-soft: #c5e4ce;
+      --shadow-soft: 0 24px 40px rgba(0, 0, 0, 0.65);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
       --radius-pill: 999px;
-      --transition-fast: 0.17s ease-out;
-      --transition-slow: 0.24s ease-out;
+      --transition-fast: 0.18s ease-out;
     }
 
     * {
@@ -29,895 +29,843 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-      color: var(--text-main);
-      background: radial-gradient(circle at top, #0a3c15 0, #020b05 45%, #000000 100%);
-    }
-
     body {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 10px 0 18px;
+      margin: 0;
+      padding: 16px 16px 28px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display",
+        "Roboto", sans-serif;
+      background: radial-gradient(120% 140% at 0% 0%, #0f3b1c 0, #020b04 46%, #000 100%);
+      color: var(--text);
     }
 
     .app {
-      width: 100%;
       max-width: 480px;
-      height: 100%;
-      padding: 8px 10px 18px;
-      overflow-y: auto;
+      margin: 0 auto;
     }
 
     .app-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      justify-content: space-between;
+      margin-bottom: 16px;
     }
 
     .app-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .app-title-main {
       font-size: 20px;
       font-weight: 700;
+      letter-spacing: 0.03em;
     }
 
-    .app-subtitle {
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.12em;
+    .app-title-sub {
+      font-size: 12px;
+      color: var(--muted);
       text-transform: uppercase;
-      margin-top: 2px;
+      letter-spacing: 0.16em;
     }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .pill-tag {
-      padding: 5px 10px;
-      border-radius: var(--radius-pill);
-      font-size: 11px;
-      border: 1px solid rgba(166,255,59,0.25);
-      background: radial-gradient(circle at top, rgba(166,255,59,0.15), rgba(0,0,0,0.4));
-      color: var(--accent-soft);
-    }
-
-    .profile-chip {
+    .profile-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 4px 9px 4px 5px;
-      border-radius: 999px;
-      background: rgba(9,53,24,0.9);
-      border: 1px solid rgba(255,255,255,0.1);
+      padding: 6px 12px 6px 6px;
+      border-radius: var(--radius-pill);
+      background: rgba(3, 38, 14, 0.96);
+      border: 1px solid rgba(142, 249, 87, 0.5);
+      box-shadow: 0 0 0 1px rgba(5, 95, 37, 0.2);
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    .profile-pill:active {
+      transform: scale(0.97);
+      box-shadow: 0 0 0 1px rgba(182, 255, 136, 0.25);
+      background: rgba(7, 57, 22, 0.98);
     }
 
     .profile-avatar {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 0, #e3ffd2, #3dd143);
+      background: radial-gradient(circle at 30% 20%, #eaffd0, #5af27d, #1b7425);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 15px;
-      color: #053009;
+      font-size: 14px;
+      color: var(--accent-text);
     }
 
-    .profile-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.2;
-    }
-
-    .profile-label span {
-      display: block;
-      font-size: 12px;
-      color: var(--accent-soft);
-      font-weight: 600;
-    }
-
-    .profile-chip button {
-      border: none;
-      outline: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 12px;
-      padding: 0 4px;
+    .profile-labels {
       display: flex;
-      align-items: center;
-      cursor: pointer;
+      flex-direction: column;
+      gap: 2px;
     }
 
-    .card-balance {
-      margin-top: 10px;
+    .profile-label-top {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--muted);
+    }
+
+    .profile-label-main {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* Balance card */
+
+    .balance-card {
+      margin-top: 8px;
+      padding: 16px 16px 18px;
       border-radius: var(--radius-xl);
-      padding: 16px 16px 14px;
-      background: radial-gradient(circle at top left, #1b681f 0, #05240e 48%, #020b05 100%);
+      background: radial-gradient(160% 160% at 0% 0%, #43a63a 0, #05250f 45%, #021107 100%);
       box-shadow: var(--shadow-soft);
       position: relative;
       overflow: hidden;
     }
 
-    .card-balance::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at top left, rgba(166,255,59,0.18), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(13,104,34,0.7), transparent 55%);
-      opacity: 0.9;
-      pointer-events: none;
-    }
-
-    .card-balance-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .card-balance-top {
+    .balance-row-top {
       display: flex;
-      justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 10px;
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    .card-balance-label {
+    .balance-label {
       font-size: 13px;
-      color: var(--text-muted);
+      color: rgba(237, 255, 237, 0.82);
     }
 
-    .assets-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: rgba(3,26,10,0.75);
-      border: 1px solid rgba(255,255,255,0.14);
-      cursor: pointer;
-    }
-
-    .assets-toggle span {
-      color: var(--accent-soft);
-      font-weight: 600;
-    }
-
-    .assets-toggle svg {
-      width: 12px;
-      height: 12px;
-      fill: currentColor;
-      transition: transform var(--transition-fast);
-    }
-
-    .assets-toggle.open svg {
-      transform: rotate(180deg);
-    }
-
-    .card-balance-amount {
+    .balance-amount {
+      margin-top: 4px;
       font-size: 30px;
       font-weight: 800;
-      letter-spacing: 0.02em;
-      margin-bottom: 6px;
+      letter-spacing: 0.03em;
+      color: #f8ffe7;
     }
 
-    .card-balance-amount span {
-      font-size: 15px;
+    .balance-amount span.ccy {
+      font-size: 16px;
       font-weight: 600;
       opacity: 0.9;
+      margin-left: 4px;
     }
 
-    .card-balance-change {
+    .balance-change-pill {
+      margin-top: 10px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.4);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(2, 41, 15, 0.85);
+      border: 1px solid rgba(107, 255, 139, 0.4);
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .balance-change-value {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(81, 208, 104, 0.18);
+      color: #9dff58;
+      font-weight: 600;
       font-size: 11px;
     }
 
-    .chip-up {
-      padding: 2px 7px;
-      border-radius: 999px;
-      background: rgba(61,207,80,0.16);
-      border: 1px solid rgba(107,255,129,0.7);
-      color: #7bff92;
+    .assets-toggle {
+      border-radius: var(--radius-pill);
+      padding: 6px 12px;
+      background: rgba(2, 23, 10, 0.95);
+      border: 1px solid rgba(174, 255, 140, 0.4);
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       font-size: 11px;
-      font-weight: 600;
+      cursor: pointer;
+      margin-top: 2px;
+    }
+
+    .assets-toggle span.chevron {
+      font-size: 12px;
+      transition: transform var(--transition-fast);
+    }
+
+    .assets-toggle.expanded span.chevron {
+      transform: rotate(180deg);
     }
 
     .assets-list {
-      margin-top: 10px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(5,34,13,0.9), rgba(8,53,23,0.95));
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 8px 10px 6px;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(1, 23, 8, 0.78);
+      border: 1px solid rgba(95, 180, 109, 0.8);
       display: none;
-      gap: 8px;
-      flex-wrap: wrap;
+      backdrop-filter: blur(12px);
     }
 
-    .assets-list.active {
-      display: flex;
+    .assets-list.visible {
+      display: block;
     }
 
-    .asset-chip {
-      flex: 1 1 calc(50% - 6px);
-      min-width: 130px;
-      padding: 6px 8px;
-      border-radius: 12px;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.06);
+    .assets-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: var(--text-soft);
     }
 
-    .asset-chip span {
+    .assets-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .assets-row span.value {
+      font-weight: 600;
+      color: #f4ffe6;
+    }
+
+    /* Action tabs */
+
+    .action-tabs {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .action-tab {
+      flex: 1;
+      border-radius: 18px;
+      padding: 10px 6px 8px;
+      background: rgba(1, 24, 9, 0.9);
+      border: 1px solid rgba(20, 97, 44, 0.7);
+      color: var(--text-soft);
       font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .asset-chip strong {
-      font-size: 13px;
-    }
-
-    .actions-row {
-      margin-top: 14px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-
-    .action-btn {
-      position: relative;
-      border-radius: 19px;
-      padding: 8px 4px 7px;
-      border: 1px solid rgba(255,255,255,0.07);
-      background: rgba(0,0,0,0.45);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 4px;
-      font-size: 11px;
-      color: var(--text-muted);
+      gap: 6px;
       cursor: pointer;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+        transform var(--transition-fast), box-shadow var(--transition-fast);
     }
 
-    .action-btn span.icon {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.85);
+    .action-tab-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 0 0, #a9ff59, #1b5a1f);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
+      font-size: 14px;
+      color: var(--accent-text);
     }
 
-    .action-btn.active {
-      background: radial-gradient(circle at top, rgba(166,255,59,0.2), rgba(11,56,22,0.95));
-      border-color: rgba(166,255,59,0.8);
-      color: var(--accent-soft);
-      box-shadow: 0 0 0 1px rgba(166,255,59,0.2);
+    .action-tab.active {
+      background: radial-gradient(circle at 0 0, #c7ff73, #14461b);
+      border-color: rgba(187, 255, 147, 0.9);
+      color: #021304;
       transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6);
     }
 
-    .action-btn.active span.icon {
-      background: rgba(0,0,0,0.9);
-      color: var(--accent-soft);
+    .action-tab.active .action-tab-icon {
+      background: #050f04;
+      color: var(--accent);
     }
 
-    .section {
+    /* Quick transfer card */
+
+    .section-card {
       margin-top: 16px;
+      padding: 18px 16px 18px;
       border-radius: var(--radius-xl);
-      padding: 14px 14px 16px;
-      background: radial-gradient(circle at top left, #093719 0, #020f07 55%, #010804 100%);
-      border: 1px solid var(--border-soft);
-      box-shadow: var(--shadow-soft);
+      background: rgba(2, 18, 8, 0.96);
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
     }
 
     .section-title {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .section-sub {
       font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
+      color: var(--muted);
       line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .select,
+    .input {
+      width: 100%;
+      border-radius: 16px;
+      padding: 10px 12px;
+      border: 1px solid rgba(49, 104, 67, 0.9);
+      background: rgba(2, 19, 10, 0.96);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      appearance: none;
+    }
+
+    .select:focus,
+    .input:focus {
+      border-color: rgba(179, 255, 156, 0.9);
+      box-shadow: 0 0 0 1px rgba(145, 255, 157, 0.4);
+    }
+
+    .fee-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .summary-card {
+      margin-top: 14px;
+      padding: 12px 12px 10px;
+      border-radius: 18px;
+      background: rgba(3, 29, 13, 0.96);
+      border: 1px solid rgba(85, 173, 98, 0.9);
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .summary-row strong {
+      color: var(--text);
+    }
+
+    .summary-main-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #e6ffcf;
+    }
+
+    .summary-main-value span {
+      font-size: 13px;
+      opacity: 0.8;
+      margin-left: 2px;
+    }
+
+    .button-primary {
+      width: 100%;
+      margin-top: 16px;
+      border-radius: 18px;
+      padding: 12px 16px;
+      border: none;
+      background: linear-gradient(90deg, #c9ff5f, #82ff47);
+      color: #051104;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 18px 32px rgba(0, 0, 0, 0.8);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+        filter var(--transition-fast);
+    }
+
+    .button-primary:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.85);
+      filter: brightness(0.97);
+    }
+
+    .toast {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #b5ffb9;
     }
   </style>
 </head>
 <body>
 <div class="app">
 <header class="app-header">
-    <div>
-      <div class="app-title">AiSend</div>
-      <div class="app-subtitle">AISEND · DEMO</div>
+    <div class="app-title">
+      <span class="app-title-sub">AISEND · DEMO</span>
+      <span class="app-title-main">Super balance</span>
     </div>
-    <div class="header-right">
-      <div class="pill-tag">Demo konvertor</div>
-      <div class="profile-chip" id="profileOpenBtn">
-        <div class="profile-avatar" id="profileAvatar">TG</div>
-        <div class="profile-label">
-          Profil
-          <span id="profileShortName">@demo</span>
-        </div>
-        <button type="button">▾</button>
+
+    <div class="profile-pill" id="openProfileBtn">
+      <div class="profile-avatar" id="profileAvatar">
+        TG
+      </div>
+      <div class="profile-labels">
+        <span class="profile-label-top">Profil</span>
+        <span class="profile-label-main" id="profileShort">@demo</span>
       </div>
     </div>
   </header>
 
-  <section class="card-balance">
-    <div class="card-balance-inner">
-      <div class="card-balance-top">
-        <div>
-          <div class="card-balance-label">Umumiy balans</div>
-          <div class="card-balance-amount">
-            <span id="balanceTotal">12 450.00</span> USZ
-          </div>
-          <div class="card-balance-change">
-            <span class="chip-up" id="balanceChangeChip">+3.4%</span>
-            <span>Oxirgi hafta (demo)</span>
-          </div>
+  <section class="balance-card">
+    <div class="balance-row-top">
+      <div>
+        <div class="balance-label">Umumiy balans</div>
+        <div class="balance-amount" id="totalBalance">
+          12 450.00<span class="ccy">USZ</span>
         </div>
-        <div class="assets-toggle" id="assetsToggle">
-          <span>Barcha aktivlar</span>
-          <svg viewBox="0 0 24 24">
-            <path d="M7 10l5 5 5-5H7z"></path>
-          </svg>
+        <div class="balance-change-pill">
+          <span class="balance-change-value">+3.4%</span>
+          <span>Oxirgi hafta (demo)</span>
         </div>
       </div>
 
-      <div class="assets-list" id="assetsList">
-        <div class="asset-chip">
-          <span>Fiat (UZS / KZT / KGS)</span>
-          <strong id="fiatAsset">8 230 USZ</strong>
-        </div>
-        <div class="asset-chip">
-          <span>Crypto (demo)</span>
-          <strong id="cryptoAsset">4 020 USZ</strong>
-        </div>
-        <div class="asset-chip">
-          <span>Stocks (demo)</span>
-          <strong id="stocksAsset">200 USZ</strong>
-        </div>
-        <div class="asset-chip">
-          <span>AiSend bonus (demo)</span>
-          <strong id="bonusAsset">0 USZ</strong>
-        </div>
-      </div>
+      <button class="assets-toggle" id="assetsToggle">
+        <span id="assetsToggleText">Barcha aktivlar</span>
+        <span class="chevron">▼</span>
+      </button>
+    </div>
 
-      <div class="actions-row" id="actionsRow">
-        <button class="action-btn" data-tab="send">
-          <span class="icon">↗</span>
-          <span>Send</span>
-        </button>
-        <button class="action-btn" data-tab="exchange">
-          <span class="icon">⇄</span>
-          <span>Exchange</span>
-        </button>
-        <button class="action-btn" data-tab="crypto">
-          <span class="icon">฿</span>
-          <span>Crypto</span>
-        </button>
-        <button class="action-btn" data-tab="stocks">
-          <span class="icon">📈</span>
-          <span>Stocks</span>
-        </button>
+    <div class="assets-list" id="assetsList">
+      <div class="assets-row">
+        <span>Fiat balans</span>
+        <span class="value">9 200.00 USZ</span>
+      </div>
+      <div class="assets-row">
+        <span>Crypto (demo)</span>
+        <span class="value">2 150.45 USZ</span>
+      </div>
+      <div class="assets-row">
+        <span>Stocks (demo)</span>
+        <span class="value">1 099.55 USZ</span>
+      </div>
+    </div>
+
+    <div class="action-tabs" id="actionTabs">
+      <div class="action-tab active" data-mode="send">
+        <div class="action-tab-icon">↑</div>
+        <div>Send</div>
+      </div>
+      <div class="action-tab" data-mode="exchange">
+        <div class="action-tab-icon">⇄</div>
+        <div>Exchange</div>
+      </div>
+      <div class="action-tab" data-mode="crypto">
+        <div class="action-tab-icon">₿</div>
+        <div>Crypto</div>
+      </div>
+      <div class="action-tab" data-mode="stocks">
+        <div class="action-tab-icon">📈</div>
+        <div>Stocks</div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="quickTransferSection">
+  <section class="section-card" id="quickTransferCard">
     <div class="section-title">Quick Transfer</div>
     <div class="section-sub">
-      UZS → KZT / KGS kartaga tezkor o‘tkazmalar (demo). Komissiya tarkibini oldindan ko‘rib turasiz.
-    </div>
-
-    <div class="field-row">
-      <div class="field">
-        <label>From valyuta</label>
-        <div class="select">
-          <select id="qtFrom">
-            <option value="UZS">UZS (Uzbekistan)</option>
-          </select>
-        </div>
-      </div>
-      <div class="field">
-        <label>To valyuta</label>
-        <div class="select">
-          <select id="qtTo">
-            <option value="KZT">KZT (Kazakhstan)</option>
-            <option value="KGS">KGS (Kyrgyzstan)</option>
-          </select>
-        </div>
-      </div>
+      UZS → KZT / KGS kartaga tezkor o‘tkazmalar (demo).
+      Komissiya tarkibini oldindan ko‘rib turasiz.
     </div>
 
     <div class="field">
-      <label>Miqdor</label>
-      <input id="qtAmount" type="number" inputmode="decimal" placeholder="Miqdor kiriting" />
+      <div class="field-label">From valyuta</div>
+      <select class="select" id="fromCurrency">
+        <option value="UZS">UZS (Uzbekistan)</option>
+        <option value="KZT">KZT (Kazakhstan)</option>
+        <option value="KGS">KGS (Kyrgyzstan)</option>
+      </select>
     </div>
 
     <div class="field">
-      <label>Qabul qiluvchi (demo)</label>
-      <input id="qtReceiver" type="text" placeholder="@username yoki karta raqam (demo)" />
+      <div class="field-label">To valyuta</div>
+      <select class="select" id="toCurrency">
+        <option value="KZT">KZT (Kazakhstan)</option>
+        <option value="UZS">UZS (Uzbekistan)</option>
+        <option value="KGS">KGS (Kyrgyzstan)</option>
+      </select>
     </div>
 
-    <div class="section-sub" style="margin-top:10px;">
-      Komissiyalar: <strong>1% exchange + 1% transfer</strong> (demo). Real ilovada bu raqamlar litsenziyaga qarab o‘zgaradi.
+    <div class="field">
+      <div class="field-label">Miqdor</div>
+      <input
+        type="number"
+        min="0"
+        class="input"
+        id="amountInput"
+        placeholder="Miqdor kiriting"
+      />
     </div>
 
-    <div class="summary-card" id="qtSummaryCard">
-      <div class="summary-row main">
+    <div class="field">
+      <div class="field-label">Qabul qiluvchi (demo)</div>
+      <input
+        type="text"
+        class="input"
+        id="receiverInput"
+        placeholder="@username yoki karta raqam (demo)"
+      />
+    </div>
+
+    <div class="fee-note">
+      Komissiyalar: <strong>1% exchange + 1% transfer</strong> (demo).
+      Real ilovada bu raqamlar litsenziyaga qarab o‘zgaradi.
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-row">
         <span>Qabul qiluvchi oladi (taxminan)</span>
-        <span id="qtNetAmount">0.00 KZT</span>
+        <span class="summary-main-value" id="summaryNet">
+          0.00 <span id="summaryNetCcy">KZT</span>
+        </span>
       </div>
       <div class="summary-row">
         <span>Exchange fee (1%)</span>
-        <span id="qtExchangeFee">0.00 KZT</span>
+        <span id="summaryExFee">0.00 KZT</span>
       </div>
       <div class="summary-row">
         <span>Transfer fee (1%)</span>
-        <span id="qtTransferFee">0.00 KZT</span>
+        <span id="summaryTrFee">0.00 KZT</span>
       </div>
       <div class="summary-row">
-        <span>Umumiy komissiya</span>
-        <span id="qtTotalFee">0.00 KZT</span>
+        <strong>Umumiy komissiya</strong>
+        <strong id="summaryTotalFee">0.00 KZT</strong>
       </div>
     </div>
 
-    <button class="primary-btn" id="qtSubmitBtn">
+    <button class="button-primary" id="confirmButton">
       Yuborishni tasdiqlash (demo)
     </button>
+    <div class="toast" id="demoToast"></div>
   </section>
-
-  <section class="section" id="tabCryptoSection" style="display:none;">
-    <div class="section-title">Crypto portfel (demo)</div>
-    <div class="section-sub">
-      Tez orada: USDT, BTC va boshqa aktivlarni sotib olish va sotish. Hozircha faqat demo ko‘rinish.
-    </div>
-    <div class="demo-list">
-      <div class="demo-item">
-        <div>
-          <div class="demo-title">USDT (Tether)</div>
-          <div class="demo-sub">Balans: 250 USDT (demo)</div>
-        </div>
-        <div class="demo-badge">+0.3%</div>
-      </div>
-      <div class="demo-item">
-        <div>
-          <div class="demo-title">BTC (Bitcoin)</div>
-          <div class="demo-sub">Balans: 0.015 BTC (demo)</div>
-        </div>
-        <div class="demo-badge">+1.2%</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="tabStocksSection" style="display:none;">
-    <div class="section-title">Stock market (demo)</div>
-    <div class="section-sub">
-      Kelajakda: AQSH va mahalliy bozor aksiyalarini sotib olish va sotish. Hozircha faqat demo ma‘lumot.
-    </div>
-    <div class="demo-list">
-      <div class="demo-item">
-        <div>
-          <div class="demo-title">AAPL</div>
-          <div class="demo-sub">Balans: 3 ta aksiya (demo)</div>
-        </div>
-        <div class="demo-badge">+0.8%</div>
-      </div>
-      <div class="demo-item">
-        <div>
-          <div class="demo-title">TSLA</div>
-          <div class="demo-sub">Balans: 1 ta aksiya (demo)</div>
-        </div>
-        <div class="demo-badge">−0.4%</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Profil modal -->
-  <div class="profile-modal-backdrop" id="profileModal">
-    <div class="profile-modal">
-      <div class="profile-modal-header">
-        <div class="profile-modal-title">Telegram profil</div>
-        <button class="close-btn" id="profileCloseBtn">✕</button>
-      </div>
-      <div class="profile-modal-body">
-        <div class="profile-row">
-          <span>Ism:</span>
-          <span id="pf-name">-</span>
-        </div>
-        <div class="profile-row">
-          <span>ID:</span>
-          <span id="pf-id">-</span>
-        </div>
-        <div class="profile-row">
-          <span>Username:</span>
-          <span id="pf-username">-</span>
-        </div>
-        <hr />
-        <button class="secondary-btn" id="profileSettingsBtn">Sozlamalar (tez orada)</button>
-        <button class="danger-btn" id="profileLogoutBtn">Chiqish (tez orada)</button>
-      </div>
-    </div>
-  </div>
-<style>
-    .field-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .field {
-      flex: 1;
-      margin-bottom: 8px;
-    }
-    .field label {
-      display: block;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-    .field input,
-    .field select {
-      width: 100%;
-      padding: 9px 11px;
-      border-radius: 13px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(4,22,10,0.94);
-      color: var(--text-main);
-      font-size: 13px;
-      outline: none;
-    }
-    .field input::placeholder {
-      color: rgba(155,183,161,0.6);
-    }
-    .select {
-      position: relative;
-    }
-    .select::after {
-      content: "▾";
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 11px;
-      color: var(--text-muted);
-      pointer-events: none;
-    }
-    .summary-card {
-      margin-top: 8px;
-      border-radius: 16px;
-      background: rgba(3,20,9,0.9);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 8px 10px;
-    }
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin: 3px 0;
-    }
-    .summary-row.main {
-      color: var(--text-main);
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .primary-btn {
-      margin-top: 11px;
-      width: 100%;
-      border-radius: 20px;
-      border: none;
-      padding: 11px 12px;
-      font-size: 14px;
-      font-weight: 600;
-      background: linear-gradient(90deg, var(--accent), var(--accent-dark));
-      color: #032003;
-      box-shadow: 0 10px 24px rgba(166,255,59,0.4);
-      cursor: pointer;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
-    }
-    .primary-btn:active {
-      transform: translateY(1px);
-      box-shadow: 0 6px 16px rgba(166,255,59,0.3);
-      filter: brightness(0.96);
-    }
-    .demo-list {
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .demo-item {
-      padding: 8px 9px;
-      border-radius: 14px;
-      background: rgba(3,20,9,0.9);
-      border: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .demo-title {
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .demo-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .demo-badge {
-      font-size: 11px;
-      padding: 4px 7px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.14);
-    }
-    .profile-modal-backdrop {
+<!-- Profil bottom sheet -->
+  <div
+    id="profileSheet"
+    style="
       position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.65);
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-      z-index: 50;
-    }
-    .profile-modal-backdrop.active {
-      display: flex;
-    }
-    .profile-modal {
-      width: 100%;
+      left: 0;
+      right: 0;
+      bottom: -420px;
       max-width: 480px;
-      border-radius: 22px 22px 0 0;
-      background: radial-gradient(circle at top, #093719, #020b05);
-      border-top: 1px solid rgba(255,255,255,0.14);
-      padding: 14px 16px 18px;
-    }
-    .profile-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .profile-modal-title {
-      font-size: 16px;
-      font-weight: 700;
-    }
-    .close-btn {
-      border: none;
-      background: rgba(0,0,0,0.45);
-      border-radius: 999px;
-      width: 28px;
-      height: 28px;
-      color: #ffffff;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .profile-modal-body {
-      font-size: 13px;
-    }
-    .profile-row {
-      display: flex;
-      justify-content: space-between;
-      margin: 4px 0;
-    }
-    .profile-row span:first-child {
-      color: var(--text-muted);
-    }
-    .profile-modal hr {
-      border: none;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin: 10px 0;
-    }
-    .secondary-btn,
-    .danger-btn {
-      width: 100%;
-      border-radius: 18px;
-      padding: 9px 10px;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(0,0,0,0.4);
-      color: var(--text-main);
-      font-size: 13px;
-      cursor: pointer;
-      margin-bottom: 7px;
-    }
-    .danger-btn {
-      background: rgba(138,12,12,0.9);
-      border-color: rgba(255,75,75,0.8);
-    }
-  </style>
+      margin: 0 auto;
+      padding: 18px 18px 24px;
+      background: radial-gradient(130% 180% at 0% 0%, #124925 0, #020b06 60%, #000 100%);
+      border-radius: 24px 24px 0 0;
+      border-top: 1px solid rgba(165, 255, 147, 0.4);
+      border-left: 1px solid rgba(51, 132, 73, 0.6);
+      border-right: 1px solid rgba(51, 132, 73, 0.6);
+      color: #f4ffe9;
+      box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.9);
+      transition: bottom 0.22s ease-out;
+      z-index: 40;
+    "
+  >
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      "
+    >
+      <div style="font-size: 17px; font-weight: 700">Telegram profil</div>
+      <button
+        id="closeProfileBtn"
+        style="
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(8, 36, 18, 0.9);
+          color: #f4ffe6;
+          font-size: 18px;
+        "
+      >
+        ×
+      </button>
+    </div>
 
-  <script>
-    const DEMO_RATES = {
-      "UZS_KZT": 0.0400,
-      "UZS_KGS": 0.0070
-    };
+    <div style="font-size: 13px; color: #c8e6d0; margin-bottom: 12px">
+      Ma’lumotlar faqat demo uchun ko‘rsatilmoqda. Real ilovada KYC va
+      xavfsizlik siyosatiga mos ishlaydi.
+    </div>
 
-    function formatNumber(value, decimals = 2) {
-      const n = Number(value) || 0;
-      return n.toLocaleString("ru-RU", {
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals
-      });
-    }
+    <div style="border-top: 1px dashed rgba(129, 194, 142, 0.65); margin: 8px 0 10px"></div>
 
-    function getRate(from, to) {
-      if (from === "UZS" && to === "KZT") return DEMO_RATES["UZS_KZT"];
-      if (from === "UZS" && to === "KGS") return DEMO_RATES["UZS_KGS"];
-      return 0;
-    }
+    <div style="font-size: 13px; margin-bottom: 8px">
+      <strong>Ism:</strong> <span id="pfName">-</span>
+    </div>
+    <div style="font-size: 13px; margin-bottom: 8px">
+      <strong>ID:</strong> <span id="pfId">-</span>
+    </div>
+    <div style="font-size: 13px; margin-bottom: 16px">
+      <strong>Username:</strong> <span id="pfUsername">-</span>
+    </div>
 
-    function initAssetsDropdown() {
-      const toggle = document.getElementById("assetsToggle");
-      const list = document.getElementById("assetsList");
-      if (!toggle || !list) return;
-      toggle.addEventListener("click", () => {
-        const active = list.classList.toggle("active");
-        toggle.classList.toggle("open", active);
-      });
-    }
+    <button
+      style="
+        width: 100%;
+        border-radius: 18px;
+        padding: 10px 16px;
+        border: 1px solid rgba(145, 255, 152, 0.7);
+        background: rgba(3, 33, 15, 0.95);
+        color: #d6ffd3;
+        font-weight: 600;
+        margin-bottom: 10px;
+      "
+    >
+      Sozlamalar (tez orada)
+    </button>
 
-    function setActiveTab(tab) {
-      const buttons = document.querySelectorAll(".action-btn");
-      buttons.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.tab === tab);
-      });
+    <button
+      style="
+        width: 100%;
+        border-radius: 18px;
+        padding: 11px 16px;
+        border: none;
+        background: linear-gradient(90deg, #ff5b5b, #ff3131);
+        color: #fff4f4;
+        font-weight: 700;
+      "
+    >
+      Chiqish (tez orada)
+    </button>
+  </div>
+</div> <!-- /.app -->
 
-      const quickSec = document.getElementById("quickTransferSection");
-      const cryptoSec = document.getElementById("tabCryptoSection");
-      const stocksSec = document.getElementById("tabStocksSection");
-
-      if (tab === "crypto") {
-        quickSec.style.display = "none";
-        cryptoSec.style.display = "";
-        stocksSec.style.display = "none";
-      } else if (tab === "stocks") {
-        quickSec.style.display = "none";
-        cryptoSec.style.display = "none";
-        stocksSec.style.display = "";
-      } else {
-        quickSec.style.display = "";
-        cryptoSec.style.display = "none";
-        stocksSec.style.display = "none";
-      }
-    }
-
-    function initTabs() {
-      const buttons = document.querySelectorAll(".action-btn");
-      buttons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          setActiveTab(btn.dataset.tab);
-        });
-      });
-      setActiveTab("send");
-    }
-
-    function recalcQuickTransfer() {
-      const from = document.getElementById("qtFrom").value;
-      const to = document.getElementById("qtTo").value;
-      const amountInput = document.getElementById("qtAmount");
-      const raw = parseFloat(amountInput.value.replace(",", ".")) || 0;
-
-      const rate = getRate(from, to);
-      const gross = raw * rate;
-      const exFee = gross * 0.01;
-      const trFee = gross * 0.01;
-      const totalFee = exFee + trFee;
-      const net = Math.max(gross - totalFee, 0);
-
-      document.getElementById("qtNetAmount").textContent = formatNumber(net) + " " + to;
-      document.getElementById("qtExchangeFee").textContent = formatNumber(exFee) + " " + to;
-      document.getElementById("qtTransferFee").textContent = formatNumber(trFee) + " " + to;
-      document.getElementById("qtTotalFee").textContent = formatNumber(totalFee) + " " + to;
-    }
-
-    function initQuickTransfer() {
-      ["qtFrom", "qtTo", "qtAmount"].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener("input", recalcQuickTransfer);
-      });
-
-      const btn = document.getElementById("qtSubmitBtn");
-      if (btn) {
-        btn.addEventListener("click", () => {
-          recalcQuickTransfer();
-          btn.classList.add("pressed");
-          setTimeout(() => btn.classList.remove("pressed"), 150);
-        });
-      }
-
-      recalcQuickTransfer();
-    }
-
-    function initProfileModal() {
-      const backdrop = document.getElementById("profileModal");
-      const openBtn = document.getElementById("profileOpenBtn");
-      const closeBtn = document.getElementById("profileCloseBtn");
-
-      function open() { backdrop.classList.add("active"); }
-      function close() { backdrop.classList.remove("active"); }
-
-      if (openBtn) openBtn.addEventListener("click", open);
-      if (closeBtn) closeBtn.addEventListener("click", close);
-      if (backdrop) {
-        backdrop.addEventListener("click", (e) => {
-          if (e.target === backdrop) close();
-        });
-      }
-    }
-  </script>
 <script>
-    function initTelegramUser() {
-      let name = "-";
-      let id = "-";
-      let username = "-";
+  // --- Demo kurslar (faqat front uchun) ---
+  const DEMO_RATES = {
+    "UZS_KZT": 0.0436081101,
+    "KZT_UZS": 1 / 0.0436081101,
+    "UZS_KGS": 0.0067,
+    "KGS_UZS": 1 / 0.0067,
+    "KZT_KGS": 0.153,
+    "KGS_KZT": 1 / 0.153
+  };
 
+  function formatAmount(num, ccy) {
+    if (!isFinite(num)) num = 0;
+    return (
+      num.toLocaleString("ru-RU", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }) +
+      " " +
+      ccy
+    );
+  }
+
+  // Quick transfer recalculation
+  function recalcSummary() {
+    const from = document.getElementById("fromCurrency").value;
+    const to = document.getElementById("toCurrency").value;
+    const raw = parseFloat(document.getElementById("amountInput").value || "0");
+    const amount = isFinite(raw) ? raw : 0;
+
+    const pairKey = from + "_" + to;
+    const baseRate = DEMO_RATES[pairKey] || 0;
+    const converted = amount * baseRate;
+
+    const exFee = converted * 0.01;
+    const trFee = converted * 0.01;
+    const totalFee = exFee + trFee;
+    const net = converted - totalFee;
+
+    document.getElementById("summaryNet").innerHTML =
+      formatAmount(net, to) + "";
+    document.getElementById("summaryNetCcy").textContent = to;
+    document.getElementById("summaryExFee").textContent = formatAmount(exFee, to);
+    document.getElementById("summaryTrFee").textContent = formatAmount(trFee, to);
+    document.getElementById("summaryTotalFee").textContent = formatAmount(
+      totalFee,
+      to
+    );
+  }
+
+  // Confirm button (demo only)
+  function handleConfirm() {
+    const amount = parseFloat(document.getElementById("amountInput").value || "0");
+    const receiver = document.getElementById("receiverInput").value.trim();
+    const to = document.getElementById("toCurrency").value;
+    const toast = document.getElementById("demoToast");
+
+    if (!amount || !receiver) {
+      toast.style.color = "#ffb3b3";
+      toast.textContent = "Miqdor va qabul qiluvchini kiriting (demo).";
+      return;
+    }
+
+    toast.style.color = "#b5ffb9";
+    toast.textContent =
+      "Demo: " +
+      receiver +
+      " foydalanuvchiga taxminan " +
+      document.getElementById("summaryNet").textContent +
+      " yuborildi deb tasavvur qilamiz ✅";
+  }
+
+  // Tabs
+  function setupTabs() {
+    const tabs = document.querySelectorAll(".action-tab");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        const mode = tab.dataset.mode;
+
+        const card = document.getElementById("quickTransferCard");
+        if (mode === "send") {
+          card.querySelector(".section-title").textContent = "Quick Transfer";
+        } else if (mode === "exchange") {
+          card.querySelector(".section-title").textContent = "Exchange (demo)";
+        } else if (mode === "crypto") {
+          card.querySelector(".section-title").textContent = "Crypto (demo)";
+        } else if (mode === "stocks") {
+          card.querySelector(".section-title").textContent = "Stocks (demo)";
+        }
+      });
+    });
+  }
+
+  // Assets toggle
+  function setupAssetsToggle() {
+    const toggle = document.getElementById("assetsToggle");
+    const list = document.getElementById("assetsList");
+    const label = document.getElementById("assetsToggleText");
+
+    toggle.addEventListener("click", () => {
+      const expanded = list.classList.toggle("visible");
+      toggle.classList.toggle("expanded", expanded);
+      label.textContent = expanded ? "Yopish" : "Barcha aktivlar";
+    });
+  }
+
+  // Profile sheet open/close
+  function setupProfileSheet() {
+    const sheet = document.getElementById("profileSheet");
+    const openBtn = document.getElementById("openProfileBtn");
+    const closeBtn = document.getElementById("closeProfileBtn");
+
+    function open() {
+      sheet.style.bottom = "0";
+    }
+    function close() {
+      sheet.style.bottom = "-420px";
+    }
+
+    openBtn.addEventListener("click", open);
+    closeBtn.addEventListener("click", close);
+  }
+
+  // Telegram profile
+  function loadTelegramProfile() {
+    let name = null;
+    let id = null;
+    let username = null;
+
+    // 1) initDataUnsafe
+    if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
       try {
-        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
-          const u = Telegram.WebApp.initDataUnsafe.user;
-          if (u) {
-            name = [u.first_name, u.last_name].filter(Boolean).join(" ") || "-";
-            id = String(u.id || "-");
-            if (u.username) username = "@" + u.username;
+        const u = Telegram.WebApp.initDataUnsafe.user;
+        if (u) {
+          if (u.first_name || u.last_name) {
+            name = [u.first_name, u.last_name].filter(Boolean).join(" ");
+          }
+          if (u.id) {
+            id = String(u.id);
+          }
+          if (u.username) {
+            username = u.username;
           }
         }
       } catch (e) {
-        console.warn("Telegram initDataUnsafe o'qishda xato:", e);
-      }
-
-      const pfName = document.getElementById("pf-name");
-      const pfId = document.getElementById("pf-id");
-      const pfUsername = document.getElementById("pf-username");
-      if (pfName) pfName.textContent = name;
-      if (pfId) pfId.textContent = id;
-      if (pfUsername) pfUsername.textContent = username;
-
-      const avatar = document.getElementById("profileAvatar");
-      const short = document.getElementById("profileShortName");
-      if (avatar) {
-        const initials = name && name !== "-" ? name.split(" ").map(s => s[0]).join("").slice(0,2).toUpperCase() : "TG";
-        avatar.textContent = initials;
-      }
-      if (short) {
-        short.textContent = username !== "-" ? username : name !== "-" ? name : "@demo";
+        console.warn("Telegram initDataUnsafe o‘qishda xato:", e);
       }
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      try {
-        if (window.Telegram && Telegram.WebApp) {
-          Telegram.WebApp.ready();
-          Telegram.WebApp.expand();
-        }
-      } catch (e) {
-        console.warn("Telegram WebApp.ready xato:", e);
-      }
+    // 2) URL paramlari orqali fallback
+    const params = new URLSearchParams(window.location.search);
+    if (!name && params.get("tg_name")) {
+      name = params.get("tg_name");
+    }
+    if (!id && params.get("tg_id")) {
+      id = params.get("tg_id");
+    }
+    if (!username && params.get("tg_username")) {
+      username = params.get("tg_username");
+    }
 
-      initTelegramUser();
-      initAssetsDropdown();
-      initTabs();
-      initQuickTransfer();
-      initProfileModal();
+    document.getElementById("pfName").textContent = name || "-";
+    document.getElementById("pfId").textContent = id || "-";
+    document.getElementById("pfUsername").textContent = username
+      ? "@" + username
+      : "-";
+
+    // Header qisqa ko‘rinish
+    const short = document.getElementById("profileShort");
+    const avatar = document.getElementById("profileAvatar");
+    if (name) {
+      short.textContent = name.split(" ")[0];
+    } else if (username) {
+      short.textContent = "@" + username;
+    }
+    if (name) {
+      const initials = name
+        .split(" ")
+        .map((s) => s.charAt(0))
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+      avatar.textContent = initials;
+    } else if (username) {
+      avatar.textContent = username.charAt(0).toUpperCase();
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Listeners
+    ["fromCurrency", "toCurrency", "amountInput"].forEach((id) => {
+      const el = document.getElementById(id);
+      el.addEventListener("input", recalcSummary);
+      el.addEventListener("change", recalcSummary);
     });
-  </script>
-</div>
+
+    document
+      .getElementById("confirmButton")
+      .addEventListener("click", handleConfirm);
+
+    setupTabs();
+    setupAssetsToggle();
+    setupProfileSheet();
+    loadTelegramProfile();
+    recalcSummary();
+  });
+</script>
 </body>
 </html>
