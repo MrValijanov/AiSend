@@ -2,21 +2,25 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8" />
-  <title>AiSend · Demo konvertor</title>
+  <title>AiSend · Demo super app</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <style>
     :root {
-      --bg: #021608;
-      --card: #05250f;
-      --accent: #1dd24a;
-      --accent-soft: #b5ff6f;
-      --accent-dark: #0b752a;
-      --text-main: #ffffff;
-      --text-muted: #a7bfa7;
+      --bg-main: #020c06;
+      --bg-card: #04160c;
+      --bg-card-soft: #072011;
+      --accent: #b7ff45;
+      --accent-soft: #96f03b;
+      --accent-strong: #d6ff7b;
+      --text-main: #f9ffe8;
+      --text-muted: #a5b79a;
       --danger: #ff5b5b;
-      --border-soft: rgba(255, 255, 255, 0.05);
+      --border-soft: rgba(255,255,255,0.05);
       --radius-xl: 22px;
+      --radius-full: 999px;
+      --shadow-soft: 0 18px 50px rgba(0,0,0,0.65);
+      --shadow-chip: 0 8px 25px rgba(0,0,0,0.6);
+      --transition-fast: 0.18s ease-out;
     }
 
     * {
@@ -24,20 +28,19 @@
       margin: 0;
       padding: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Roboto", sans-serif;
+        "Segoe UI", sans-serif;
     }
 
     body {
-      background: radial-gradient(circle at top, #063517 0, #021608 55%, #010705 100%);
+      background: radial-gradient(circle at top, #05240f 0%, #020907 40%, #010503 100%);
       color: var(--text-main);
       min-height: 100vh;
     }
 
-    .app {
-      min-height: 100vh;
-      padding: 16px 14px 24px;
+    .container {
       max-width: 480px;
       margin: 0 auto;
+      padding: 14px 14px 26px;
     }
 
     .header {
@@ -47,849 +50,767 @@
       margin-bottom: 16px;
     }
 
-    .logo-title {
+    .header-title {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      gap: 2px;
     }
 
-    .logo-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 18px;
-      background: radial-gradient(circle at 30% 20%, #9fff7a 0, #0fb741 40%, #021608 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 22px;
-      color: #021608;
-      box-shadow: 0 0 24px rgba(43, 255, 117, 0.35);
-    }
-
-    .app-name {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .app-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .profile-btn {
-      padding: 8px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(20, 50, 30, 0.9));
-      color: var(--text-main);
-      font-size: 13px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .profile-btn span {
-      font-size: 10px;
-      opacity: 0.8;
-    }
-
-    .chip-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .chip {
+    .header-title span {
       font-size: 11px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--text-muted);
-      background: rgba(0, 0, 0, 0.25);
     }
 
-    .chip.primary {
-      border-color: #22c55e;
-      color: #bbf7d0;
-      background: rgba(21, 128, 61, 0.3);
-    }
-
-    .card {
-      background: radial-gradient(circle at top left, #06351a 0, #021608 45%, #010705 100%);
-      border-radius: 26px;
-      padding: 18px 18px 18px;
-      border: 1px solid var(--border-soft);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
-      margin-bottom: 16px;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .card-title {
+    .header-title h1 {
       font-size: 20px;
       font-weight: 700;
     }
 
-    .card-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .pill-toggle {
-      border-radius: 999px;
-      padding: 6px 14px;
-      border: 1px solid rgba(34, 197, 94, 0.4);
-      background: radial-gradient(circle at 20% 0%, #22c55e 0, #064e3b 40%, #022c22 100%);
+    .profile-btn {
+      border: none;
+      outline: none;
+      padding: 10px 14px;
+      border-radius: var(--radius-full);
+      background: rgba(10, 35, 18, 0.9);
+      color: var(--text-main);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 11px;
-      color: #bbf7d0;
-    }
-
-    .pill-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
-    }
-
-    label {
-      display: block;
       font-size: 13px;
-      margin-bottom: 6px;
+      box-shadow: var(--shadow-chip);
     }
 
-    select,
-    input[type="text"],
-    input[type="number"],
-    textarea {
-      width: 100%;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      background: rgba(0, 0, 0, 0.35);
-      color: var(--text-main);
-      padding: 11px 12px;
-      font-size: 14px;
-      outline: none;
+    .profile-btn span.avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #24e070, #b7ff45);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #041107;
     }
 
-    select {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
-        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
-      background-position: calc(100% - 14px) 13px, calc(100% - 10px) 13px;
-      background-size: 6px 6px, 6px 6px;
-      background-repeat: no-repeat;
+    .profile-btn span.label {
+      opacity: 0.9;
     }
 
-    select:focus,
-    input:focus,
-    textarea:focus {
-      border-color: rgba(74, 222, 128, 0.8);
-      box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.2);
+    .card {
+      background: radial-gradient(circle at top, #0e381d 0%, #06150b 55%, #041007 100%);
+      border-radius: var(--radius-xl);
+      padding: 16px 18px 18px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(183, 255, 69, 0.16);
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .field {
-      margin-bottom: 12px;
-    }
-
-    .toggle-row {
+    .card-header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 6px;
-      margin-bottom: 12px;
-      gap: 10px;
+      margin-bottom: 8px;
     }
 
-    .toggle-row span {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .switch {
-      position: relative;
-      width: 42px;
-      height: 24px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: 999px;
-      transition: 0.2s;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-    }
-
-    .slider:before {
-      content: "";
-      position: absolute;
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 2px;
-      background: radial-gradient(circle at 30% 20%, #e5ffe6 0, #22c55e 40%, #16a34a 100%);
-      border-radius: 50%;
-      transition: 0.2s;
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
-    }
-
-    .switch input:checked + .slider {
-      background: rgba(6, 95, 70, 0.9);
-      border-color: rgba(34, 197, 94, 0.8);
-    }
-
-    .switch input:checked + .slider:before {
-      transform: translateX(16px);
-    }
-
-    .btn {
-      border: none;
-      border-radius: 999px;
-      padding: 14px 18px;
-      font-size: 16px;
-      font-weight: 600;
-      width: 100%;
-      text-align: center;
-      cursor: pointer;
-      color: #022c15;
-      background: linear-gradient(90deg, #bef264, #4ade80);
-      box-shadow: 0 14px 30px rgba(22, 163, 74, 0.55);
-      margin-top: 6px;
-    }
-
-    .btn:active {
-      transform: translateY(1px);
-      box-shadow: 0 8px 20px rgba(22, 163, 74, 0.4);
-    }
-
-    .btn-loading {
-      opacity: 0.7;
-    }
-
-    .btn-secondary {
-      background: rgba(15, 23, 42, 0.95);
-      color: var(--text-main);
-      box-shadow: none;
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      font-size: 14px;
-    }
-
-    .result-main {
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .result-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .rate-note {
-      margin-top: 6px;
+    .card-label {
       font-size: 12px;
       color: var(--text-muted);
     }
 
-    .rate-note strong {
-      color: var(--accent-soft);
+    .total-balance-value {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
     }
 
-    .rate-error {
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--danger);
-    }
-
-    .section-label {
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      color: rgba(148, 163, 184, 0.9);
-      text-transform: uppercase;
-      margin: 10px 2px 4px;
-    }
-
-    .avatar-row {
-      display: flex;
+    .total-trend-row {
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: var(--radius-full);
+      background: rgba(0, 0, 0, 0.24);
+      font-size: 11px;
+      color: var(--text-muted);
     }
 
-    .avatar {
-      width: 46px;
-      height: 46px;
+    .trend-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      background: rgba(18, 115, 32, 0.9);
+      color: #d6ffb7;
+      font-size: 11px;
+    }
+
+    .trend-pill span.dot {
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 20%, #a7f3d0 0, #22c55e 40%, #047857 100%);
+      background: #b7ff45;
+    }
+
+    .expand-toggle {
+      border: none;
+      outline: none;
+      border-radius: var(--radius-full);
+      padding: 6px 9px;
+      background: rgba(0, 0, 0, 0.32);
+      color: var(--text-muted);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .expand-toggle span.chevron {
+      display: inline-block;
+      transition: transform var(--transition-fast);
+    }
+
+    .expand-toggle.expanded span.chevron {
+      transform: rotate(180deg);
+    }
+
+    .assets-panel {
+      margin-top: 12px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.45), rgba(3, 24, 8, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 10px 10px 8px;
+      display: none;
+    }
+
+    .assets-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 4px;
+    }
+
+    .assets-row + .assets-row {
+      border-top: 1px dashed rgba(255, 255, 255, 0.04);
+    }
+
+    .asset-title {
+      font-size: 12px;
+    }
+
+    .asset-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .asset-amount {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .actions-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .action-btn {
+      border-radius: 18px;
+      padding: 10px 4px 8px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: rgba(0,0,0,0.32);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .action-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      color: #022c15;
-      box-shadow: 0 0 18px rgba(34, 197, 94, 0.7);
-    }
-
-    .avatar-text-main {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .avatar-text-sub {
+      background: rgba(11, 51, 23, 0.9);
+      box-shadow: var(--shadow-chip);
       font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
     }
 
-    .inline-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+    .action-btn.active {
+      border-color: rgba(183, 255, 69, 0.35);
+      background: radial-gradient(circle at top, rgba(183, 255, 69, 0.16), rgba(0,0,0,0.7));
+      color: var(--accent-strong);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .section-sub {
+      font-size: 11px;
+      color: var(--text-muted);
       margin-bottom: 10px;
     }
 
-    .inline-badge {
+    .qt-card {
+      margin-top: 14px;
+      background: linear-gradient(145deg, #04140a, #030905);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      padding: 14px 14px 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .field-label {
       font-size: 11px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: #e5e7eb;
-      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-muted);
+      margin-bottom: 4px;
     }
 
-    .send-status {
+    .field-row {
+      margin-bottom: 10px;
+    }
+
+    .select,
+    .input {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(0,0,0,0.45);
+      padding: 10px 12px;
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      appearance: none;
+    }
+
+    .select:focus,
+    .input:focus {
+      border-color: rgba(183, 255, 69, 0.6);
+      box-shadow: 0 0 0 1px rgba(183, 255, 69, 0.4);
+    }
+
+    .quick-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.8fr;
+      gap: 8px;
+    }
+
+    .help-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .quote-box {
       margin-top: 8px;
+      border-radius: 14px;
+      padding: 10px 10px 9px;
+      background: radial-gradient(circle at top left, rgba(183,255,69,0.15), rgba(0,0,0,0.8));
+      border: 1px solid rgba(183, 255, 69, 0.22);
       font-size: 12px;
-      color: #bbf7d0;
     }
 
-    .send-status.err {
+    .quote-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .quote-main span.label {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .quote-main span.value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .fee-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .fee-row span.value {
+      color: var(--accent-soft);
+    }
+
+    .btn-primary {
+      margin-top: 10px;
+      width: 100%;
+      border-radius: var(--radius-full);
+      border: none;
+      padding: 12px 16px;
+      background: linear-gradient(135deg, #b7ff45, #86ff2a);
+      color: #042108;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: var(--shadow-soft);
+      outline: none;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .status-text {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .status-text.ok {
+      color: #7dff7d;
+    }
+
+    .status-text.err {
       color: var(--danger);
     }
 
     .footer-note {
-      font-size: 11px;
+      margin-top: 14px;
+      font-size: 10px;
       color: var(--text-muted);
       text-align: center;
-      margin-top: 8px;
       line-height: 1.4;
     }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-title">
+        <span>AiSend · Demo</span>
+        <h1>Super balance</h1>
+      </div>
+      <button class="profile-btn" id="profileOpen">
+        <span class="avatar">TG</span>
+        <span class="label">Profil</span>
+      </button>
+    </header>
+<!-- Total Balance card -->
+    <section class="card" id="balanceCard">
+      <div class="card-header-row">
+        <div class="card-label">Umumiy balans</div>
+        <button class="expand-toggle" id="assetsToggle">
+          Barcha aktivlar
+          <span class="chevron">▼</span>
+        </button>
+      </div>
 
-    /* ==== PROFILE MODAL ==== */
+      <div class="total-balance-value" id="totalBalanceText">
+        12 450.00 USZ
+      </div>
 
-    .modal-bg {
+      <div class="total-trend-row">
+        <div class="trend-pill">
+          <span class="dot"></span>
+          <span>+3.4%</span>
+        </div>
+        <span>Oxirgi hafta (demo)</span>
+      </div>
+
+      <div class="assets-panel" id="assetsPanel">
+        <div class="assets-row">
+          <div>
+            <div class="asset-title">Fiat · UZS balansi</div>
+            <div class="asset-sub">Asosiy balans</div>
+          </div>
+          <div class="asset-amount" id="assetFiatUzs">7 250 000 UZS</div>
+        </div>
+        <div class="assets-row">
+          <div>
+            <div class="asset-title">Fiat · KZT balansi</div>
+            <div class="asset-sub">Chegara osha karta uchun</div>
+          </div>
+          <div class="asset-amount" id="assetFiatKzt">126 800 KZT</div>
+        </div>
+        <div class="assets-row">
+          <div>
+            <div class="asset-title">Crypto (demo)</div>
+            <div class="asset-sub">BTC, USDT va boshqalar</div>
+          </div>
+          <div class="asset-amount">0.021 BTC</div>
+        </div>
+        <div class="assets-row">
+          <div>
+            <div class="asset-title">Stocks (demo)</div>
+            <div class="asset-sub">AAPL, TSLA, QQQ...</div>
+          </div>
+          <div class="asset-amount">$2 340</div>
+        </div>
+      </div>
+
+      <!-- Action buttons row -->
+      <div class="actions-row">
+        <button class="action-btn active" data-action="send">
+          <div class="action-icon">↗</div>
+          <div>Send</div>
+        </button>
+        <button class="action-btn" data-action="exchange">
+          <div class="action-icon">⇄</div>
+          <div>Exchange</div>
+        </button>
+        <button class="action-btn" data-action="crypto">
+          <div class="action-icon">₿</div>
+          <div>Crypto</div>
+        </button>
+        <button class="action-btn" data-action="stocks">
+          <div class="action-icon">📈</div>
+          <div>Stocks</div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Quick Transfer (Send) section -->
+    <section class="qt-card">
+      <div class="section-title">Quick Transfer</div>
+      <div class="section-sub">
+        UZS → KZT / KGS kartaga tezkor o‘tkazmalar (demo). Komissiya tarkibini oldindan ko‘rib turasiz.
+      </div>
+
+      <div class="field-row quick-layout">
+        <div>
+          <div class="field-label">From valyuta</div>
+          <select class="select" id="qtFrom">
+            <option value="UZS">UZS (Uzbekistan)</option>
+            <option value="KZT">KZT (Kazakhstan)</option>
+            <option value="KGS">KGS (Kyrgyzstan)</option>
+          </select>
+        </div>
+        <div>
+          <div class="field-label">To valyuta</div>
+          <select class="select" id="qtTo">
+            <option value="KZT">KZT (Kazakhstan)</option>
+            <option value="UZS">UZS (Uzbekistan)</option>
+            <option value="KGS">KGS (Kyrgyzstan)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label">Miqdor</div>
+        <input
+          id="qtAmount"
+          class="input"
+          type="number"
+          inputmode="decimal"
+          placeholder="Miqdor kiriting, masalan 500000"
+        />
+      </div>
+
+      <div class="field-row">
+        <div class="field-label">Qabul qiluvchi (demo)</div>
+        <input
+          id="qtRecipient"
+          class="input"
+          type="text"
+          placeholder="Telefon, karta raqami yoki @username"
+        />
+      </div>
+
+      <div class="help-text">
+        Komissiyalar: <strong>1% exchange</strong> + <strong>1% transfer</strong> (demo). Real ilovada bu raqamlar
+        litsenziyaga qarab o‘zgaradi.
+      </div>
+
+      <div class="quote-box" id="quoteBox">
+        <div class="quote-main">
+          <span class="label">Qabul qiluvchi oladi (taxminan)</span>
+          <span class="value" id="qtResult">0 KZT</span>
+        </div>
+        <div class="fee-row">
+          <span>Exchange fee (1%)</span>
+          <span class="value" id="qtExFee">0</span>
+        </div>
+        <div class="fee-row">
+          <span>Transfer fee (1%)</span>
+          <span class="value" id="qtTrFee">0</span>
+        </div>
+        <div class="fee-row">
+          <span>Umumiy komissiya</span>
+          <span class="value" id="qtTotalFee">0</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="qtSendBtn">
+        Yuborishni tasdiqlash (demo)
+      </button>
+      <div class="status-text" id="qtStatus">
+        Miqdor va qabul qiluvchini kiriting – demo hisob-kitob chiqadi.
+      </div>
+    </section>
+
+    <div class="footer-note">
+      AiSend demo interfeysi. Crypto, stock va real balanslar keyingi bosqichlarda
+      litsenziya + KYC bilan to‘liq qo‘shiladi.
+    </div>
+
+    <!-- PROFILE SHEET -->
+    <div id="profileBg" style="
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.72);
-      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(18px);
       display: none;
       align-items: flex-end;
       justify-content: center;
       z-index: 40;
-    }
-
-    .modal-bg.active {
-      display: flex;
-    }
-
-    .modal {
-      width: 100%;
-      max-width: 480px;
-      border-radius: 24px 24px 0 0;
-      padding: 18px 18px 22px;
-      background: radial-gradient(circle at top, #022c1f 0, #010b07 55%, #000 100%);
-      border-top: 1px solid rgba(74, 222, 128, 0.45);
-      box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.7);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .modal-close {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .modal-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      margin: 6px 0;
-    }
-
-    .modal-row label {
-      margin: 0;
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-
-    .modal-row span {
-      font-weight: 500;
-    }
-
-    .modal-separator {
-      border-top: 1px dashed rgba(148, 163, 184, 0.65);
-      margin: 10px 0 14px;
-    }
-
-    @media (min-width: 480px) {
-      .app {
-        padding-top: 20px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="app">
-    <header class="header">
-      <div class="logo-title">
-        <div class="logo-badge">A</div>
-        <div>
-          <div class="app-name">AiSend</div>
-          <div class="app-sub">Chegarasiz valyuta almashinuv · demo UI</div>
+    ">
+      <div id="profileSheet" style="
+        width: 100%;
+        max-width: 480px;
+        background: radial-gradient(circle at top, #062712 0%, #020805 55%, #010403 100%);
+        border-radius: 22px 22px 0 0;
+        border: 1px solid rgba(183,255,69,0.18);
+        padding: 16px 18px 20px;
+        box-shadow: 0 -18px 40px rgba(0,0,0,0.8);
+      ">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="font-weight:600;">Telegram profil</div>
+          <button id="profileClose" style="
+            border:none;
+            background:rgba(0,0,0,0.4);
+            color:var(--text-muted);
+            border-radius:999px;
+            width:26px;
+            height:26px;
+          ">✕</button>
+        </div>
+        <div style="font-size:13px;line-height:1.7;margin-bottom:10px;">
+          <div>Ism: <span id="pf_name">-</span></div>
+          <div>ID: <span id="pf_id">-</span></div>
+          <div>Username: <span id="pf_username">-</span></div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text-muted);">
+          Ma’lumotlar faqat demo uchun ishlatiladi, serverga yuborilmaydi.
         </div>
       </div>
-      <button class="profile-btn" id="profileOpen">
-        Profil
-        <span>▼</span>
-      </button>
-    </header>
-
-    <div class="chip-row">
-      <div class="chip primary">AiSend · Demo konvertor</div>
-      <div class="chip">Beta build</div>
     </div>
+</div> <!-- /container -->
 
-    <main>
-      <!-- ==== EXCHANGE CARD ==== -->
-      <section class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">AiSend Pay</div>
-            <p class="card-sub">
-              UZS balansdan KZT/KGS kartaga tezkor o‘tkazmalar (demo).
-            </p>
-          </div>
-          <div class="pill-toggle" id="rateModePill">
-            <span class="pill-dot"></span>
-            <span>Onlayn kurslar</span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="direction">Yo‘nalishni tanlang</label>
-          <select id="direction">
-            <option value="UZS_KZT" selected>UZS → KZT</option>
-            <option value="UZS_KGS">UZS → KGS</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="amount">Miqdor</label>
-          <input id="amount" type="number" inputmode="numeric" placeholder="Miqdor kiriting" />
-        </div>
-
-        <div class="toggle-row">
-          <span>Onlayn kurslar</span>
-          <label class="switch">
-            <input type="checkbox" id="liveToggle" checked />
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <button class="btn" id="calcBtn">Hisoblash</button>
-
-        <div class="result-main" id="resultBox">0 UZS ≈ 0 KZT</div>
-        <div class="result-sub" id="baseRate">
-          1 UZS ≈ demo kurs
-        </div>
-        <div class="rate-error" id="rateError"></div>
-      </section>
-
-      <!-- ==== SEND MONEY CARD ==== -->
-      <p class="section-label">Transfer</p>
-      <section class="card">
-        <div class="card-header" style="margin-bottom: 10px;">
-          <div>
-            <div class="card-title">Send Money</div>
-            <p class="card-sub">
-              UZS balans → AiSend do‘st · 0% komissiya (demo).
-            </p>
-          </div>
-        </div>
-
-        <div class="inline-badges">
-          <span class="inline-badge">UZS balans → AiSend do‘st</span>
-          <span class="inline-badge">0% komissiya (demo)</span>
-        </div>
-
-        <div class="avatar-row">
-          <div class="avatar">AV</div>
-          <div>
-            <div class="avatar-text-main" id="friendName">Alisher Valiyev</div>
-            <div class="avatar-text-sub" id="friendPhone">+998 90 123 45 67</div>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="sendAmount">Miqdor</label>
-          <input id="sendAmount" type="number" inputmode="numeric" placeholder="Miqdor kiriting" />
-        </div>
-
-        <div class="field">
-          <label for="sendCurrency">Valyuta</label>
-          <select id="sendCurrency">
-            <option value="UZS" selected>UZS</option>
-            <option value="KZT">KZT</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="sendNote">Izoh (ixtiyoriy)</label>
-          <input id="sendNote" type="text" placeholder="Masalan: “Uyga pul”" />
-        </div>
-
-        <button class="btn" id="sendHoldBtn">
-          Yuborish uchun ushlab turing
-        </button>
-        <div class="send-status" id="sendStatus">
-          Demo: to‘lov yuborishga tayyor ✅
-        </div>
-      </section>
-
-      <p class="footer-note">
-        AiSend demo interfeysi. Fikr va takliflar — keyingi bosqichlar uchun asos bo‘ladi.
-      </p>
-    </main>
-  </div>
-<script>
-    // ==== DEMO KURSLAR ====
-    const DEMO_RATES = {
-      UZS_KZT: 0.04,
-      UZS_KGS: 0.007
+  <script>
+    // ===== Demo data for balances (just UI, no real money) =====
+    const DEMO_BALANCES = {
+      total: "12 450.00 USZ",
+      fiatUzs: "7 250 000 UZS",
+      fiatKzt: "126 800 KZT",
     };
 
-    let lastOnlineRates = {};
-    let lastOnlineOk = false;
+    document.getElementById("totalBalanceText").textContent = DEMO_BALANCES.total;
+    document.getElementById("assetFiatUzs").textContent = DEMO_BALANCES.fiatUzs;
+    document.getElementById("assetFiatKzt").textContent = DEMO_BALANCES.fiatKzt;
 
-    function fmt(num) {
-      return Number(num).toLocaleString("uz-UZ", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+    // ===== Expand / collapse assets panel =====
+    const assetsToggle = document.getElementById("assetsToggle");
+    const assetsPanel = document.getElementById("assetsPanel");
+
+    assetsToggle.addEventListener("click", () => {
+      const isOpen = assetsPanel.style.display === "block";
+      assetsPanel.style.display = isOpen ? "none" : "block";
+      assetsToggle.classList.toggle("expanded", !isOpen);
+    });
+
+    // ===== Action buttons (Send / Exchange / Crypto / Stocks) =====
+    document.querySelectorAll(".action-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document
+          .querySelectorAll(".action-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const action = btn.dataset.action;
+        if (action !== "send") {
+          alert(action + " bo'limi tez orada qo'shiladi (demo). Hozircha faqat Quick Transfer ishlaydi.");
+        }
       });
+    });
+
+    // ===== Quick Transfer calculation =====
+    const RATES = {
+      "UZS_KZT": 0.0400,
+      "KZT_UZS": 25.0,
+      "UZS_KGS": 0.0075,
+      "KGS_UZS": 130.0,
+      "KZT_KGS": 0.19,
+      "KGS_KZT": 5.2,
+    };
+
+    const qtFrom = document.getElementById("qtFrom");
+    const qtTo = document.getElementById("qtTo");
+    const qtAmount = document.getElementById("qtAmount");
+    const qtRecipient = document.getElementById("qtRecipient");
+    const qtResult = document.getElementById("qtResult");
+    const qtExFee = document.getElementById("qtExFee");
+    const qtTrFee = document.getElementById("qtTrFee");
+    const qtTotalFee = document.getElementById("qtTotalFee");
+    const qtStatus = document.getElementById("qtStatus");
+    const qtSendBtn = document.getElementById("qtSendBtn");
+
+    function formatAmount(num, currency) {
+      if (!isFinite(num)) return "0 " + currency;
+      return num.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }) + " " + currency;
     }
 
-    function updateBaseRateLabel(code, rate, source) {
-      const baseRateEl = document.getElementById("baseRate");
-      let quote = "";
-      if (code === "UZS_KZT") quote = "KZT";
-      else if (code === "UZS_KGS") quote = "KGS";
-      const srcText = source === "online" ? "onlayn API" : "demo kurs";
-      baseRateEl.textContent = `1 UZS ≈ ${fmt(rate)} ${quote} (${srcText})`;
-    }
+    function recalcQuick() {
+      const from = qtFrom.value;
+      const to = qtTo.value;
+      const rawAmount = parseFloat(qtAmount.value.replace(",", "."));
 
-    async function fetchOnlineRates() {
-      try {
-        const res = await fetch(
-          "https://api.exchangerate.host/latest?base=UZS&symbols=KZT,KGS"
-        );
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        const data = await res.json();
-        if (!data || !data.rates) throw new Error("Bad payload");
-        const kzt = data.rates.KZT;
-        const kgs = data.rates.KGS;
-        if (!kzt || !kgs) throw new Error("No symbols");
-
-        lastOnlineRates = {
-          UZS_KZT: kzt,
-          UZS_KGS: kgs
-        };
-        lastOnlineOk = true;
-        document.getElementById("rateError").textContent = "";
-        return lastOnlineRates;
-      } catch (e) {
-        console.log("Rate fetch error:", e);
-        lastOnlineOk = false;
-        document.getElementById("rateError").textContent =
-          "Onlayn kurs yuklanmadi. Demo kurs ishlatiladi.";
-        return null;
-      }
-    }
-
-    async function recalc() {
-      const amountEl = document.getElementById("amount");
-      const directionEl = document.getElementById("direction");
-      const toggleEl = document.getElementById("liveToggle");
-      const resultEl = document.getElementById("resultBox");
-
-      const raw = amountEl.value.trim();
-      const amt = parseFloat(raw.replace(",", "."));
-      const dir = directionEl.value;
-
-      if (!raw || isNaN(amt) || amt <= 0) {
-        resultEl.textContent = `0 UZS ≈ 0 KZT`;
+      if (!rawAmount || rawAmount <= 0) {
+        qtResult.textContent = "0 " + to;
+        qtExFee.textContent = "0";
+        qtTrFee.textContent = "0";
+        qtTotalFee.textContent = "0";
+        qtStatus.className = "status-text";
+        qtStatus.textContent = "Miqdor kiriting – demo hisob-kitob yangilanadi.";
         return;
       }
 
-      let source = "demo";
-      let rate = DEMO_RATES[dir] || 0.04;
+      let afterExchange = rawAmount;
+      let exFee = 0;
 
-      if (toggleEl.checked) {
-        if (!lastOnlineOk) {
-          await fetchOnlineRates();
+      if (from !== to) {
+        const key = from + "_" + to;
+        const rate = RATES[key];
+        if (!rate) {
+          qtStatus.className = "status-text err";
+          qtStatus.textContent = "Bu yo'nalish demo rejimda hali yo'q. Boshqa valyuta juftligini tanlab ko'ring.";
+          qtResult.textContent = "0 " + to;
+          qtExFee.textContent = "0";
+          qtTrFee.textContent = "0";
+          qtTotalFee.textContent = "0";
+          return;
         }
-        if (lastOnlineOk && lastOnlineRates[dir]) {
-          rate = lastOnlineRates[dir];
-          source = "online";
-        } else {
-          source = "demo";
-        }
+        const grossTarget = rawAmount * rate;
+        exFee = grossTarget * 0.01; // 1% exchange fee
+        afterExchange = grossTarget - exFee;
       }
 
-      const quote = dir === "UZS_KZT" ? "KZT" : "KGS";
-      const result = amt * rate;
+      const trFee = afterExchange * 0.01; // 1% transfer fee
+      const finalAmount = afterExchange - trFee;
+      const totalFee = exFee + trFee;
 
-      resultEl.textContent = `${fmt(amt)} UZS ≈ ${fmt(result)} ${quote}`;
-      updateBaseRateLabel(dir, rate, source);
+      qtResult.textContent = formatAmount(finalAmount, to);
+      qtExFee.textContent = formatAmount(exFee, to);
+      qtTrFee.textContent = formatAmount(trFee, to);
+      qtTotalFee.textContent = formatAmount(totalFee, to);
+
+      qtStatus.className = "status-text";
+      qtStatus.textContent = "Bu taxminiy ko'rsatkichlar. Real kurslar va komissiyalar serverdan olinadi.";
     }
 
-    function setupCalcUI() {
-      const calcBtn = document.getElementById("calcBtn");
-      const amountEl = document.getElementById("amount");
-      const directionEl = document.getElementById("direction");
-      const toggleEl = document.getElementById("liveToggle");
-      const pill = document.getElementById("rateModePill");
+    qtFrom.addEventListener("change", recalcQuick);
+    qtTo.addEventListener("change", recalcQuick);
+    qtAmount.addEventListener("input", recalcQuick);
 
-      toggleEl.addEventListener("change", () => {
-        pill.querySelector("span:nth-child(2)").textContent =
-          toggleEl.checked ? "Onlayn kurslar" : "Demo kurslar";
-        recalc();
-      });
+    qtSendBtn.addEventListener("click", () => {
+      const to = qtTo.value;
+      const amountText = qtResult.textContent;
+      const recipient = qtRecipient.value.trim();
 
-      directionEl.addEventListener("change", recalc);
-      amountEl.addEventListener("input", recalc);
-
-      calcBtn.addEventListener("click", async () => {
-        const oldText = calcBtn.textContent;
-        calcBtn.classList.add("btn-loading");
-        calcBtn.textContent = "Hisoblanmoqda...";
-        await recalc();
-        setTimeout(() => {
-          calcBtn.classList.remove("btn-loading");
-          calcBtn.textContent = oldText;
-        }, 500);
-      });
-
-      // Boshlang‘ich holat
-      updateBaseRateLabel("UZS_KZT", DEMO_RATES["UZS_KZT"], "demo");
-      recalc();
-    }
-
-    // ==== SEND MONEY DEMO ====
-    function setupSendMoney() {
-      const btn = document.getElementById("sendHoldBtn");
-      const amtEl = document.getElementById("sendAmount");
-      const curEl = document.getElementById("sendCurrency");
-      const noteEl = document.getElementById("sendNote");
-      const statusEl = document.getElementById("sendStatus");
-
-      let holdTimer = null;
-      let isHolding = false;
-
-      function resetStatus() {
-        statusEl.classList.remove("err");
-        statusEl.textContent = "Demo: to‘lov yuborishga tayyor ✅";
+      if (!qtAmount.value) {
+        qtStatus.className = "status-text err";
+        qtStatus.textContent = "Miqdor kiriting.";
+        return;
       }
 
-      function startHold() {
-        if (isHolding) return;
-        isHolding = true;
-        btn.classList.add("btn-loading");
-        btn.textContent = "Ushlab turilmoqda...";
-
-        holdTimer = setTimeout(() => {
-          const rawAmt = amtEl.value.trim();
-          const amt = parseFloat(rawAmt.replace(",", "."));
-          const cur = curEl.value;
-          const note = noteEl.value.trim();
-
-          if (!rawAmt || isNaN(amt) || amt <= 0) {
-            statusEl.classList.add("err");
-            statusEl.textContent = "Miqdor kiritilmadi. Demo: to‘lov bekor qilindi.";
-          } else {
-            statusEl.classList.remove("err");
-            const notePart = note ? ` · Izoh: “${note}”` : "";
-            statusEl.textContent =
-              `Demo: ${fmt(amt)} ${cur} yuborildi ✅${notePart}`;
-          }
-
-          btn.classList.remove("btn-loading");
-          btn.textContent = "Yuborish uchun ushlab turing";
-          isHolding = false;
-        }, 900); // 0.9s ushlab turish
+      if (!recipient) {
+        qtStatus.className = "status-text err";
+        qtStatus.textContent = "Qabul qiluvchi ma'lumotini kiriting (demo).";
+        return;
       }
 
-      function cancelHold() {
-        if (!isHolding) return;
-        clearTimeout(holdTimer);
-        btn.classList.remove("btn-loading");
-        btn.textContent = "Yuborish uchun ushlab turing";
-        isHolding = false;
-        resetStatus();
-      }
-
-      btn.addEventListener("mousedown", startHold);
-      btn.addEventListener("touchstart", startHold);
-      btn.addEventListener("mouseup", cancelHold);
-      btn.addEventListener("mouseleave", cancelHold);
-      btn.addEventListener("touchend", cancelHold);
-      btn.addEventListener("touchcancel", cancelHold);
-
-      resetStatus();
-    }
-
-    // ==== PROFILE MODAL & TELEGRAM INTEGRATSIYA ====
-    function initProfileSheet() {
-      const bg = document.getElementById("profileBg");
-      const openBtn = document.getElementById("profileOpen");
-      const closeBtn = document.getElementById("profileClose");
-      const pfName = document.getElementById("pf_name");
-      const pfId = document.getElementById("pf_id");
-      const pfUsername = document.getElementById("pf_username");
-
-      function open() {
-        bg.classList.add("active");
-      }
-      function close() {
-        bg.classList.remove("active");
-      }
-
-      openBtn.addEventListener("click", open);
-      closeBtn.addEventListener("click", close);
-      bg.addEventListener("click", (e) => {
-        if (e.target === bg) close();
-      });
-
-      // 1) URL parametrlaridan o‘qib ko‘ramiz
-      const params = new URLSearchParams(window.location.search);
-      let tgId = params.get("tg_id");
-      let tgName = params.get("tg_name");
-      let tgUsername = params.get("tg_username");
-
-      // 2) Agar bo‘sh bo‘lsa — Telegram WebApp.initDataUnsafe dan olishga harakat qilamiz
-      try {
-        if (
-          (!tgId || !tgName) &&
-          window.Telegram &&
-          Telegram.WebApp &&
-          Telegram.WebApp.initDataUnsafe &&
-          Telegram.WebApp.initDataUnsafe.user
-        ) {
-          const u = Telegram.WebApp.initDataUnsafe.user;
-          if (!tgId && u.id) tgId = String(u.id);
-          if (!tgName) {
-            const full = [u.first_name, u.last_name].filter(Boolean).join(" ");
-            tgName = full || "";
-          }
-          if (!tgUsername && u.username) tgUsername = u.username;
-        }
-      } catch (e) {
-        console.log("Telegram user data error:", e);
-      }
-
-      pfName.textContent = tgName || "-";
-      pfId.textContent = tgId || "-";
-      pfUsername.textContent = tgUsername ? "@" + tgUsername : "-";
-
-      // Telegramga tayyor ekanini aytamiz
-      try {
-        if (window.Telegram && Telegram.WebApp) {
-          Telegram.WebApp.ready();
-          Telegram.WebApp.expand();
-        }
-      } catch (e) {
-        console.log("Telegram ready error:", e);
-      }
-    }
-
-    window.addEventListener("load", () => {
-      setupCalcUI();
-      setupSendMoney();
-      initProfileSheet();
+      qtStatus.className = "status-text ok";
+      qtStatus.textContent =
+        "Demo: " +
+        recipient +
+        " foydalanuvchiga " +
+        amountText +
+        " yuborish request’i yaratildi ✅ (hech qanday real to'lov ketmadi).";
     });
+
+    // ===== Profile modal + Telegram WebApp integration =====
+    const profileBg = document.getElementById("profileBg");
+    const profileOpen = document.getElementById("profileOpen");
+    const profileClose = document.getElementById("profileClose");
+    const pfName = document.getElementById("pf_name");
+    const pfId = document.getElementById("pf_id");
+    const pfUsername = document.getElementById("pf_username");
+
+    function openProfile() {
+      profileBg.style.display = "flex";
+    }
+
+    function closeProfile() {
+      profileBg.style.display = "none";
+    }
+
+    profileOpen.addEventListener("click", openProfile);
+    profileClose.addEventListener("click", closeProfile);
+    profileBg.addEventListener("click", (e) => {
+      if (e.target === profileBg) closeProfile();
+    });
+
+    function initProfileFromTelegram() {
+      let name = "-";
+      let id = "-";
+      let username = "-";
+
+      try {
+        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
+          const u = Telegram.WebApp.initDataUnsafe.user;
+          if (u) {
+            if (u.first_name || u.last_name) {
+              name = [u.first_name, u.last_name].filter(Boolean).join(" ");
+            }
+            if (u.id) id = String(u.id);
+            if (u.username) username = "@" + u.username;
+          }
+        }
+      } catch (e) {
+        console.warn("Telegram initDataUnsafe o'qishda xato:", e);
+      }
+
+      // Fallback: URL paramlaridan o‘qib ko‘ramiz
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("tg_name")) name = params.get("tg_name");
+        if (params.get("tg_id")) id = params.get("tg_id");
+        if (params.get("tg_username")) {
+          username = params.get("tg_username").startsWith("@")
+            ? params.get("tg_username")
+            : "@" + params.get("tg_username");
+        }
+      } catch (e) {
+        console.warn("URL param o'qishda xato:", e);
+      }
+
+      pfName.textContent = name;
+      pfId.textContent = id;
+      pfUsername.textContent = username;
+    }
+
+    initProfileFromTelegram();
   </script>
-<!-- PROFILE MODAL MARKUP -->
-  <div class="modal-bg" id="profileBg">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-title">Telegram profil</div>
-        <div class="modal-close" id="profileClose">✕</div>
-      </div>
-
-      <div class="modal-row">
-        <label>Ism:</label>
-        <span id="pf_name">-</span>
-      </div>
-      <div class="modal-row">
-        <label>ID:</label>
-        <span id="pf_id">-</span>
-      </div>
-      <div class="modal-row">
-        <label>Username:</label>
-        <span id="pf_username">-</span>
-      </div>
-
-      <div class="modal-separator"></div>
-
-      <button class="btn-secondary" style="margin-top: 4px;">
-        Sozlamalar (tez orada)
-      </button>
-      <button class="btn" style="margin-top: 10px; background: #f97373; color:#450a0a; box-shadow:none;">
-        Chiqish (tez orada)
-      </button>
-    </div>
-  </div>
 </body>
 </html>
