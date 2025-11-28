@@ -13,7 +13,7 @@ from telegram.ext import (
 )
 
 # ⬇️ Bu yerga o'zingning bot tokeningni qo'y
-BOT_TOKEN = "8209682714:AAH7S86LgIwNnKm9QB5aP6YenBCVN_7ZCtk"
+BOT_TOKEN = "8209682714:AAGugkQ5V9XMch4FENouU4zj6ekwjQN4npU"
 
 # Web app manzili (Vercel)
 WEB_APP_BASE_URL = "https://ai-send.vercel.app"
