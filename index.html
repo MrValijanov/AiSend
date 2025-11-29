@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>AiSend · Super Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
     :root {
       --bg: #021608;
@@ -95,132 +96,195 @@
       opacity: 0.8;
     }
 
+    .chip-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .chip.primary {
+      border-color: #22c55e;
+      color: #bbf7d0;
+      background: rgba(21, 128, 61, 0.3);
+    }
+
     .card {
       background: radial-gradient(circle at top left, #06351a 0, #021608 45%, #010705 100%);
       border-radius: 26px;
       padding: 18px 18px 18px;
       border: 1px solid var(--border-soft);
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
-    .balance-header-row {
+    .card-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      justify-content: space-between;
+      margin-bottom: 10px;
     }
 
-    .balance-label {
-      font-size: 12px;
-      color: rgba(209, 250, 229, 0.9);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-    }
-
-    .balance-main {
-      font-size: 26px;
+    .card-title {
+      font-size: 20px;
       font-weight: 700;
-      margin-top: 2px;
     }
 
-    .balance-sub {
+    .card-sub {
       font-size: 12px;
       color: var(--text-muted);
       margin-top: 4px;
     }
 
-    .balance-toggle-btn {
-      border: none;
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 11px;
-      color: #e5e7eb;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      border: 1px solid rgba(148, 163, 184, 0.5);
+    .total-amount {
+      font-size: 26px;
+      font-weight: 700;
+      margin-top: 6px;
     }
 
-    .balance-toggle-btn span.arrow {
-      display: inline-block;
-      transition: transform 0.18s ease;
+    .total-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
-    .balance-toggle-btn.open span.arrow {
-      transform: rotate(180deg);
-    }
-
-    .balance-details {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(148, 163, 184, 0.6);
-      display: none;
-    }
-
-    .balance-details.open {
-      display: block;
-    }
-
-    .asset-row {
+    .link-row {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
       font-size: 13px;
-      margin: 5px 0;
+      color: var(--accent-soft);
     }
 
-    .asset-row span.label {
-      color: var(--text-muted);
-    }
-
-    .asset-row span.value {
-      font-weight: 500;
-    }
-
-    .asset-row span.tag {
-      font-size: 11px;
-      margin-left: 6px;
-      padding: 2px 7px;
-      border-radius: 999px;
-      border: 1px solid rgba(74, 222, 128, 0.55);
-      color: #bbf7d0;
-    }
-
-    .main-tabs {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 4px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-
-    .main-tab-btn {
-      flex: 0 0 auto;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      padding: 7px 12px;
+    .link-row button {
+      padding: 6px 10px;
       font-size: 12px;
-      background: rgba(15, 23, 42, 0.85);
-      color: #e5e7eb;
-      cursor: pointer;
+      border-radius: 999px;
+      border: 1px solid rgba(190, 242, 100, 0.5);
+      background: rgba(21, 128, 61, 0.3);
+      color: #ecfccb;
     }
 
-    .main-tab-btn.active {
-      border-color: rgba(74, 222, 128, 0.9);
-      background: radial-gradient(circle at 10% 0, #bef264 0, #22c55e 45%, #065f46 100%);
-      color: #022c22;
-      box-shadow: 0 0 16px rgba(22, 163, 74, 0.55);
-    }
-
-    .page-section {
-      display: none;
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
       margin-top: 8px;
     }
 
-    .page-section.active {
-      display: block;
+    .menu-item {
+      border-radius: 20px;
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.85);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .menu-item.main {
+      grid-column: span 2;
+      background: radial-gradient(circle at 10% 0%, #22c55e 0, #064e3b 40%, #020617 100%);
+      border-color: rgba(74, 222, 128, 0.7);
+      box-shadow: 0 16px 32px rgba(22, 163, 74, 0.55);
+    }
+
+    .menu-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .menu-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .menu-item.main .menu-sub {
+      color: #bbf7d0;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.4;
+    }
+
+    /* ==== MODAL / SHEET BAZA ==== */
+
+    .sheet-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 40;
+    }
+
+    .sheet-bg.active {
+      display: flex;
+    }
+
+    .sheet {
+      width: 100%;
+      max-width: 480px;
+      border-radius: 24px 24px 0 0;
+      padding: 18px 18px 22px;
+      background: radial-gradient(circle at top, #022c1f 0, #010b07 55%, #000 100%);
+      border-top: 1px solid rgba(74, 222, 128, 0.45);
+      box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.7);
+      max-height: 82vh;
+      overflow-y: auto;
+    }
+
+    .sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .sheet-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .sheet-close {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: rgba(148, 163, 184, 0.9);
+      text-transform: uppercase;
+      margin: 10px 2px 4px;
+    }
+
+    .field {
+      margin-bottom: 12px;
     }
 
     label {
@@ -231,8 +295,7 @@
 
     select,
     input[type="text"],
-    input[type="number"],
-    textarea {
+    input[type="number"] {
       width: 100%;
       border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.06);
@@ -243,26 +306,10 @@
       outline: none;
     }
 
-    select {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
-        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
-      background-position: calc(100% - 14px) 13px, calc(100% - 10px) 13px;
-      background-size: 6px 6px, 6px 6px;
-      background-repeat: no-repeat;
-    }
-
     select:focus,
-    input:focus,
-    textarea:focus {
+    input:focus {
       border-color: rgba(74, 222, 128, 0.8);
       box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.2);
-    }
-
-    .field {
-      margin-bottom: 12px;
     }
 
     .btn {
@@ -285,10 +332,6 @@
       box-shadow: 0 8px 20px rgba(22, 163, 74, 0.4);
     }
 
-    .btn-loading {
-      opacity: 0.7;
-    }
-
     .btn-secondary {
       background: rgba(15, 23, 42, 0.95);
       color: var(--text-main);
@@ -298,32 +341,14 @@
       font-size: 14px;
     }
 
-    .result-main {
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .result-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .rate-error {
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--danger);
-    }
-
-    .inline-badges {
+    .badge-row {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin-bottom: 10px;
     }
 
-    .inline-badge {
+    .badge {
       font-size: 11px;
       padding: 4px 9px;
       border-radius: 999px;
@@ -332,6 +357,34 @@
       background: rgba(15, 23, 42, 0.8);
     }
 
+    .asset-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 4px 0;
+      font-size: 13px;
+    }
+
+    .asset-row strong {
+      font-size: 14px;
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .send-status {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #bbf7d0;
+    }
+
+    .send-status.err {
+      color: var(--danger);
+    }
+
+    /* PROFILE SHEET STYLES (reuse) */
     .avatar-row {
       display: flex;
       align-items: center;
@@ -364,74 +417,6 @@
       margin-top: 2px;
     }
 
-    .send-status {
-      margin-top: 8px;
-      font-size: 12px;
-      color: #bbf7d0;
-    }
-
-    .send-status.err {
-      color: var(--danger);
-    }
-
-    .footer-note {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: 10px;
-      line-height: 1.4;
-    }
-
-    /* PROFILE MODAL */
-    .modal-bg {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.72);
-      backdrop-filter: blur(10px);
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-      z-index: 40;
-    }
-
-    .modal-bg.active {
-      display: flex;
-    }
-
-    .modal {
-      width: 100%;
-      max-width: 480px;
-      border-radius: 24px 24px 0 0;
-      padding: 18px 18px 22px;
-      background: radial-gradient(circle at top, #022c1f 0, #010b07 55%, #000 100%);
-      border-top: 1px solid rgba(74, 222, 128, 0.45);
-      box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.7);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .modal-close {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
     .modal-row {
       display: flex;
       justify-content: space-between;
@@ -454,25 +439,6 @@
       margin: 10px 0 14px;
     }
 
-    .pill {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      color: #e5e7eb;
-      background: rgba(15, 23, 42, 0.85);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .pill-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #22c55e;
-    }
-
     @media (min-width: 480px) {
       .app {
         padding-top: 20px;
@@ -480,6 +446,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="app">
     <header class="header">
@@ -487,7 +454,7 @@
         <div class="logo-badge">A</div>
         <div>
           <div class="app-name">AiSend</div>
-          <div class="app-sub">Chegarasiz to‘lovlar · demo</div>
+          <div class="app-sub">Chegarasiz to‘lovlar · demo UI</div>
         </div>
       </div>
       <button class="profile-btn" id="profileOpen">
@@ -496,604 +463,566 @@
       </button>
     </header>
 
-    <!-- BALANCE CARD + BARCHA AKTIVLAR -->
+    <div class="chip-row">
+      <div class="chip primary">AiSend · Super demo</div>
+      <div class="chip">Beta build</div>
+    </div>
+
+    <!-- TOTAL BALANCE CARD -->
     <section class="card">
-      <div class="balance-header-row">
+      <div class="card-header">
         <div>
-          <div class="balance-label">Total balance</div>
-          <div class="balance-main" id="totalBalance">12 540 000 UZS</div>
-          <div class="balance-sub">≈ 430 000 KZT · 105 USDT (demo)</div>
+          <div class="card-title">Total balance</div>
+          <p class="card-sub">Fiat · Crypto · Stock (demo qiymatlar)</p>
         </div>
-        <button class="balance-toggle-btn" id="balanceToggle">
-          Barcha aktivlar
-          <span class="arrow">▾</span>
-        </button>
       </div>
-      <div class="balance-details" id="balanceDetails">
-        <div class="asset-row">
-          <span class="label">Fiat (UZS + KZT)</span>
-          <span class="value">9 800 000 UZS<span class="tag">fiat</span></span>
+      <div class="total-amount" id="totalBalanceUsd">$0.00</div>
+      <div class="total-sub" id="totalBalanceBreakdown">
+        Fiat, Crypto va Stock qiymatlari USD/USDT ekvivalentida.
+      </div>
+
+      <div class="link-row">
+        <span>Barcha aktivlar</span>
+        <button id="openAssetsSheet">Ko‘rish</button>
+      </div>
+    </section>
+
+    <!-- MAIN MENU -->
+    <section class="card" style="margin-top: 4px;">
+      <div class="menu-grid">
+        <div class="menu-item main" id="openSendSheet">
+          <div class="menu-title">Send</div>
+          <div class="menu-sub">AiSend orqali tezkor pul yuborish</div>
         </div>
-        <div class="asset-row">
-          <span class="label">Crypto</span>
-          <span class="value">105 USDT<span class="tag">crypto</span></span>
+        <div class="menu-item" id="openExchangeSheet">
+          <div class="menu-title">Exchange</div>
+          <div class="menu-sub">UZS ↔ KZT ↔ KGS almashinuvi (demo)</div>
         </div>
-        <div class="asset-row">
-          <span class="label">Stocks</span>
-          <span class="value">1 250 USDT<span class="tag">stock</span></span>
+        <div class="menu-item" id="openCryptoSheet">
+          <div class="menu-title">Crypto</div>
+          <div class="menu-sub">USDT orqali demo balanslar</div>
+        </div>
+        <div class="menu-item" id="openStocksSheet">
+          <div class="menu-title">Stock</div>
+          <div class="menu-sub">AAPL, TSLA kabi demo aktivlar</div>
+        </div>
+        <div class="menu-item" id="openBorderlessSheet">
+          <div class="menu-title">Chegarasiz to‘lovlar</div>
+          <div class="menu-sub">Komunal, abonent va boshqalar (demo)</div>
         </div>
       </div>
     </section>
 
-    <!-- TAB MENU -->
-    <div class="main-tabs">
-      <button class="main-tab-btn active" data-tab="send">Send</button>
-      <button class="main-tab-btn" data-tab="exchange">Exchange</button>
-      <button class="main-tab-btn" data-tab="crypto">Crypto</button>
-      <button class="main-tab-btn" data-tab="stocks">Stocks</button>
-      <button class="main-tab-btn" data-tab="borderless">Chegarasiz to‘lovlar</button>
+    <p class="footer-note">
+      AiSend demo interfeysi. Fikr va takliflar — keyingi bosqichlar uchun asos bo‘ladi.
+    </p>
+  </div>
+<!-- BARCHA AKTIVLAR SHEET -->
+  <div class="sheet-bg" id="assetsSheetBg">
+    <div class="sheet">
+      <div class="sheet-header">
+        <div class="sheet-title">Barcha aktivlar</div>
+        <div class="sheet-close" data-close-sheet="assetsSheetBg">✕</div>
+      </div>
+
+      <p class="muted">Demo qiymatlar, real hisob-kitob emas.</p>
+
+      <p class="section-label">Fiat</p>
+      <div class="asset-row">
+        <span><strong>Fiat jami</strong></span>
+        <span id="fiatTotalUsd">$0.00</span>
+      </div>
+      <div class="asset-row">
+        <span>UZS</span>
+        <span id="fiatUzsRow">0 so‘m · $0.00</span>
+      </div>
+      <div class="asset-row">
+        <span>KZT</span>
+        <span id="fiatKztRow">0 ₸ · $0.00</span>
+      </div>
+
+      <p class="section-label">Crypto</p>
+      <div class="asset-row">
+        <span><strong>Crypto jami</strong></span>
+        <span id="cryptoTotalUsdt">0.00 USDT</span>
+      </div>
+      <div class="asset-row">
+        <span>BTC</span>
+        <span id="cryptoBtcRow">0 BTC · 0.00 USDT</span>
+      </div>
+      <div class="asset-row">
+        <span>TON</span>
+        <span id="cryptoTonRow">0 TON · 0.00 USDT</span>
+      </div>
+
+      <p class="section-label">Stock</p>
+      <div class="asset-row">
+        <span><strong>Stock jami</strong></span>
+        <span id="stockTotalUsdt">0.00 USDT</span>
+      </div>
+      <div class="asset-row">
+        <span>AAPL</span>
+        <span id="stockAaplRow">0 aks · 0.00 USDT</span>
+      </div>
+      <div class="asset-row">
+        <span>TSLA</span>
+        <span id="stockTslaRow">0 aks · 0.00 USDT</span>
+      </div>
     </div>
-
-    <main>
-      <!-- PAGE: SEND -->
-      <section id="page-send" class="page-section active">
-        <section class="card">
-          <div class="inline-badges" style="margin-bottom: 8px;">
-            <span class="inline-badge">AiSend → AiSend</span>
-            <span class="inline-badge">0% komissiya (demo)</span>
-          </div>
-          <div class="avatar-row">
-            <div class="avatar">AV</div>
-            <div>
-              <div class="avatar-text-main" id="friendName">Alisher Valiyev</div>
-              <div class="avatar-text-sub" id="friendPhone">+998 90 123 45 67</div>
-            </div>
-          </div>
-          <div class="field">
-            <label for="sendAmount">Miqdor</label>
-            <input id="sendAmount" type="number" inputmode="numeric" placeholder="Miqdor kiriting" />
-          </div>
-          <div class="field">
-            <label for="sendCurrency">Valyuta</label>
-            <select id="sendCurrency">
-              <option value="UZS" selected>UZS</option>
-              <option value="KZT">KZT</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="sendNote">Izoh (ixtiyoriy)</label>
-            <input id="sendNote" type="text" placeholder="Masalan: “Uyga pul”" />
-          </div>
-          <button class="btn" id="sendHoldBtn">
-            Yuborish uchun ushlab turing
-          </button>
-          <div class="send-status" id="sendStatus">
-            Demo: to‘lov yuborishga tayyor ✅
-          </div>
-        </section>
-      </section>
-<!-- PAGE: EXCHANGE -->
-      <section id="page-exchange" class="page-section">
-        <section class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-            <div>
-              <div style="font-size:18px;font-weight:600;">Valyuta almashish</div>
-              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
-                UZS balansdan KZT/KGS kartaga yo‘nalish (demo kurs).
-              </div>
-            </div>
-            <div class="pill">
-              <span class="pill-dot"></span>
-              <span id="rateModeLabel">Onlayn kurslar</span>
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="direction">Yo‘nalishni tanlang</label>
-            <select id="direction">
-              <option value="UZS_KZT" selected>UZS → KZT</option>
-              <option value="UZS_KGS">UZS → KGS</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="amount">Miqdor (UZS)</label>
-            <input id="amount" type="number" inputmode="numeric" placeholder="Miqdor kiriting" />
-          </div>
-
-          <div class="field" style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
-            <span style="font-size:13px;color:var(--text-muted);">
-              Onlayn kurslardan foydalanish
-            </span>
-            <label class="switch">
-              <input type="checkbox" id="liveToggle" checked />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <button class="btn" id="calcBtn">Hisoblash</button>
-
-          <div class="result-main" id="resultBox">0 UZS ≈ 0 KZT</div>
-          <div class="result-sub" id="baseRate">
-            1 UZS ≈ demo kurs
-          </div>
-          <div class="rate-error" id="rateError"></div>
-        </section>
-      </section>
-
-      <!-- PAGE: CRYPTO DEMO -->
-      <section id="page-crypto" class="page-section">
-        <section class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <div>
-              <div style="font-size:18px;font-weight:600;">Crypto wallet (demo)</div>
-              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
-                KYC va litsenziyadan so‘ng to‘liq ishga tushiriladi.
-              </div>
-            </div>
-            <span class="pill">
-              <span class="pill-dot"></span>
-              <span>Coming soon</span>
-            </span>
-          </div>
-
-          <div class="asset-row">
-            <span class="label">USDT</span>
-            <span class="value">105.00 USDT</span>
-          </div>
-          <div class="asset-row">
-            <span class="label">BTC</span>
-            <span class="value">0.0031 BTC</span>
-          </div>
-          <div class="asset-row">
-            <span class="label">TON</span>
-            <span class="value">42.0 TON</span>
-          </div>
-
-          <button class="btn-secondary" style="margin-top:12px;">
-            Crypto bo‘limi demo rejimida
-          </button>
-        </section>
-      </section>
-
-      <!-- PAGE: STOCKS DEMO -->
-      <section id="page-stocks" class="page-section">
-        <section class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <div>
-              <div style="font-size:18px;font-weight:600;">Stocks (demo)</div>
-              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
-                Global aksiyalar portfeli (demo maʼlumotlar).
-              </div>
-            </div>
-            <span class="pill">
-              <span class="pill-dot"></span>
-              <span>Demo</span>
-            </span>
-          </div>
-
-          <div class="asset-row">
-            <span class="label">AAPL</span>
-            <span class="value">1 000 USDT<span class="tag">+2.3%</span></span>
-          </div>
-          <div class="asset-row">
-            <span class="label">TSLA</span>
-            <span class="value">150 USDT<span class="tag">-1.1%</span></span>
-          </div>
-          <div class="asset-row">
-            <span class="label">NVDA</span>
-            <span class="value">100 USDT<span class="tag">+4.5%</span></span>
-          </div>
-
-          <button class="btn-secondary" style="margin-top:12px;">
-            Stock bo‘limi demo rejimida
-          </button>
-        </section>
-      </section>
-
-      <!-- PAGE: CHEGARASIZ TO'LOVLAR -->
-      <section id="page-borderless" class="page-section">
-        <section class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <div>
-              <div style="font-size:18px;font-weight:600;">Chegarasiz to‘lovlar</div>
-              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
-                Chet eldan turib O‘zbekistondagi komunal to‘lovlarni to‘lash (demo).
-              </div>
-            </div>
-            <span class="pill">
-              <span class="pill-dot"></span>
-              <span>Beta idea</span>
-            </span>
-          </div>
-
-          <div class="field">
-            <label for="b_fromCountry">Qaysi davlatdansiz?</label>
-            <select id="b_fromCountry">
-              <option value="RU" selected>Rossiya (RUB bilan)</option>
-              <option value="KZ">Qozog‘iston (KZT)</option>
-              <option value="TR">Turkiya (TRY)</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="b_toService">O‘zbekistonda qaysi to‘lov?</label>
-            <select id="b_toService">
-              <option value="electric" selected>Elektr energiya</option>
-              <option value="gas">Gaz</option>
-              <option value="water">Suv</option>
-              <option value="internet">Internet</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="b_account">Shaxsiy hisob / ID</label>
-            <input id="b_account" type="text" placeholder="Masalan, hisob raqam / abonent ID" />
-          </div>
-
-          <div class="field">
-            <label for="b_amount">To‘lov summasi (UZS)</label>
-            <input id="b_amount" type="number" inputmode="numeric" placeholder="Masalan, 150000" />
-          </div>
-
-          <div class="field">
-            <label for="b_currency">Qaysi valyutada to‘laysiz?</label>
-            <select id="b_currency">
-              <option value="RUB" selected>RUB (Rossiya)</option>
-              <option value="KZT">KZT (Qozog‘iston)</option>
-              <option value="TRY">TRY (Turkiya)</option>
-            </select>
-          </div>
-
-          <button class="btn" id="borderlessBtn">
-            To‘lovni tasdiqlash
-          </button>
-          <div class="send-status" id="borderlessStatus">
-            Demo: komissiya va konvertatsiya faqat ko‘rsatma sifatida hisoblanadi.
-          </div>
-        </section>
-      </section>
-
-      <p class="footer-note">
-        AiSend super demo interfeysi. Barcha kurslar va to‘lovlar test rejimida.
-      </p>
-    </main>
   </div>
 
-  <!-- PROFILE MODAL -->
-  <div class="modal-bg" id="profileBg">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-title">Telegram profil</div>
-        <div class="modal-close" id="profileClose">✕</div>
+  <!-- SEND SHEET -->
+  <div class="sheet-bg" id="sendSheetBg">
+    <div class="sheet">
+      <div class="sheet-header">
+        <div class="sheet-title">Send</div>
+        <div class="sheet-close" data-close-sheet="sendSheetBg">✕</div>
       </div>
 
-      <div class="modal-row">
-        <label>Ism:</label>
-        <span id="pf_name">-</span>
+      <div class="badge-row">
+        <span class="badge">AiSend ichida yuborish</span>
+        <span class="badge">0% demo komissiya</span>
       </div>
+
+      <div class="field">
+        <label for="sendToType">Qabul qiluvchi turi</label>
+        <select id="sendToType">
+          <option value="username">@username</option>
+          <option value="card">Karta raqami</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="sendTo">Qabul qiluvchi (@user yoki karta)</label>
+        <input id="sendTo" type="text" placeholder="@username yoki karta raqami" />
+      </div>
+
+      <div class="field">
+        <label for="sendAmount">Miqdor</label>
+        <input id="sendAmount" type="number" inputmode="numeric" placeholder="Miqdor kiriting" />
+      </div>
+
+      <div class="field">
+        <label for="sendCurrency">Valyuta</label>
+        <select id="sendCurrency">
+          <option value="UZS" selected>UZS</option>
+          <option value="KZT">KZT</option>
+          <option value="USD">USD</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="sendNote">Izoh (ixtiyoriy)</label>
+        <input id="sendNote" type="text" placeholder="Masalan: Uyga pul" />
+      </div>
+
+      <button class="btn" id="sendConfirmBtn">
+        Yuborishni tasdiqlash
+      </button>
+      <div class="send-status" id="sendStatus">
+        Demo: to‘lov tayyor, lekin real yuborilmaydi.
+      </div>
+    </div>
+  </div>
+
+  <!-- EXCHANGE SHEET -->
+  <div class="sheet-bg" id="exchangeSheetBg">
+    <div class="sheet">
+      <div class="sheet-header">
+        <div class="sheet-title">Exchange</div>
+        <div class="sheet-close" data-close-sheet="exchangeSheetBg">✕</div>
+      </div>
+
+      <p class="muted">UZS balansni KZT / KGS ga almashtirish (demo kurslar).</p>
+
+      <div class="field">
+        <label for="exDirection">Yo‘nalish</label>
+        <select id="exDirection">
+          <option value="UZS_KZT" selected>UZS → KZT</option>
+          <option value="UZS_KGS">UZS → KGS</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="exAmount">Miqdor (UZS)</label>
+        <input id="exAmount" type="number" inputmode="numeric" placeholder="UZS miqdor kiriting" />
+      </div>
+
+      <button class="btn" id="exCalcBtn">Hisoblash</button>
+
+      <div class="asset-row" style="margin-top: 10px;">
+        <span>Natija</span>
+        <span id="exResultText">0 UZS ≈ 0 KZT</span>
+      </div>
+      <div class="muted" id="exBaseRate">
+        1 UZS ≈ demo kurs
+      </div>
+    </div>
+  </div>
+
+  <!-- CRYPTO SHEET -->
+  <div class="sheet-bg" id="cryptoSheetBg">
+    <div class="sheet">
+      <div class="sheet-header">
+        <div class="sheet-title">Crypto (demo)</div>
+        <div class="sheet-close" data-close-sheet="cryptoSheetBg">✕</div>
+      </div>
+
+      <p class="muted">Bu bo‘lim hozircha faqat demo ko‘rinishida.</p>
+
+      <div class="asset-row">
+        <span>Crypto jami</span>
+        <span id="cryptoSheetTotal">0.00 USDT</span>
+      </div>
+
+      <p class="section-label">Aktivlar</p>
+      <div class="asset-row">
+        <span>BTC</span>
+        <span id="cryptoSheetBtc">0 BTC · 0.00 USDT</span>
+      </div>
+      <div class="asset-row">
+        <span>TON</span>
+        <span id="cryptoSheetTon">0 TON · 0.00 USDT</span>
+      </div>
+
+      <button class="btn-secondary" style="margin-top: 12px;">
+        Crypto sotib olish (tez orada)
+      </button>
+    </div>
+  </div>
+
+  <!-- STOCK SHEET -->
+  <div class="sheet-bg" id="stocksSheetBg">
+    <div class="sheet">
+      <div class="sheet-header">
+        <div class="sheet-title">Stock (demo)</div>
+        <div class="sheet-close" data-close-sheet="stocksSheetBg">✕</div>
+      </div>
+
+      <p class="muted">USDT ekvivalentida demo aksiyalar.</p>
+
+      <div class="asset-row">
+        <span>Stock jami</span>
+        <span id="stocksSheetTotal">0.00 USDT</span>
+      </div>
+
+      <p class="section-label">Aktivlar</p>
+      <div class="asset-row">
+        <span>AAPL</span>
+        <span id="stocksSheetAapl">0 aks · 0.00 USDT</span>
+      </div>
+      <div class="asset-row">
+        <span>TSLA</span>
+        <span id="stocksSheetTsla">0 aks · 0.00 USDT</span>
+      </div>
+
+      <button class="btn-secondary" style="margin-top: 12px;">
+        Stock savdo (tez orada)
+      </button>
+    </div>
+  </div>
+
+  <!-- CHEGARASIZ TO'LOVLAR SHEET -->
+  <div class="sheet-bg" id="borderlessSheetBg">
+    <div class="sheet">
+      <div class="sheet-header">
+        <div class="sheet-title">Chegarasiz to‘lovlar (demo)</div>
+        <div class="sheet-close" data-close-sheet="borderlessSheetBg">✕</div>
+      </div>
+
+      <p class="muted">
+        Masalan, Rossiyada turib O‘zbekistondagi komunal to‘lovlarni rublda to‘lash (demo).
+      </p>
+
+      <div class="field">
+        <label for="billCountry">To‘lov davlati</label>
+        <select id="billCountry">
+          <option value="UZB">O‘zbekiston</option>
+          <option value="KZ">Qozog‘iston</option>
+          <option value="KG">Qirg‘iziston</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="billType">To‘lov turi</label>
+        <select id="billType">
+          <option value="electric">Svet</option>
+          <option value="gas">Gaz</option>
+          <option value="internet">Internet</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="billAmount">Miqdor (mahalliy valyutada)</label>
+        <input id="billAmount" type="number" inputmode="numeric" placeholder="Masalan: 120 000 UZS" />
+      </div>
+
+      <button class="btn-secondary">
+        Demo: hisoblash (tez orada)
+      </button>
+    </div>
+  </div>
+
+  <!-- PROFILE SHEET -->
+  <div class="sheet-bg" id="profileBg">
+    <div class="sheet">
+      <div class="sheet-header">
+        <div class="sheet-title">Telegram profil</div>
+        <div class="sheet-close" data-close-sheet="profileBg">✕</div>
+      </div>
+
+      <div class="avatar-row">
+        <div class="avatar" id="pf_avatarLetter">A</div>
+        <div>
+          <div class="avatar-text-main" id="pf_name">-</div>
+          <div class="avatar-text-sub" id="pf_username">@-</div>
+        </div>
+      </div>
+
       <div class="modal-row">
         <label>ID:</label>
         <span id="pf_id">-</span>
       </div>
-      <div class="modal-row">
-        <label>Username:</label>
-        <span id="pf_username">-</span>
-      </div>
 
       <div class="modal-separator"></div>
 
-      <button class="btn-secondary" style="margin-top: 4px;">
+      <button class="btn-secondary">
         Sozlamalar (tez orada)
       </button>
-      <button class="btn" style="margin-top: 10px; background: #f97373; color:#450a0a; box-shadow:none;">
-        Chiqish (tez orada)
+      <button class="btn" style="margin-top: 10px; background:#f97373; color:#450a0a; box-shadow:none;">
+        Chiqish (demo)
       </button>
     </div>
   </div>
 <script>
-    // Format helper
-    function fmt(num) {
-      return Number(num).toLocaleString("uz-UZ", {
+    // ===== DEMO BALANSLAR =====
+    const DEMO_FIAT = {
+      UZS: 1200000, // 1.2 mln so'm
+      KZT: 50000    // 50 ming tenge
+    };
+
+    const DEMO_FIAT_TO_USD = {
+      UZS: 0.00008, // so'm -> USD (demo)
+      KZT: 0.0020   // tenge -> USD (demo)
+    };
+
+    const DEMO_CRYPTO = {
+      BTC: { amount: 0.016, usdtPrice: 65000 }, // 1 BTC = 65k USDT (demo)
+      TON: { amount: 27, usdtPrice: 5 }         // 1 TON = 5 USDT (demo)
+    };
+
+    const DEMO_STOCK = {
+      AAPL: { shares: 3, usdtPrice: 200 },
+      TSLA: { shares: 1.5, usdtPrice: 260 }
+    };
+
+    function fmtUsd(x) {
+      return "$" + Number(x).toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       });
     }
 
-    // ==== TABLAR ====
-    function setupTabs() {
-      const buttons = document.querySelectorAll(".main-tab-btn");
-      const sections = document.querySelectorAll(".page-section");
+    function fmtUsdt(x) {
+      return Number(x).toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }) + " USDT";
+    }
 
-      buttons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const tab = btn.dataset.tab;
-          buttons.forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
+    function fmtNum(x) {
+      return Number(x).toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
 
-          sections.forEach((sec) => {
-            if (sec.id === "page-" + tab) {
-              sec.classList.add("active");
-            } else {
-              sec.classList.remove("active");
-            }
-          });
+    function setupBalances() {
+      // FIAT
+      const uzsUsd = DEMO_FIAT.UZS * DEMO_FIAT_TO_USD.UZS;
+      const kztUsd = DEMO_FIAT.KZT * DEMO_FIAT_TO_USD.KZT;
+      const fiatTotal = uzsUsd + kztUsd;
+
+      // CRYPTO
+      const btcUsdt = DEMO_CRYPTO.BTC.amount * DEMO_CRYPTO.BTC.usdtPrice;
+      const tonUsdt = DEMO_CRYPTO.TON.amount * DEMO_CRYPTO.TON.usdtPrice;
+      const cryptoTotal = btcUsdt + tonUsdt;
+
+      // STOCK
+      const aaplUsdt = DEMO_STOCK.AAPL.shares * DEMO_STOCK.AAPL.usdtPrice;
+      const tslaUsdt = DEMO_STOCK.TSLA.shares * DEMO_STOCK.TSLA.usdtPrice;
+      const stockTotal = aaplUsdt + tslaUsdt;
+
+      // Total balance (hammasini USDga teng deb olamiz: USDT ~ USD)
+      const grandTotal = fiatTotal + cryptoTotal + stockTotal;
+
+      // Asosiy karta
+      document.getElementById("totalBalanceUsd").textContent = fmtUsd(grandTotal);
+      document.getElementById("totalBalanceBreakdown").textContent =
+        `Fiat: ${fmtUsd(fiatTotal)} · Crypto: ${fmtUsdt(cryptoTotal)} · Stock: ${fmtUsdt(stockTotal)}`;
+
+      // Assets sheet — fiat
+      document.getElementById("fiatTotalUsd").textContent = fmtUsd(fiatTotal);
+      document.getElementById("fiatUzsRow").textContent =
+        `${DEMO_FIAT.UZS.toLocaleString("uz-UZ")} so‘m · ${fmtUsd(uzsUsd)}`;
+      document.getElementById("fiatKztRow").textContent =
+        `${DEMO_FIAT.KZT.toLocaleString("en-US")} ₸ · ${fmtUsd(kztUsd)}`;
+
+      // Assets sheet — crypto
+      document.getElementById("cryptoTotalUsdt").textContent = fmtUsdt(cryptoTotal);
+      document.getElementById("cryptoBtcRow").textContent =
+        `${DEMO_CRYPTO.BTC.amount} BTC · ${fmtUsdt(btcUsdt)}`;
+      document.getElementById("cryptoTonRow").textContent =
+        `${DEMO_CRYPTO.TON.amount} TON · ${fmtUsdt(tonUsdt)}`;
+
+      // Crypto sheet
+      document.getElementById("cryptoSheetTotal").textContent = fmtUsdt(cryptoTotal);
+      document.getElementById("cryptoSheetBtc").textContent =
+        `${DEMO_CRYPTO.BTC.amount} BTC · ${fmtUsdt(btcUsdt)}`;
+      document.getElementById("cryptoSheetTon").textContent =
+        `${DEMO_CRYPTO.TON.amount} TON · ${fmtUsdt(tonUsdt)}`;
+
+      // Stock
+      document.getElementById("stockTotalUsdt").textContent = fmtUsdt(stockTotal);
+      document.getElementById("stockAaplRow").textContent =
+        `${DEMO_STOCK.AAPL.shares} aks · ${fmtUsdt(aaplUsdt)}`;
+      document.getElementById("stockTslaRow").textContent =
+        `${DEMO_STOCK.TSLA.shares} aks · ${fmtUsdt(tslaUsdt)}`;
+
+      // Stock sheet
+      document.getElementById("stocksSheetTotal").textContent = fmtUsdt(stockTotal);
+      document.getElementById("stocksSheetAapl").textContent =
+        `${DEMO_STOCK.AAPL.shares} aks · ${fmtUsdt(aaplUsdt)}`;
+      document.getElementById("stocksSheetTsla").textContent =
+        `${DEMO_STOCK.TSLA.shares} aks · ${fmtUsdt(tslaUsdt)}`;
+    }
+
+    // ==== SHEET OPEN/CLOSE ====
+    function openSheet(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add("active");
+    }
+    function closeSheet(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove("active");
+    }
+
+    function setupSheetTriggers() {
+      document.getElementById("openAssetsSheet").addEventListener("click", () => openSheet("assetsSheetBg"));
+      document.getElementById("openSendSheet").addEventListener("click", () => openSheet("sendSheetBg"));
+      document.getElementById("openExchangeSheet").addEventListener("click", () => openSheet("exchangeSheetBg"));
+      document.getElementById("openCryptoSheet").addEventListener("click", () => openSheet("cryptoSheetBg"));
+      document.getElementById("openStocksSheet").addEventListener("click", () => openSheet("stocksSheetBg"));
+      document.getElementById("openBorderlessSheet").addEventListener("click", () => openSheet("borderlessSheetBg"));
+      document.getElementById("profileOpen").addEventListener("click", () => openSheet("profileBg"));
+
+      // Close buttons
+      document.querySelectorAll(".sheet-close").forEach((btn) => {
+        const id = btn.getAttribute("data-close-sheet");
+        if (!id) return;
+        btn.addEventListener("click", () => closeSheet(id));
+      });
+
+      // Background click to close
+      document.querySelectorAll(".sheet-bg").forEach((bg) => {
+        bg.addEventListener("click", (e) => {
+          if (e.target === bg) {
+            bg.classList.remove("active");
+          }
         });
       });
     }
 
-    // ==== BALANCE TOGGLE ====
-    function setupBalanceToggle() {
-      const toggleBtn = document.getElementById("balanceToggle");
-      const details = document.getElementById("balanceDetails");
-      if (!toggleBtn || !details) return;
+    // ==== SEND LOGIKA ====
+    function setupSend() {
+      const btn = document.getElementById("sendConfirmBtn");
+      const statusEl = document.getElementById("sendStatus");
+      const toTypeEl = document.getElementById("sendToType");
+      const toEl = document.getElementById("sendTo");
+      const amountEl = document.getElementById("sendAmount");
+      const curEl = document.getElementById("sendCurrency");
+      const noteEl = document.getElementById("sendNote");
 
-      toggleBtn.addEventListener("click", () => {
-        const isOpen = details.classList.toggle("open");
-        toggleBtn.classList.toggle("open", isOpen);
+      btn.addEventListener("click", () => {
+        const ttype = toTypeEl.value;
+        const to = (toEl.value || "").trim();
+        const amountRaw = (amountEl.value || "").trim();
+        const amount = parseFloat(amountRaw.replace(",", "."));
+        const cur = curEl.value;
+        const note = (noteEl.value || "").trim();
+
+        if (!to) {
+          statusEl.classList.add("err");
+          statusEl.textContent = "Qabul qiluvchi kiritilmadi.";
+          return;
+        }
+        if (!amountRaw || isNaN(amount) || amount <= 0) {
+          statusEl.classList.add("err");
+          statusEl.textContent = "Miqdor noto‘g‘ri kiritilgan.";
+          return;
+        }
+
+        const toLabel = ttype === "username" ? "foydalanuvchi" : "karta";
+        const notePart = note ? ` · Izoh: “${note}”` : "";
+
+        statusEl.classList.remove("err");
+        statusEl.textContent =
+          `Demo: ${fmtNum(amount)} ${cur} ${toLabel} ${to} ga yuborildi ✅${notePart}`;
       });
     }
 
-    // ==== EXCHANGE (UZS → KZT/KGS) ====
+    // ==== EXCHANGE LOGIKA (UZS -> KZT/KGS DEMO) ====
     const DEMO_RATES = {
       UZS_KZT: 0.04,
       UZS_KGS: 0.007
     };
 
-    let lastOnlineRates = {};
-    let lastOnlineOk = false;
+    function setupExchange() {
+      const dirEl = document.getElementById("exDirection");
+      const amtEl = document.getElementById("exAmount");
+      const resEl = document.getElementById("exResultText");
+      const baseEl = document.getElementById("exBaseRate");
+      const btn = document.getElementById("exCalcBtn");
 
-    function updateBaseRateLabel(code, rate, source) {
-      const baseRateEl = document.getElementById("baseRate");
-      let quote = "";
-      if (code === "UZS_KZT") quote = "KZT";
-      else if (code === "UZS_KGS") quote = "KGS";
-      const srcText = source === "online" ? "onlayn API" : "demo kurs";
-      if (baseRateEl) {
-        baseRateEl.textContent = `1 UZS ≈ ${fmt(rate)} ${quote} (${srcText})`;
-      }
-    }
-
-    async function fetchOnlineRates() {
-      try {
-        const res = await fetch(
-          "https://api.exchangerate.host/latest?base=UZS&symbols=KZT,KGS"
-        );
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        const data = await res.json();
-        if (!data || !data.rates) throw new Error("Bad payload");
-        const kzt = data.rates.KZT;
-        const kgs = data.rates.KGS;
-        if (!kzt || !kgs) throw new Error("No symbols");
-
-        lastOnlineRates = {
-          UZS_KZT: kzt,
-          UZS_KGS: kgs
-        };
-        lastOnlineOk = true;
-        const errEl = document.getElementById("rateError");
-        if (errEl) errEl.textContent = "";
-        return lastOnlineRates;
-      } catch (e) {
-        console.log("Rate fetch error:", e);
-        lastOnlineOk = false;
-        const errEl = document.getElementById("rateError");
-        if (errEl) {
-          errEl.textContent =
-            "Onlayn kurs yuklanmadi. Demo kurs ishlatiladi.";
-        }
-        return null;
-      }
-    }
-
-    async function recalc() {
-      const amountEl = document.getElementById("amount");
-      const directionEl = document.getElementById("direction");
-      const toggleEl = document.getElementById("liveToggle");
-      const resultEl = document.getElementById("resultBox");
-
-      if (!amountEl || !directionEl || !toggleEl || !resultEl) return;
-
-      const raw = amountEl.value.trim();
-      const amt = parseFloat(raw.replace(",", "."));
-      const dir = directionEl.value;
-
-      if (!raw || isNaN(amt) || amt <= 0) {
-        resultEl.textContent = `0 UZS ≈ 0 KZT`;
-        return;
-      }
-
-      let source = "demo";
-      let rate = DEMO_RATES[dir] || 0.04;
-
-      if (toggleEl.checked) {
-        if (!lastOnlineOk) {
-          await fetchOnlineRates();
-        }
-        if (lastOnlineOk && lastOnlineRates[dir]) {
-          rate = lastOnlineRates[dir];
-          source = "online";
-        } else {
-          source = "demo";
-        }
-      }
-
-      const quote = dir === "UZS_KZT" ? "KZT" : "KGS";
-      const result = amt * rate;
-
-      resultEl.textContent = `${fmt(amt)} UZS ≈ ${fmt(result)} ${quote}`;
-      updateBaseRateLabel(dir, rate, source);
-    }
-
-    function setupCalcUI() {
-      const calcBtn = document.getElementById("calcBtn");
-      const amountEl = document.getElementById("amount");
-      const directionEl = document.getElementById("direction");
-      const toggleEl = document.getElementById("liveToggle");
-      const modeLabel = document.getElementById("rateModeLabel");
-
-      if (!calcBtn || !amountEl || !directionEl || !toggleEl) return;
-
-      toggleEl.addEventListener("change", () => {
-        if (modeLabel) {
-          modeLabel.textContent = toggleEl.checked
-            ? "Onlayn kurslar"
-            : "Demo kurslar";
-        }
-        recalc();
-      });
-
-      directionEl.addEventListener("change", recalc);
-      amountEl.addEventListener("input", recalc);
-
-      calcBtn.addEventListener("click", async () => {
-        const oldText = calcBtn.textContent;
-        calcBtn.classList.add("btn-loading");
-        calcBtn.textContent = "Hisoblanmoqda...";
-        await recalc();
-        setTimeout(() => {
-          calcBtn.classList.remove("btn-loading");
-          calcBtn.textContent = oldText;
-        }, 400);
-      });
-
-      updateBaseRateLabel("UZS_KZT", DEMO_RATES["UZS_KZT"], "demo");
-      recalc();
-    }
-
-    // ==== SEND MONEY HOLD-TO-SEND ====
-    function setupSendMoney() {
-      const btn = document.getElementById("sendHoldBtn");
-      const amtEl = document.getElementById("sendAmount");
-      const curEl = document.getElementById("sendCurrency");
-      const noteEl = document.getElementById("sendNote");
-      const statusEl = document.getElementById("sendStatus");
-
-      if (!btn || !amtEl || !curEl || !noteEl || !statusEl) return;
-
-      let holdTimer = null;
-      let isHolding = false;
-
-      function resetStatus() {
-        statusEl.classList.remove("err");
-        statusEl.textContent = "Demo: to‘lov yuborishga tayyor ✅";
-      }
-
-      function startHold() {
-        if (isHolding) return;
-        isHolding = true;
-        btn.classList.add("btn-loading");
-        btn.textContent = "Ushlab turilmoqda...";
-
-        holdTimer = setTimeout(() => {
-          const rawAmt = amtEl.value.trim();
-          const amt = parseFloat(rawAmt.replace(",", "."));
-          const cur = curEl.value;
-          const note = noteEl.value.trim();
-
-          if (!rawAmt || isNaN(amt) || amt <= 0) {
-            statusEl.classList.add("err");
-            statusEl.textContent =
-              "Miqdor kiritilmadi. Demo: to‘lov bekor qilindi.";
-          } else {
-            statusEl.classList.remove("err");
-            const notePart = note ? ` · Izoh: “${note}”` : "";
-            statusEl.textContent =
-              `Demo: ${fmt(amt)} ${cur} yuborildi ✅${notePart}`;
-          }
-
-          btn.classList.remove("btn-loading");
-          btn.textContent = "Yuborish uchun ushlab turing";
-          isHolding = false;
-        }, 900);
-      }
-
-      function cancelHold() {
-        if (!isHolding) return;
-        clearTimeout(holdTimer);
-        btn.classList.remove("btn-loading");
-        btn.textContent = "Yuborish uchun ushlab turing";
-        isHolding = false;
-        resetStatus();
-      }
-
-      btn.addEventListener("mousedown", startHold);
-      btn.addEventListener("touchstart", startHold);
-      btn.addEventListener("mouseup", cancelHold);
-      btn.addEventListener("mouseleave", cancelHold);
-      btn.addEventListener("touchend", cancelHold);
-      btn.addEventListener("touchcancel", cancelHold);
-
-      resetStatus();
-    }
-
-    // ==== CHEGARASIZ TO'LOVLAR DEMO ====
-    function setupBorderless() {
-      const btn = document.getElementById("borderlessBtn");
-      const statusEl = document.getElementById("borderlessStatus");
-      const fromEl = document.getElementById("b_fromCountry");
-      const toEl = document.getElementById("b_toService");
-      const accEl = document.getElementById("b_account");
-      const amtEl = document.getElementById("b_amount");
-      const curEl = document.getElementById("b_currency");
-
-      if (!btn || !statusEl || !fromEl || !toEl || !accEl || !amtEl || !curEl) return;
-
-      btn.addEventListener("click", () => {
-        const rawAmt = amtEl.value.trim();
-        const amt = parseFloat(rawAmt.replace(",", "."));
-        const acc = accEl.value.trim();
-
-        if (!rawAmt || isNaN(amt) || amt <= 0 || !acc) {
-          statusEl.classList.add("err");
-          statusEl.textContent =
-            "Summani va hisob raqamni to‘ldiring (demo).";
+      function recalc() {
+        const raw = (amtEl.value || "").trim();
+        const amt = parseFloat(raw.replace(",", "."));
+        const dir = dirEl.value;
+        if (!raw || isNaN(amt) || amt <= 0) {
+          resEl.textContent = "0 UZS ≈ 0 KZT";
+          baseEl.textContent = "1 UZS ≈ demo kurs";
           return;
         }
+        let rate = DEMO_RATES[dir] || DEMO_RATES.UZS_KZT;
+        const quote = dir === "UZS_KZT" ? "KZT" : "KGS";
+        const result = amt * rate;
+        resEl.textContent = `${fmtNum(amt)} UZS ≈ ${fmtNum(result)} ${quote}`;
+        baseEl.textContent = `1 UZS ≈ ${fmtNum(rate)} ${quote} (demo kurs)`;
+      }
 
-        statusEl.classList.remove("err");
-
-        // oddiy: 1% konvertatsiya + 1% komissiya
-        const totalFeePercent = 0.02;
-        const feeAmt = amt * totalFeePercent;
-        const final = amt + feeAmt;
-
-        statusEl.textContent =
-          `Demo: ~${fmt(final)} UZS ekv. bilan ` +
-          `${curEl.value}da to‘lov yuboriladi (2% umumiy komissiya).`;
-      });
+      btn.addEventListener("click", recalc);
+      dirEl.addEventListener("change", recalc);
+      amtEl.addEventListener("input", recalc);
     }
-// ==== PROFILE MODAL & TELEGRAM USER ====
+
+    // ==== PROFILE TELEGRAM WEBAPP INTEGRATSIYA ====
     function initProfileSheet() {
-      const bg = document.getElementById("profileBg");
-      const openBtn = document.getElementById("profileOpen");
-      const closeBtn = document.getElementById("profileClose");
-      const pfName = document.getElementById("pf_name");
-      const pfId = document.getElementById("pf_id");
-      const pfUsername = document.getElementById("pf_username");
+      const nameEl = document.getElementById("pf_name");
+      const idEl = document.getElementById("pf_id");
+      const userEl = document.getElementById("pf_username");
+      const avatarLetter = document.getElementById("pf_avatarLetter");
 
-      if (!bg || !openBtn || !closeBtn) return;
+      let tgId = null;
+      let tgName = null;
+      let tgUsername = null;
 
-      function open() {
-        bg.classList.add("active");
-      }
-      function close() {
-        bg.classList.remove("active");
-      }
-
-      openBtn.addEventListener("click", open);
-      closeBtn.addEventListener("click", close);
-      bg.addEventListener("click", (e) => {
-        if (e.target === bg) close();
-      });
-
-      // 1) URL parametrlaridan o‘qish
+      // 1) URL query
       const params = new URLSearchParams(window.location.search);
-      let tgId = params.get("tg_id");
-      let tgName = params.get("tg_name");
-      let tgUsername = params.get("tg_username");
+      tgId = params.get("tg_id");
+      tgName = params.get("tg_name");
+      tgUsername = params.get("tg_username");
 
-      // 2) Agar bo‘sh bo‘lsa, Telegram WebApp.initDataUnsafe dan olish
+      // 2) Agar bo'sh bo'lsa - Telegram WebApp orqali
       try {
         if (
           (!tgId || !tgName) &&
@@ -1114,9 +1043,12 @@
         console.log("Telegram user data error:", e);
       }
 
-      pfName.textContent = tgName || "-";
-      pfId.textContent = tgId || "-";
-      pfUsername.textContent = tgUsername ? "@" + tgUsername : "-";
+      nameEl.textContent = tgName || "-";
+      idEl.textContent = tgId || "-";
+      userEl.textContent = tgUsername ? "@" + tgUsername : "-";
+
+      const firstLetter = (tgName || "A").trim().charAt(0).toUpperCase();
+      avatarLetter.textContent = firstLetter || "A";
 
       try {
         if (window.Telegram && Telegram.WebApp) {
@@ -1129,13 +1061,13 @@
     }
 
     window.addEventListener("load", () => {
-      setupTabs();
-      setupBalanceToggle();
-      setupCalcUI();
-      setupSendMoney();
-      setupBorderless();
+      setupBalances();
+      setupSheetTriggers();
+      setupSend();
+      setupExchange();
       initProfileSheet();
     });
   </script>
 </body>
 </html>
+
