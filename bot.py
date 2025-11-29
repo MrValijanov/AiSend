@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import os
 import logging
 from urllib.parse import urlencode
@@ -15,66 +14,49 @@ from telegram.ext import (
     ContextTypes,
 )
 
-# 🔐 Token faqat environmentdan olinadi
+# Tokenni faqat Termux environment’dan olamiz
 BOT_TOKEN = os.getenv("AISEND_BOT_TOKEN")
-
 if not BOT_TOKEN:
-    raise RuntimeError(
-        "AISEND_BOT_TOKEN topilmadi. Termux’da export AISEND_BOT_TOKEN=... qilib qo‘yganingni tekshir."
-    )
+    raise Exception("❌ BOT TOKEN TOPILMADI. Termuxga export qilmagansiz.")
 
-WEB_APP_BASE_URL = "https://ai-send.vercel.app"
+WEB_APP_URL = "https://ai-send.vercel.app"
 
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    level=logging.INFO
 )
-logger = logging.getLogger(__name__)
 
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user = update.effective_user
 
-    first = (user.first_name or "").strip()
-    last = (user.last_name or "").strip()
-    full_name = (first + " " + last).strip() or "foydalanuvchi"
-    username = user.username or ""
-    tg_id = user.id
+    params = urlencode({
+        "tg_id": user.id,
+        "tg_name": user.first_name or "",
+        "tg_username": user.username or ""
+    })
 
-    params = {
-        "tg_id": str(tg_id),
-        "tg_name": full_name,
-        "tg_username": username,
-    }
-    full_url = f"{WEB_APP_BASE_URL}?{urlencode(params)}"
-
-    text = (
-        f"Salom, {full_name}! 👋\n\n"
-        "AiSend mini appni ochish uchun tugmani bosing 👇"
-    )
+    open_url = f"{WEB_APP_URL}?{params}"
 
     keyboard = [
         [
             InlineKeyboardButton(
                 "AiSend mini app ni ochish",
-                web_app=WebAppInfo(url=full_url),
+                web_app=WebAppInfo(url=open_url)
             )
         ]
     ]
 
     await update.message.reply_text(
-        text,
-        reply_markup=InlineKeyboardMarkup(keyboard),
+        f"Salom, {user.first_name}! AiSend mini appni oching 👇",
+        reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
-    logger.info("Start yubordi: id=%s, name=%s, username=%s", tg_id, full_name, username)
 
-
-def main() -> None:
-    logger.info("AiSend bot ishga tushmoqda...")
+def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
-    logger.info("AiSend bot ishga tushdi. /start kutyapmiz...")
+
     app.run_polling()
 
 
