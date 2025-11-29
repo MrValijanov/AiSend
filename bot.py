@@ -1,38 +1,31 @@
 import os
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, WebAppInfo, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes
-import logging
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+TOKEN = os.environ.get("AISEND_BOT_TOKEN")
 
-BOT_TOKEN = os.getenv("AISEND_BOT_TOKEN")
-
-MAIN_APP_URL = "https://mrvalijanov.github.io/AiSend/"  # <-- SENING MINI APP URLING
+WEBAPP_URL = "https://ai-send.vercel.app"   # <-- FAQAT SHU!!! 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user = update.effective_user
+    keyboard = [
+        [InlineKeyboardButton("AiSend mini app ni ochish", web_app=WebAppInfo(WEBAPP_URL))]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
 
     await update.message.reply_text(
-        f"Salom, {user.full_name}! 👋\n\n"
-        "AiSend mini appni ochish uchun tugmani bosing 👇",
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("AiSend mini app ni ochish", url=MAIN_APP_URL)]
-        ])
+        text=f"Salom, {update.effective_user.first_name}! 👋\n\n"
+             f"AiSend mini appni ochish uchun tugmani bosing 👇",
+        reply_markup=reply_markup
     )
 
 async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("👤 Hozircha statistik ma’lumot yo‘q.")
+    await update.message.reply_text("Statistika hozircha mavjud emas.")
 
 def main():
-    app = Application.builder().token(BOT_TOKEN).build()
-
+    print("🚀 AiSend bot ishga tushdi...")
+    app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("stats", stats))
-
-    logging.info("🚀 AiSend bot ishga tushdi...")
     app.run_polling()
 
 if __name__ == "__main__":
