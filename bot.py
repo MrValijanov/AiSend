@@ -1,62 +1,63 @@
-from urllib.parse import urlencode
-
+import os
+import logging
 from telegram import (
     Update,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
+    ReplyKeyboardMarkup,
+    ReplyKeyboardRemove,
+    KeyboardButton,
     WebAppInfo,
 )
 from telegram.ext import (
-    ApplicationBuilder,
+    Application,
     CommandHandler,
     ContextTypes,
 )
 
-# ⬇️ Bu yerga o'zingning bot tokeningni qo'y
-BOT_TOKEN = "8209682714:AAGugkQ5V9XMch4FENouU4zj6ekwjQN4npU"
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
+logger = logging.getLogger(__name__)
 
-# Web app manzili (Vercel)
-WEB_APP_BASE_URL = "https://ai-send.vercel.app"
+# 🚫 Hardcode yo‘q, faqat muhitdan o‘qiyapmiz
+BOT_TOKEN = os.getenv("AISEND_BOT_TOKEN")
 
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user = update.effective_user
-
-    # Foydalanuvchi ma'lumotlarini URL query qilib yuboramiz
-    params = urlencode(
-        {
-            "tg_id": user.id,
-            "tg_name": (user.first_name or "").strip(),
-            "tg_username": (user.username or "").strip(),
-        }
+if not BOT_TOKEN:
+    raise RuntimeError(
+        "AISEND_BOT_TOKEN muhit o'zgaruvchisi topilmadi. "
+        "Termuxdagi ~/.bashrc ichiga export AISEND_BOT_TOKEN=... qo'shganingni tekshir."
     )
 
-    full_url = f"{WEB_APP_BASE_URL}?{params}"
 
-    keyboard = [
-        [
-            InlineKeyboardButton(
-                "AiSend mini app ni ochish",
-                web_app=WebAppInfo(url=full_url),
-            )
-        ]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user = update.effective_user
 
-    text = f"Salom, {user.first_name or 'foydalanuvchi'}! 👋\n\n" \
-           "AiSend mini appni ochish uchun tugmani bosing 👇"
+    webapp_button = KeyboardButton(
+        text="AiSend mini appni ochish",
+        web_app=WebAppInfo(url="https://mrvalijanov.github.io/AiSend/"),
+    )
+    contact_button = KeyboardButton(
+        text="Biz bilan aloqa",
+        web_app=WebAppInfo(url="https://t.me/your_support_channel_here"),
+    )
 
-    # Muhim qism: /start ga aniq javob berish
-    await update.message.reply_text(text, reply_markup=reply_markup)
+    keyboard = [[webapp_button], [contact_button]]
+    reply_markup = ReplyKeyboardMarkup(
+        keyboard,
+        resize_keyboard=True,
+        one_time_keyboard=False,
+    )
+
+    await update.message.reply_text(
+        text=f"Salom, {user.first_name or 'foydalanuvchi'}! 👋\n\n"
+             "AiSend mini appni ochish uchun tugmani bosing 👇",
+        reply_markup=reply_markup,
+    )
 
 
-def main():
-    print("Aisend bot ishga tushdi...")
-    app = ApplicationBuilder().token(BOT_TOKEN).build()
-
-    # /start komandasi uchun handler
+def main() -> None:
+    app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
-
     app.run_polling()
 
 
