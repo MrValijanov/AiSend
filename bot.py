@@ -23,6 +23,7 @@ from telegram.ext import (
     Filters,
     CallbackContext,
 )
+from telegram.error import TimedOut
 
 # ========== CONFIG ==========
 
@@ -39,7 +40,7 @@ if not TOKEN:
 SITE_URL = "https://ai-send.vercel.app"
 PROJECT_NAME = "AISEND / AI EXCHANGE"
 
-ADMIN_IDS = [123456789]   # o'z ID'ingni qo'y
+ADMIN_IDS = [123456789]     # o'z ID'ingni qo'y
 VIP_USER_IDS = [123456789]  # VIP userlar ID'lari
 
 # ========== LOGGING ==========
@@ -262,6 +263,7 @@ def build_bills_demo_text() -> str:
     return "\n".join(lines)
 # ========== TELEGRAM HANDLERLAR – 1-qism ==========
 
+
 def get_main_keyboard() -> ReplyKeyboardMarkup:
     keyboard = [
         ["/rates", "/convert"],
@@ -289,7 +291,7 @@ def start(update: Update, context: CallbackContext):
         "• /simulate – pul o'tkazma simulyatori\n"
         "• /crypto – crypto tezkor to'lovlar (demo)\n"
         "• /stock – stock bo'limi (demo)\n"
-        "• /bills – Chegarasiz to'lovlar konsepti (demo)\n"
+        "• /bills – Chegarasiz to'lovlar (demo)\n"
         "• /stats – statistika\n"
         "• /help – qo'llanma\n\n"
         f"Web versiyani ko'rish: {SITE_URL}"
@@ -394,6 +396,7 @@ def simulate_command(update: Update, context: CallbackContext):
     update.message.reply_text(text, parse_mode="Markdown", reply_markup=get_main_keyboard())
 # ========== TELEGRAM HANDLERLAR – 2-qism ==========
 
+
 def crypto_command(update: Update, context: CallbackContext):
     register_request(update)
     text = build_crypto_demo_text()
@@ -469,7 +472,13 @@ def fallback_message(update: Update, context: CallbackContext):
 
 
 def main():
-    updater = Updater(TOKEN, use_context=True)
+    # sekin tarmoq uchun timeoutsni kattaroq qilamiz
+    request_kwargs = {
+        "read_timeout": 30,
+        "connect_timeout": 30,
+    }
+
+    updater = Updater(TOKEN, use_context=True, request_kwargs=request_kwargs)
     dp = updater.dispatcher
 
     # Komanda handlerlar
@@ -488,11 +497,21 @@ def main():
     # Oddiy matnlar
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, fallback_message))
 
-    logger.info("AISEND demo bot ishga tushdi...")
-    updater.start_polling()
-    updater.idle()
+    logger.info("AISEND demo bot ishga tushmoqda...")
+
+    while True:
+        try:
+            updater.start_polling(clean=True)
+            logger.info("Polling boshlandi.")
+            updater.idle()
+            break  # hammasi joyida bo'lsa, while'dan chiqamiz
+        except TimedOut:
+            logger.warning("Telegramga ulanishda timeout bo'ldi. Qaytadan urinaman...")
+            continue
+        except Exception as e:
+            logger.exception("Kutilmagan xato: %s", e)
+            break
 
 
 if __name__ == "__main__":
     main()
-
