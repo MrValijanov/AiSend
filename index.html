@@ -2,20 +2,19 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8" />
-  <title>AiSend · Chegarasiz to‘lovlar (demo)</title>
+  <title>AiSend · Super Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #020712;
-      --bg-card: #050d1a;
-      --bg-soft: #0b1728;
-      --accent: #22c55e;
-      --accent-soft: #bbf7d0;
-      --accent-dark: #15803d;
-      --danger: #fb7185;
-      --text: #f9fafb;
-      --text-soft: #9ca3af;
-      --border: rgba(148, 163, 184, 0.3);
+      --bg: #021608;
+      --card: #05250f;
+      --accent: #1dd24a;
+      --accent-soft: #b5ff6f;
+      --accent-dark: #0b752a;
+      --text-main: #ffffff;
+      --text-muted: #a7bfa7;
+      --danger: #ff5b5b;
+      --border-soft: rgba(255, 255, 255, 0.05);
       --radius-xl: 22px;
     }
 
@@ -23,412 +22,374 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont,
-        "SF Pro Text", "Roboto", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Roboto", sans-serif;
     }
 
     body {
+      background: radial-gradient(circle at top, #063517 0, #021608 55%, #010705 100%);
+      color: var(--text-main);
       min-height: 100vh;
-      background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #020617 100%);
-      color: var(--text);
     }
 
     .app {
+      min-height: 100vh;
+      padding: 16px 14px 24px;
       max-width: 480px;
       margin: 0 auto;
-      padding: 16px 14px 24px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
-
-    /* HEADER */
 
     .header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       margin-bottom: 16px;
     }
 
-    .logo-wrap {
+    .logo-title {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
     .logo-badge {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 18px;
-      background: radial-gradient(circle at 30% 20%, #bbf7d0 0, #22c55e 40%, #14532d 100%);
+      background: radial-gradient(circle at 30% 20%, #9fff7a 0, #0fb741 40%, #021608 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 20px;
-      color: #022c22;
-      box-shadow: 0 0 24px rgba(34, 197, 94, 0.5);
-    }
-
-    .logo-title-main {
-      font-size: 22px;
       font-weight: 700;
+      font-size: 22px;
+      color: #021608;
+      box-shadow: 0 0 24px rgba(43, 255, 117, 0.35);
     }
 
-    .logo-title-sub {
-      font-size: 11px;
-      color: var(--text-soft);
+    .app-name {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .app-sub {
+      font-size: 12px;
+      color: var(--text-muted);
       margin-top: 2px;
     }
 
-    .profile-chip {
-      padding: 6px 12px;
+    .profile-btn {
+      padding: 8px 16px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      background: rgba(15, 23, 42, 0.9);
-      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(20, 50, 30, 0.9));
+      color: var(--text-main);
+      font-size: 13px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      cursor: pointer;
     }
 
-    .profile-chip span {
+    .profile-btn span {
       font-size: 10px;
-      color: var(--text-soft);
+      opacity: 0.8;
     }
 
-    /* BALANCE */
-
-    .balance-card {
-      background: radial-gradient(circle at top, #0b1929 0, #020617 55%, #020617 100%);
+    .card {
+      background: radial-gradient(circle at top left, #06351a 0, #021608 45%, #010705 100%);
       border-radius: 26px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      padding: 16px 16px 14px;
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
-      margin-bottom: 12px;
+      padding: 18px 18px 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      margin-bottom: 14px;
     }
 
-    .balance-label {
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(148, 163, 184, 0.9);
+    .balance-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 6px;
     }
 
-    .balance-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 6px;
+    .balance-label {
+      font-size: 12px;
+      color: rgba(209, 250, 229, 0.9);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
     }
 
     .balance-main {
       font-size: 26px;
       font-weight: 700;
+      margin-top: 2px;
     }
 
-    .balance-currency {
-      font-size: 13px;
-      color: var(--text-soft);
-      margin-left: 4px;
-    }
-
-    .balance-change {
-      font-size: 11px;
-      color: #4ade80;
-      background: rgba(22, 163, 74, 0.15);
-      border-radius: 999px;
-      padding: 3px 8px;
-    }
-
-    .balance-expand {
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      padding: 8px 10px;
-      border-radius: 16px;
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-    }
-
-    .balance-expand-label {
+    .balance-sub {
       font-size: 12px;
-      color: var(--text-soft);
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
-    .balance-expand-arrow {
-      font-size: 14px;
-      color: var(--text-soft);
+    .balance-toggle-btn {
+      border: none;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      border: 1px solid rgba(148, 163, 184, 0.5);
     }
 
-    .assets-panel {
-      margin-top: 8px;
-      padding: 10px 10px 6px;
-      border-radius: 18px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(55, 65, 81, 0.9);
+    .balance-toggle-btn span.arrow {
+      display: inline-block;
+      transition: transform 0.18s ease;
+    }
+
+    .balance-toggle-btn.open span.arrow {
+      transform: rotate(180deg);
+    }
+
+    .balance-details {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.6);
       display: none;
     }
 
-    .assets-panel.active {
+    .balance-details.open {
       display: block;
     }
 
     .asset-row {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 6px;
-    }
-
-    .asset-label {
-      font-size: 12px;
-      color: var(--text-soft);
-    }
-
-    .asset-value {
       font-size: 13px;
+      margin: 5px 0;
+    }
+
+    .asset-row span.label {
+      color: var(--text-muted);
+    }
+
+    .asset-row span.value {
       font-weight: 500;
     }
 
-    .asset-tag {
-      font-size: 10px;
-      color: #a5b4fc;
-    }
-
-    /* MAIN MENU */
-
-    .main-menu {
-      margin-top: 10px;
-      margin-bottom: 12px;
-    }
-
-    .main-menu-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .menu-btn {
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      background: rgba(15, 23, 42, 0.96);
-      padding: 9px 4px;
-      text-align: center;
+    .asset-row span.tag {
       font-size: 11px;
-      color: var(--text-soft);
-      cursor: pointer;
-    }
-
-    .menu-btn.active {
-      border-color: var(--accent);
-      background: radial-gradient(circle at top, #16a34a 0, #052e16 50%, #020617 100%);
-      color: var(--accent-soft);
-      box-shadow: 0 12px 28px rgba(22, 163, 74, 0.5);
-    }
-
-    .menu-btn-title {
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    /* Chegarasiz to'lovlar tile */
-
-    .borderless-card {
-      border-radius: 24px;
-      padding: 14px 14px 14px;
-      background: radial-gradient(circle at top left, #064e3b 0, #020617 55%, #000 100%);
-      border: 1px solid rgba(74, 222, 128, 0.6);
-      box-shadow: 0 14px 36px rgba(22, 163, 74, 0.7);
-      margin-bottom: 14px;
-      cursor: pointer;
-    }
-
-    .borderless-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .borderless-sub {
-      font-size: 12px;
-      color: var(--text-soft);
-      margin-bottom: 8px;
-    }
-
-    .borderless-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-size: 11px;
-    }
-
-    .borderless-tag {
-      padding: 4px 9px;
+      margin-left: 6px;
+      padding: 2px 7px;
       border-radius: 999px;
-      border: 1px solid rgba(187, 247, 208, 0.8);
+      border: 1px solid rgba(74, 222, 128, 0.55);
       color: #bbf7d0;
-      background: rgba(6, 95, 70, 0.7);
     }
 
-    /* PAGES WRAP */
-
-    .pages {
-      flex: 1;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    .page-card {
-      border-radius: 24px;
-      padding: 16px 14px 16px;
-      background: radial-gradient(circle at top, #020617 0, #020617 60%, #000 100%);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
-      margin-bottom: 12px;
-    }
-
-    .page-title {
-      font-size: 18px;
-      font-weight: 600;
+    .main-tabs {
+      display: flex;
+      gap: 6px;
       margin-bottom: 4px;
+      overflow-x: auto;
+      padding-bottom: 4px;
     }
 
-    .page-sub {
+    .main-tab-btn {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 7px 12px;
       font-size: 12px;
-      color: var(--text-soft);
-      margin-bottom: 12px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #e5e7eb;
+      cursor: pointer;
     }
 
-    .field {
-      margin-bottom: 10px;
+    .main-tab-btn.active {
+      border-color: rgba(74, 222, 128, 0.9);
+      background: radial-gradient(circle at 10% 0, #bef264 0, #22c55e 45%, #065f46 100%);
+      color: #022c22;
+      box-shadow: 0 0 16px rgba(22, 163, 74, 0.55);
+    }
+
+    .page-section {
+      display: none;
+      margin-top: 8px;
+    }
+
+    .page-section.active {
+      display: block;
     }
 
     label {
       display: block;
-      font-size: 12px;
-      margin-bottom: 4px;
-      color: var(--text-soft);
+      font-size: 13px;
+      margin-bottom: 6px;
     }
 
+    select,
     input[type="text"],
     input[type="number"],
-    select {
+    textarea {
       width: 100%;
       border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      background: rgba(15, 23, 42, 0.96);
-      padding: 10px 11px;
-      color: var(--text);
-      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--text-main);
+      padding: 11px 12px;
+      font-size: 14px;
       outline: none;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.35);
     }
 
     select {
       appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
       background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
         linear-gradient(135deg, #9ca3af 50%, transparent 50%);
-      background-position: calc(100% - 14px) 12px, calc(100% - 10px) 12px;
+      background-position: calc(100% - 14px) 13px, calc(100% - 10px) 13px;
       background-size: 6px 6px, 6px 6px;
       background-repeat: no-repeat;
     }
 
+    select:focus,
+    input:focus,
+    textarea:focus {
+      border-color: rgba(74, 222, 128, 0.8);
+      box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.2);
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
     .btn {
-      width: 100%;
-      border-radius: 999px;
       border: none;
-      padding: 12px 16px;
-      font-size: 14px;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-size: 16px;
       font-weight: 600;
+      width: 100%;
+      text-align: center;
       cursor: pointer;
-      background: linear-gradient(90deg, #22c55e, #a3e635);
-      color: #022c22;
-      box-shadow: 0 16px 40px rgba(22, 163, 74, 0.7);
-      margin-top: 4px;
+      color: #022c15;
+      background: linear-gradient(90deg, #bef264, #4ade80);
+      box-shadow: 0 14px 30px rgba(22, 163, 74, 0.55);
+      margin-top: 6px;
     }
 
     .btn:active {
       transform: translateY(1px);
-      box-shadow: 0 10px 24px rgba(22, 163, 74, 0.5);
+      box-shadow: 0 8px 20px rgba(22, 163, 74, 0.4);
+    }
+
+    .btn-loading {
+      opacity: 0.7;
     }
 
     .btn-secondary {
       background: rgba(15, 23, 42, 0.95);
-      color: var(--text-soft);
-      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-main);
       box-shadow: none;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 14px;
     }
 
-    .info-line {
+    .result-main {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .result-sub {
       font-size: 12px;
-      color: var(--text-soft);
-      margin-top: 6px;
+      color: var(--text-muted);
+      margin-top: 2px;
     }
 
-    .info-line strong {
-      color: var(--accent-soft);
-    }
-
-    .info-error {
+    .rate-error {
+      margin-top: 4px;
       font-size: 12px;
       color: var(--danger);
-      margin-top: 4px;
     }
 
-    .pill-row {
+    .inline-badges {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
-    .pill {
+    .inline-badge {
       font-size: 11px;
       padding: 4px 9px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      color: var(--text-soft);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.8);
     }
 
-    .pill.good {
-      border-color: rgba(34, 197, 94, 0.7);
-      color: var(--accent-soft);
+    .avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #a7f3d0 0, #22c55e 40%, #047857 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #022c15;
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.7);
+    }
+
+    .avatar-text-main {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .avatar-text-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .send-status {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #bbf7d0;
+    }
+
+    .send-status.err {
+      color: var(--danger);
     }
 
     .footer-note {
       font-size: 11px;
-      color: var(--text-soft);
+      color: var(--text-muted);
       text-align: center;
-      margin-top: 8px;
+      margin-top: 10px;
+      line-height: 1.4;
     }
 
     /* PROFILE MODAL */
-
     .modal-bg {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(0, 0, 0, 0.72);
       backdrop-filter: blur(10px);
       display: none;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
       z-index: 40;
     }
@@ -439,23 +400,23 @@
 
     .modal {
       width: 100%;
-      max-width: 360px;
-      border-radius: 22px;
-      padding: 14px 14px 16px;
-      background: radial-gradient(circle at top, #020617 0, #020617 55%, #000 100%);
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.8);
+      max-width: 480px;
+      border-radius: 24px 24px 0 0;
+      padding: 18px 18px 22px;
+      background: radial-gradient(circle at top, #022c1f 0, #010b07 55%, #000 100%);
+      border-top: 1px solid rgba(74, 222, 128, 0.45);
+      box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.7);
     }
 
     .modal-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      justify-content: space-between;
+      margin-bottom: 10px;
     }
 
     .modal-title {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
     }
 
@@ -463,338 +424,350 @@
       width: 26px;
       height: 26px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.6);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 16px;
       cursor: pointer;
-      color: var(--text-soft);
     }
 
     .modal-row {
       display: flex;
       justify-content: space-between;
-      font-size: 13px;
-      margin: 4px 0;
+      font-size: 14px;
+      margin: 6px 0;
     }
 
     .modal-row label {
       margin: 0;
-      color: var(--text-soft);
-      font-size: 12px;
+      color: var(--text-muted);
+      font-size: 13px;
     }
 
     .modal-row span {
       font-weight: 500;
+    }
+
+    .modal-separator {
+      border-top: 1px dashed rgba(148, 163, 184, 0.65);
+      margin: 10px 0 14px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    @media (min-width: 480px) {
+      .app {
+        padding-top: 20px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <div class="logo-wrap">
+      <div class="logo-title">
         <div class="logo-badge">A</div>
         <div>
-          <div class="logo-title-main">AiSend</div>
-          <div class="logo-title-sub">Chegarasiz to‘lovlar · demo</div>
+          <div class="app-name">AiSend</div>
+          <div class="app-sub">Chegarasiz to‘lovlar · demo</div>
         </div>
       </div>
-      <button class="profile-chip" id="profileBtn">
-        <span id="profileName">Guest</span>
-        <span>Profil</span>
+      <button class="profile-btn" id="profileOpen">
+        Profil
+        <span>▼</span>
       </button>
     </header>
 
-    <section class="balance-card">
-      <div class="balance-label">TOTAL BALANCE</div>
-      <div class="balance-row">
+    <!-- BALANCE CARD + BARCHA AKTIVLAR -->
+    <section class="card">
+      <div class="balance-header-row">
         <div>
-          <span class="balance-main" id="totalBalanceDisplay">0</span>
-          <span class="balance-currency">UZS (demo)</span>
+          <div class="balance-label">Total balance</div>
+          <div class="balance-main" id="totalBalance">12 540 000 UZS</div>
+          <div class="balance-sub">≈ 430 000 KZT · 105 USDT (demo)</div>
         </div>
-        <div class="balance-change" id="balanceChangeTag">
-          +0.0% (demo)
-        </div>
+        <button class="balance-toggle-btn" id="balanceToggle">
+          Barcha aktivlar
+          <span class="arrow">▾</span>
+        </button>
       </div>
-
-      <div class="balance-expand" id="assetsToggle">
-        <div class="balance-expand-label">Barcha aktivlar</div>
-        <div class="balance-expand-arrow" id="assetsArrow">▼</div>
-      </div>
-
-      <div class="assets-panel" id="assetsPanel">
+      <div class="balance-details" id="balanceDetails">
         <div class="asset-row">
-          <div>
-            <div class="asset-label">Fiat balans (UZS)</div>
-            <div class="asset-tag">Karta / hisob</div>
-          </div>
-          <div class="asset-value" id="assetFiatUzs">0 UZS</div>
+          <span class="label">Fiat (UZS + KZT)</span>
+          <span class="value">9 800 000 UZS<span class="tag">fiat</span></span>
         </div>
         <div class="asset-row">
-          <div>
-            <div class="asset-label">Fiat balans (KZT)</div>
-            <div class="asset-tag">Ichki balans (demo kurs)</div>
-          </div>
-          <div class="asset-value" id="assetFiatKzt">0 KZT</div>
+          <span class="label">Crypto</span>
+          <span class="value">105 USDT<span class="tag">crypto</span></span>
         </div>
         <div class="asset-row">
-          <div>
-            <div class="asset-label">Crypto (USDT ekv.)</div>
-            <div class="asset-tag">Demo portfel</div>
-          </div>
-          <div class="asset-value" id="assetCrypto">0 USDT</div>
-        </div>
-        <div class="asset-row">
-          <div>
-            <div class="asset-label">Stocks (demo)</div>
-            <div class="asset-tag">S&P 500 / Tech</div>
-          </div>
-          <div class="asset-value" id="assetStocks">0 USD</div>
+          <span class="label">Stocks</span>
+          <span class="value">1 250 USDT<span class="tag">stock</span></span>
         </div>
       </div>
     </section>
 
-    <section class="main-menu">
-      <div class="main-menu-row">
-        <button class="menu-btn active" data-page="send" id="menuSend">
-          <div class="menu-btn-title">Send</div>
-        </button>
-        <button class="menu-btn" data-page="exchange" id="menuExchange">
-          <div class="menu-btn-title">Exchange</div>
-        </button>
-        <button class="menu-btn" data-page="crypto" id="menuCrypto">
-          <div class="menu-btn-title">Crypto</div>
-        </button>
-        <button class="menu-btn" data-page="stocks" id="menuStocks">
-          <div class="menu-btn-title">Stocks</div>
-        </button>
-      </div>
-    </section>
+    <!-- TAB MENU -->
+    <div class="main-tabs">
+      <button class="main-tab-btn active" data-tab="send">Send</button>
+      <button class="main-tab-btn" data-tab="exchange">Exchange</button>
+      <button class="main-tab-btn" data-tab="crypto">Crypto</button>
+      <button class="main-tab-btn" data-tab="stocks">Stocks</button>
+      <button class="main-tab-btn" data-tab="borderless">Chegarasiz to‘lovlar</button>
+    </div>
 
-    <section class="borderless-card" id="borderlessCard">
-      <div class="borderless-title">Chegarasiz to‘lovlar</div>
-      <div class="borderless-sub">
-        Rusiyada tursangiz ham O‘zbekistondagi kommunal yoki mobil to‘lovni
-        bir zumda, past komissiya bilan to‘lash (demo konsept).
-      </div>
-      <div class="borderless-tags">
-        <span class="borderless-tag">⚡ Real time konvertatsiya</span>
-        <span class="borderless-tag">🌍 Multi-valyuta</span>
-        <span class="borderless-tag">💡 KYC bilan full versiya</span>
-      </div>
-    </section>
-
-    <section class="pages">
-      <!-- SEND PAGE -->
-      <div class="page active" id="page-send">
-        <div class="page-card">
-          <div class="page-title">Send</div>
-          <div class="page-sub">
-            Ichki balansdan do‘stga yoki kartaga pul yuborish (demo).
+    <main>
+      <!-- PAGE: SEND -->
+      <section id="page-send" class="page-section active">
+        <section class="card">
+          <div class="inline-badges" style="margin-bottom: 8px;">
+            <span class="inline-badge">AiSend → AiSend</span>
+            <span class="inline-badge">0% komissiya (demo)</span>
           </div>
-          <div class="pill-row">
-            <span class="pill good">0% AiSend komissiya (demo)</span>
-            <span class="pill">Bank komissiyasi keyingi bosqichda qo‘shiladi</span>
-          </div>
-          <div class="field">
-            <label for="sendFromCur">Qayerdan</label>
-            <select id="sendFromCur">
-              <option value="UZS">UZS balans</option>
-              <option value="KZT">KZT balans</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="sendToType">Qayerga</label>
-            <select id="sendToType">
-              <option value="user">AiSend foydalanuvchisi (username)</option>
-              <option value="card">Karta raqami</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="sendToValue">Kimga / karta</label>
-            <input id="sendToValue" type="text" placeholder="@username yoki karta raqami" />
+          <div class="avatar-row">
+            <div class="avatar">AV</div>
+            <div>
+              <div class="avatar-text-main" id="friendName">Alisher Valiyev</div>
+              <div class="avatar-text-sub" id="friendPhone">+998 90 123 45 67</div>
+            </div>
           </div>
           <div class="field">
             <label for="sendAmount">Miqdor</label>
-            <input id="sendAmount" type="number" inputmode="numeric" placeholder="Miqdor" />
+            <input id="sendAmount" type="number" inputmode="numeric" placeholder="Miqdor kiriting" />
+          </div>
+          <div class="field">
+            <label for="sendCurrency">Valyuta</label>
+            <select id="sendCurrency">
+              <option value="UZS" selected>UZS</option>
+              <option value="KZT">KZT</option>
+            </select>
           </div>
           <div class="field">
             <label for="sendNote">Izoh (ixtiyoriy)</label>
             <input id="sendNote" type="text" placeholder="Masalan: “Uyga pul”" />
           </div>
-          <button class="btn" id="sendBtn">Yuborishni tasdiqlash</button>
-          <div class="info-line" id="sendInfo">Demo: hech qanday real o‘tkazma amalga oshirilmaydi.</div>
-          <div class="info-error" id="sendError"></div>
-        </div>
-      </div>
-<!-- EXCHANGE PAGE -->
-      <div class="page" id="page-exchange">
-        <div class="page-card">
-          <div class="page-title">Exchange</div>
-          <div class="page-sub">
-            UZS balansi ichida KZT balansga va aksincha o‘tkazish (ichki 1% komissiya demo).
+          <button class="btn" id="sendHoldBtn">
+            Yuborish uchun ushlab turing
+          </button>
+          <div class="send-status" id="sendStatus">
+            Demo: to‘lov yuborishga tayyor ✅
           </div>
-          <div class="pill-row">
-            <span class="pill good">1% ichki exchange komissiya (demo)</span>
-            <span class="pill">Real kurslar keyinchalik API orqali</span>
-          </div>
-          <div class="field">
-            <label for="exFromCur">Qayerdan</label>
-            <select id="exFromCur">
-              <option value="UZS">UZS balans</option>
-              <option value="KZT">KZT balans</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="exToCur">Qayerga</label>
-            <select id="exToCur">
-              <option value="KZT">KZT balans</option>
-              <option value="UZS">UZS balans</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="exAmount">Miqdor</label>
-            <input id="exAmount" type="number" inputmode="numeric" placeholder="Miqdor" />
-          </div>
-          <button class="btn" id="exCalcBtn">Hisoblash va tasdiqlash</button>
-          <div class="info-line" id="exInfo">
-            1 UZS ≈ 0.04 KZT (demo kurs), 1 KZT ≈ 25 UZS (demo).
-          </div>
-          <div class="info-error" id="exError"></div>
-        </div>
-      </div>
-
-      <!-- CRYPTO PAGE -->
-      <div class="page" id="page-crypto">
-        <div class="page-card">
-          <div class="page-title">Crypto (demo)</div>
-          <div class="page-sub">
-            Crypto sotib olish / sotish loyihasi. Hozircha faqat UI va demo balans.
-          </div>
-          <div class="pill-row">
-            <span class="pill good">KYC bilan to‘liq litsenziyalangan versiya rejalashtirilgan</span>
-            <span class="pill">USDT, BTC, ETH dan boshlash</span>
-          </div>
-          <div class="field">
-            <label>Demo crypto portfel</label>
-            <div class="info-line">
-              • 120.5 USDT  
-              <br />
-              • 0.015 BTC
-              <br />
-              • 0.3 ETH
+        </section>
+      </section>
+<!-- PAGE: EXCHANGE -->
+      <section id="page-exchange" class="page-section">
+        <section class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <div>
+              <div style="font-size:18px;font-weight:600;">Valyuta almashish</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
+                UZS balansdan KZT/KGS kartaga yo‘nalish (demo kurs).
+              </div>
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span id="rateModeLabel">Onlayn kurslar</span>
             </div>
           </div>
+
           <div class="field">
-            <label for="cryptoAction">Amal (demo)</label>
-            <select id="cryptoAction">
-              <option value="buy">USDT sotib olish (UZS → USDT)</option>
-              <option value="sell">USDT sotish (USDT → UZS)</option>
+            <label for="direction">Yo‘nalishni tanlang</label>
+            <select id="direction">
+              <option value="UZS_KZT" selected>UZS → KZT</option>
+              <option value="UZS_KGS">UZS → KGS</option>
             </select>
           </div>
-          <div class="field">
-            <label for="cryptoAmount">Miqdor</label>
-            <input id="cryptoAmount" type="number" inputmode="numeric" placeholder="Miqdor" />
-          </div>
-          <button class="btn-secondary" id="cryptoBtn">Demo hisoblash</button>
-          <div class="info-line" id="cryptoInfo">
-            Demo: faqat UI va logika. Real birjaga ulanish va litsenziya keyingi bosqichlarda.
-          </div>
-        </div>
-      </div>
 
-      <!-- STOCKS PAGE -->
-      <div class="page" id="page-stocks">
-        <div class="page-card">
-          <div class="page-title">Stocks (demo)</div>
-          <div class="page-sub">
-            Global bozorlar: S&P 500, tex-aksiyalar, ETF’lar. Hozircha faqat demo UI.
-          </div>
-          <div class="pill-row">
-            <span class="pill good">Fractional shares (ulushlar) konsepti</span>
-            <span class="pill">Portfelni AiSend ichida birlashtirish</span>
-          </div>
           <div class="field">
-            <label>Demo portfel</label>
-            <div class="info-line">
-              • AAPL — 0.3 aksiyaga teng demolar  
-              <br />
-              • TSLA — 0.15 aksiya  
-              <br />
-              • S&P 500 ETF — 0.5 ulush
+            <label for="amount">Miqdor (UZS)</label>
+            <input id="amount" type="number" inputmode="numeric" placeholder="Miqdor kiriting" />
+          </div>
+
+          <div class="field" style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+            <span style="font-size:13px;color:var(--text-muted);">
+              Onlayn kurslardan foydalanish
+            </span>
+            <label class="switch">
+              <input type="checkbox" id="liveToggle" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <button class="btn" id="calcBtn">Hisoblash</button>
+
+          <div class="result-main" id="resultBox">0 UZS ≈ 0 KZT</div>
+          <div class="result-sub" id="baseRate">
+            1 UZS ≈ demo kurs
+          </div>
+          <div class="rate-error" id="rateError"></div>
+        </section>
+      </section>
+
+      <!-- PAGE: CRYPTO DEMO -->
+      <section id="page-crypto" class="page-section">
+        <section class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div>
+              <div style="font-size:18px;font-weight:600;">Crypto wallet (demo)</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
+                KYC va litsenziyadan so‘ng to‘liq ishga tushiriladi.
+              </div>
             </div>
+            <span class="pill">
+              <span class="pill-dot"></span>
+              <span>Coming soon</span>
+            </span>
           </div>
-          <div class="field">
-            <label for="stockAction">Amal (demo)</label>
-            <select id="stockAction">
-              <option value="buy">Ulush sotib olish</option>
-              <option value="sell">Ulush sotish</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="stockAmount">Miqdor (USD ekv.)</label>
-            <input id="stockAmount" type="number" inputmode="numeric" placeholder="Masalan: 50" />
-          </div>
-          <button class="btn-secondary" id="stockBtn">Demo hisoblash</button>
-          <div class="info-line" id="stockInfo">
-            Demo: real broker integratsiyasi keyinroq qo‘shiladi.
-          </div>
-        </div>
-      </div>
 
-      <!-- BORDERLESS PAYMENTS PAGE -->
-      <div class="page" id="page-borderless">
-        <div class="page-card">
-          <div class="page-title">Chegarasiz to‘lov (demo)</div>
-          <div class="page-sub">
-            Masalan, Moskvadan turgan holda Toshkentdagi svet yoki internet uchun to‘lov
-            qilish konsepti.
+          <div class="asset-row">
+            <span class="label">USDT</span>
+            <span class="value">105.00 USDT</span>
           </div>
-          <div class="field">
-            <label for="bpCountry">To‘lov davlati</label>
-            <select id="bpCountry">
-              <option value="UZ">O‘zbekiston (kommunal / mobil)</option>
-              <option value="KZ">Qozog‘iston (keyinroq)</option>
-            </select>
+          <div class="asset-row">
+            <span class="label">BTC</span>
+            <span class="value">0.0031 BTC</span>
           </div>
-          <div class="field">
-            <label for="bpService">Xizmat turi</label>
-            <select id="bpService">
-              <option value="electric">Elektr energiya</option>
-              <option value="internet">Internet provayder</option>
-              <option value="mobile">Mobil balans</option>
-            </select>
+          <div class="asset-row">
+            <span class="label">TON</span>
+            <span class="value">42.0 TON</span>
           </div>
-          <div class="field">
-            <label for="bpAccount">Shartnoma / telefon raqam</label>
-            <input id="bpAccount" type="text" placeholder="Masalan: shartnoma raqami yoki +998..." />
-          </div>
-          <div class="field">
-            <label for="bpAmount">Miqdor (UZS ekv.)</label>
-            <input id="bpAmount" type="number" inputmode="numeric" placeholder="Miqdor" />
-          </div>
-          <button class="btn" id="bpBtn">Demo hisoblash</button>
-          <div class="info-line" id="bpInfo">
-            Demo: rubldan UZSga konvertatsiya + lokal operatorga to‘lov keyingi bosqichlarda
-            amalga oshiriladi.
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <p class="footer-note">
-      AiSend · demo versiya. UI/UX, logika va mahsulot g‘oyasi ustida ishlash uchun.
-    </p>
+          <button class="btn-secondary" style="margin-top:12px;">
+            Crypto bo‘limi demo rejimida
+          </button>
+        </section>
+      </section>
+
+      <!-- PAGE: STOCKS DEMO -->
+      <section id="page-stocks" class="page-section">
+        <section class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div>
+              <div style="font-size:18px;font-weight:600;">Stocks (demo)</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
+                Global aksiyalar portfeli (demo maʼlumotlar).
+              </div>
+            </div>
+            <span class="pill">
+              <span class="pill-dot"></span>
+              <span>Demo</span>
+            </span>
+          </div>
+
+          <div class="asset-row">
+            <span class="label">AAPL</span>
+            <span class="value">1 000 USDT<span class="tag">+2.3%</span></span>
+          </div>
+          <div class="asset-row">
+            <span class="label">TSLA</span>
+            <span class="value">150 USDT<span class="tag">-1.1%</span></span>
+          </div>
+          <div class="asset-row">
+            <span class="label">NVDA</span>
+            <span class="value">100 USDT<span class="tag">+4.5%</span></span>
+          </div>
+
+          <button class="btn-secondary" style="margin-top:12px;">
+            Stock bo‘limi demo rejimida
+          </button>
+        </section>
+      </section>
+
+      <!-- PAGE: CHEGARASIZ TO'LOVLAR -->
+      <section id="page-borderless" class="page-section">
+        <section class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div>
+              <div style="font-size:18px;font-weight:600;">Chegarasiz to‘lovlar</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
+                Chet eldan turib O‘zbekistondagi komunal to‘lovlarni to‘lash (demo).
+              </div>
+            </div>
+            <span class="pill">
+              <span class="pill-dot"></span>
+              <span>Beta idea</span>
+            </span>
+          </div>
+
+          <div class="field">
+            <label for="b_fromCountry">Qaysi davlatdansiz?</label>
+            <select id="b_fromCountry">
+              <option value="RU" selected>Rossiya (RUB bilan)</option>
+              <option value="KZ">Qozog‘iston (KZT)</option>
+              <option value="TR">Turkiya (TRY)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="b_toService">O‘zbekistonda qaysi to‘lov?</label>
+            <select id="b_toService">
+              <option value="electric" selected>Elektr energiya</option>
+              <option value="gas">Gaz</option>
+              <option value="water">Suv</option>
+              <option value="internet">Internet</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="b_account">Shaxsiy hisob / ID</label>
+            <input id="b_account" type="text" placeholder="Masalan, hisob raqam / abonent ID" />
+          </div>
+
+          <div class="field">
+            <label for="b_amount">To‘lov summasi (UZS)</label>
+            <input id="b_amount" type="number" inputmode="numeric" placeholder="Masalan, 150000" />
+          </div>
+
+          <div class="field">
+            <label for="b_currency">Qaysi valyutada to‘laysiz?</label>
+            <select id="b_currency">
+              <option value="RUB" selected>RUB (Rossiya)</option>
+              <option value="KZT">KZT (Qozog‘iston)</option>
+              <option value="TRY">TRY (Turkiya)</option>
+            </select>
+          </div>
+
+          <button class="btn" id="borderlessBtn">
+            To‘lovni tasdiqlash
+          </button>
+          <div class="send-status" id="borderlessStatus">
+            Demo: komissiya va konvertatsiya faqat ko‘rsatma sifatida hisoblanadi.
+          </div>
+        </section>
+      </section>
+
+      <p class="footer-note">
+        AiSend super demo interfeysi. Barcha kurslar va to‘lovlar test rejimida.
+      </p>
+    </main>
   </div>
 
   <!-- PROFILE MODAL -->
-  <div class="modal-bg" id="profileModalBg">
+  <div class="modal-bg" id="profileBg">
     <div class="modal">
       <div class="modal-header">
-        <div class="modal-title">Telegram profil (demo)</div>
-        <div class="modal-close" id="profileModalClose">✕</div>
+        <div class="modal-title">Telegram profil</div>
+        <div class="modal-close" id="profileClose">✕</div>
       </div>
+
       <div class="modal-row">
         <label>Ism:</label>
         <span id="pf_name">-</span>
@@ -807,374 +780,361 @@
         <label>Username:</label>
         <span id="pf_username">-</span>
       </div>
+
+      <div class="modal-separator"></div>
+
+      <button class="btn-secondary" style="margin-top: 4px;">
+        Sozlamalar (tez orada)
+      </button>
+      <button class="btn" style="margin-top: 10px; background: #f97373; color:#450a0a; box-shadow:none;">
+        Chiqish (tez orada)
+      </button>
     </div>
   </div>
 <script>
-    // ==== DEMO BALANSLAR (faqat front-end) ====
-    const demoState = {
-      fiatUzs: 1_500_000, // UZS
-      fiatKzt: 80_000,    // KZT
-      cryptoUsdt: 120.5,
-      stocksUsd: 230.0,
-    };
-
-    const RATES = {
-      UZS_KZT: 0.04,
-      KZT_UZS: 25,
-    };
-
-    function fmt(num, decimals = 2) {
+    // Format helper
+    function fmt(num) {
       return Number(num).toLocaleString("uz-UZ", {
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       });
     }
 
-    function updateBalanceUI() {
-      const { fiatUzs, fiatKzt, cryptoUsdt, stocksUsd } = demoState;
+    // ==== TABLAR ====
+    function setupTabs() {
+      const buttons = document.querySelectorAll(".main-tab-btn");
+      const sections = document.querySelectorAll(".page-section");
 
-      const totalInUzs =
-        fiatUzs +
-        fiatKzt * RATES.KZT_UZS +
-        cryptoUsdt * 14000 + // USDT ≈ 14k UZS (demo)
-        stocksUsd * 14000;
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tab = btn.dataset.tab;
+          buttons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
 
-      document.getElementById("totalBalanceDisplay").textContent =
-        fmt(totalInUzs, 0);
-
-      document.getElementById("assetFiatUzs").textContent =
-        fmt(fiatUzs, 0) + " UZS";
-
-      document.getElementById("assetFiatKzt").textContent =
-        fmt(fiatKzt, 0) + " KZT";
-
-      document.getElementById("assetCrypto").textContent =
-        fmt(cryptoUsdt, 2) + " USDT";
-
-      document.getElementById("assetStocks").textContent =
-        fmt(stocksUsd, 2) + " USD";
-
-      const changeTag = document.getElementById("balanceChangeTag");
-      changeTag.textContent = "+2.3% (demo)";
-    }
-
-    // ==== PAGE SWITCH ====
-
-    function showPage(pageName) {
-      const pages = document.querySelectorAll(".page");
-      pages.forEach((p) => {
-        if (p.id === "page-" + pageName) p.classList.add("active");
-        else p.classList.remove("active");
-      });
-
-      const buttons = document.querySelectorAll(".menu-btn");
-      buttons.forEach((b) => {
-        if (b.dataset.page === pageName) b.classList.add("active");
-        else b.classList.remove("active");
-      });
-
-      // Borderless tile faqat SEND page ko'rinayotganda ko‘rinadi
-      const borderlessCard = document.getElementById("borderlessCard");
-      if (pageName === "send") borderlessCard.style.display = "block";
-      else borderlessCard.style.display = "none";
-    }
-
-    // ==== ASSETS EXPAND ====
-
-    function setupAssetsToggle() {
-      const toggle = document.getElementById("assetsToggle");
-      const panel = document.getElementById("assetsPanel");
-      const arrow = document.getElementById("assetsArrow");
-      toggle.addEventListener("click", () => {
-        const isActive = panel.classList.toggle("active");
-        arrow.textContent = isActive ? "▲" : "▼";
+          sections.forEach((sec) => {
+            if (sec.id === "page-" + tab) {
+              sec.classList.add("active");
+            } else {
+              sec.classList.remove("active");
+            }
+          });
+        });
       });
     }
 
-    // ==== SEND LOGIKA ====
+    // ==== BALANCE TOGGLE ====
+    function setupBalanceToggle() {
+      const toggleBtn = document.getElementById("balanceToggle");
+      const details = document.getElementById("balanceDetails");
+      if (!toggleBtn || !details) return;
 
-    function setupSendPage() {
-      const sendBtn = document.getElementById("sendBtn");
-      const fromCurEl = document.getElementById("sendFromCur");
-      const toTypeEl = document.getElementById("sendToType");
-      const toValueEl = document.getElementById("sendToValue");
-      const amountEl = document.getElementById("sendAmount");
+      toggleBtn.addEventListener("click", () => {
+        const isOpen = details.classList.toggle("open");
+        toggleBtn.classList.toggle("open", isOpen);
+      });
+    }
+
+    // ==== EXCHANGE (UZS → KZT/KGS) ====
+    const DEMO_RATES = {
+      UZS_KZT: 0.04,
+      UZS_KGS: 0.007
+    };
+
+    let lastOnlineRates = {};
+    let lastOnlineOk = false;
+
+    function updateBaseRateLabel(code, rate, source) {
+      const baseRateEl = document.getElementById("baseRate");
+      let quote = "";
+      if (code === "UZS_KZT") quote = "KZT";
+      else if (code === "UZS_KGS") quote = "KGS";
+      const srcText = source === "online" ? "onlayn API" : "demo kurs";
+      if (baseRateEl) {
+        baseRateEl.textContent = `1 UZS ≈ ${fmt(rate)} ${quote} (${srcText})`;
+      }
+    }
+
+    async function fetchOnlineRates() {
+      try {
+        const res = await fetch(
+          "https://api.exchangerate.host/latest?base=UZS&symbols=KZT,KGS"
+        );
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        if (!data || !data.rates) throw new Error("Bad payload");
+        const kzt = data.rates.KZT;
+        const kgs = data.rates.KGS;
+        if (!kzt || !kgs) throw new Error("No symbols");
+
+        lastOnlineRates = {
+          UZS_KZT: kzt,
+          UZS_KGS: kgs
+        };
+        lastOnlineOk = true;
+        const errEl = document.getElementById("rateError");
+        if (errEl) errEl.textContent = "";
+        return lastOnlineRates;
+      } catch (e) {
+        console.log("Rate fetch error:", e);
+        lastOnlineOk = false;
+        const errEl = document.getElementById("rateError");
+        if (errEl) {
+          errEl.textContent =
+            "Onlayn kurs yuklanmadi. Demo kurs ishlatiladi.";
+        }
+        return null;
+      }
+    }
+
+    async function recalc() {
+      const amountEl = document.getElementById("amount");
+      const directionEl = document.getElementById("direction");
+      const toggleEl = document.getElementById("liveToggle");
+      const resultEl = document.getElementById("resultBox");
+
+      if (!amountEl || !directionEl || !toggleEl || !resultEl) return;
+
+      const raw = amountEl.value.trim();
+      const amt = parseFloat(raw.replace(",", "."));
+      const dir = directionEl.value;
+
+      if (!raw || isNaN(amt) || amt <= 0) {
+        resultEl.textContent = `0 UZS ≈ 0 KZT`;
+        return;
+      }
+
+      let source = "demo";
+      let rate = DEMO_RATES[dir] || 0.04;
+
+      if (toggleEl.checked) {
+        if (!lastOnlineOk) {
+          await fetchOnlineRates();
+        }
+        if (lastOnlineOk && lastOnlineRates[dir]) {
+          rate = lastOnlineRates[dir];
+          source = "online";
+        } else {
+          source = "demo";
+        }
+      }
+
+      const quote = dir === "UZS_KZT" ? "KZT" : "KGS";
+      const result = amt * rate;
+
+      resultEl.textContent = `${fmt(amt)} UZS ≈ ${fmt(result)} ${quote}`;
+      updateBaseRateLabel(dir, rate, source);
+    }
+
+    function setupCalcUI() {
+      const calcBtn = document.getElementById("calcBtn");
+      const amountEl = document.getElementById("amount");
+      const directionEl = document.getElementById("direction");
+      const toggleEl = document.getElementById("liveToggle");
+      const modeLabel = document.getElementById("rateModeLabel");
+
+      if (!calcBtn || !amountEl || !directionEl || !toggleEl) return;
+
+      toggleEl.addEventListener("change", () => {
+        if (modeLabel) {
+          modeLabel.textContent = toggleEl.checked
+            ? "Onlayn kurslar"
+            : "Demo kurslar";
+        }
+        recalc();
+      });
+
+      directionEl.addEventListener("change", recalc);
+      amountEl.addEventListener("input", recalc);
+
+      calcBtn.addEventListener("click", async () => {
+        const oldText = calcBtn.textContent;
+        calcBtn.classList.add("btn-loading");
+        calcBtn.textContent = "Hisoblanmoqda...";
+        await recalc();
+        setTimeout(() => {
+          calcBtn.classList.remove("btn-loading");
+          calcBtn.textContent = oldText;
+        }, 400);
+      });
+
+      updateBaseRateLabel("UZS_KZT", DEMO_RATES["UZS_KZT"], "demo");
+      recalc();
+    }
+
+    // ==== SEND MONEY HOLD-TO-SEND ====
+    function setupSendMoney() {
+      const btn = document.getElementById("sendHoldBtn");
+      const amtEl = document.getElementById("sendAmount");
+      const curEl = document.getElementById("sendCurrency");
       const noteEl = document.getElementById("sendNote");
-      const infoEl = document.getElementById("sendInfo");
-      const errEl = document.getElementById("sendError");
+      const statusEl = document.getElementById("sendStatus");
 
-      sendBtn.addEventListener("click", () => {
-        errEl.textContent = "";
-        let amtRaw = amountEl.value.trim();
-        if (!amtRaw) {
-          errEl.textContent = "Miqdor kiritilmagan.";
-          return;
-        }
-        let amt = parseFloat(amtRaw.replace(",", "."));
-        if (isNaN(amt) || amt <= 0) {
-          errEl.textContent = "Miqdor noto‘g‘ri.";
-          return;
-        }
+      if (!btn || !amtEl || !curEl || !noteEl || !statusEl) return;
 
-        const fromCur = fromCurEl.value; // UZS / KZT
-        const toType = toTypeEl.value; // user / card
-        const dest = toValueEl.value.trim();
-        const note = noteEl.value.trim();
+      let holdTimer = null;
+      let isHolding = false;
 
-        if (!dest) {
-          errEl.textContent = "Kimga yoki karta raqamini kiriting.";
-          return;
-        }
+      function resetStatus() {
+        statusEl.classList.remove("err");
+        statusEl.textContent = "Demo: to‘lov yuborishga tayyor ✅";
+      }
 
-        // Balansdan yechish (demo)
-        if (fromCur === "UZS") {
-          if (amt > demoState.fiatUzs) {
-            errEl.textContent = "UZS balansi yetarli emas (demo).";
-            return;
+      function startHold() {
+        if (isHolding) return;
+        isHolding = true;
+        btn.classList.add("btn-loading");
+        btn.textContent = "Ushlab turilmoqda...";
+
+        holdTimer = setTimeout(() => {
+          const rawAmt = amtEl.value.trim();
+          const amt = parseFloat(rawAmt.replace(",", "."));
+          const cur = curEl.value;
+          const note = noteEl.value.trim();
+
+          if (!rawAmt || isNaN(amt) || amt <= 0) {
+            statusEl.classList.add("err");
+            statusEl.textContent =
+              "Miqdor kiritilmadi. Demo: to‘lov bekor qilindi.";
+          } else {
+            statusEl.classList.remove("err");
+            const notePart = note ? ` · Izoh: “${note}”` : "";
+            statusEl.textContent =
+              `Demo: ${fmt(amt)} ${cur} yuborildi ✅${notePart}`;
           }
-          demoState.fiatUzs -= amt;
-        } else {
-          if (amt > demoState.fiatKzt) {
-            errEl.textContent = "KZT balansi yetarli emas (demo).";
-            return;
-          }
-          demoState.fiatKzt -= amt;
-        }
 
-        updateBalanceUI();
+          btn.classList.remove("btn-loading");
+          btn.textContent = "Yuborish uchun ushlab turing";
+          isHolding = false;
+        }, 900);
+      }
 
-        const destLabel =
-          toType === "user" ? "AiSend foydalanuvchisi" : "Karta raqami";
+      function cancelHold() {
+        if (!isHolding) return;
+        clearTimeout(holdTimer);
+        btn.classList.remove("btn-loading");
+        btn.textContent = "Yuborish uchun ushlab turing";
+        isHolding = false;
+        resetStatus();
+      }
 
-        infoEl.textContent =
-          `Demo: ${fmt(amt, 2)} ${fromCur} "${destLabel}" (${dest}) ga yuborildi.` +
-          (note ? ` Izoh: "${note}".` : "");
-      });
+      btn.addEventListener("mousedown", startHold);
+      btn.addEventListener("touchstart", startHold);
+      btn.addEventListener("mouseup", cancelHold);
+      btn.addEventListener("mouseleave", cancelHold);
+      btn.addEventListener("touchend", cancelHold);
+      btn.addEventListener("touchcancel", cancelHold);
+
+      resetStatus();
     }
 
-    // ==== EXCHANGE LOGIKA ====
+    // ==== CHEGARASIZ TO'LOVLAR DEMO ====
+    function setupBorderless() {
+      const btn = document.getElementById("borderlessBtn");
+      const statusEl = document.getElementById("borderlessStatus");
+      const fromEl = document.getElementById("b_fromCountry");
+      const toEl = document.getElementById("b_toService");
+      const accEl = document.getElementById("b_account");
+      const amtEl = document.getElementById("b_amount");
+      const curEl = document.getElementById("b_currency");
 
-    function setupExchangePage() {
-      const fromCurEl = document.getElementById("exFromCur");
-      const toCurEl = document.getElementById("exToCur");
-      const amtEl = document.getElementById("exAmount");
-      const btn = document.getElementById("exCalcBtn");
-      const infoEl = document.getElementById("exInfo");
-      const errEl = document.getElementById("exError");
+      if (!btn || !statusEl || !fromEl || !toEl || !accEl || !amtEl || !curEl) return;
 
       btn.addEventListener("click", () => {
-        errEl.textContent = "";
+        const rawAmt = amtEl.value.trim();
+        const amt = parseFloat(rawAmt.replace(",", "."));
+        const acc = accEl.value.trim();
 
-        let amtRaw = amtEl.value.trim();
-        if (!amtRaw) {
-          errEl.textContent = "Miqdor kiritilmagan.";
-          return;
-        }
-        let amt = parseFloat(amtRaw.replace(",", "."));
-        if (isNaN(amt) || amt <= 0) {
-          errEl.textContent = "Miqdor noto‘g‘ri.";
-          return;
-        }
-
-        const fromCur = fromCurEl.value;
-        const toCur = toCurEl.value;
-
-        if (fromCur === toCur) {
-          errEl.textContent = "Qayerdan va qayerga bir xil bo‘lishi mumkin emas.";
+        if (!rawAmt || isNaN(amt) || amt <= 0 || !acc) {
+          statusEl.classList.add("err");
+          statusEl.textContent =
+            "Summani va hisob raqamni to‘ldiring (demo).";
           return;
         }
 
-        // Mavjud balansni tekshiramiz
-        if (fromCur === "UZS" && amt > demoState.fiatUzs) {
-          errEl.textContent = "UZS balansi yetarli emas (demo).";
-          return;
-        }
-        if (fromCur === "KZT" && amt > demoState.fiatKzt) {
-          errEl.textContent = "KZT balansi yetarli emas (demo).";
-          return;
-        }
+        statusEl.classList.remove("err");
 
-        let rate =
-          fromCur === "UZS" ? RATES.UZS_KZT : RATES.KZT_UZS;
-        let rawResult = amt * rate;
+        // oddiy: 1% konvertatsiya + 1% komissiya
+        const totalFeePercent = 0.02;
+        const feeAmt = amt * totalFeePercent;
+        const final = amt + feeAmt;
 
-        const commission = rawResult * 0.01; // 1%
-        let finalResult = rawResult - commission;
-
-        // Balanslarni yangilaymiz (demo)
-        if (fromCur === "UZS") {
-          demoState.fiatUzs -= amt;
-          demoState.fiatKzt += finalResult;
-        } else {
-          demoState.fiatKzt -= amt;
-          demoState.fiatUzs += finalResult;
-        }
-
-        updateBalanceUI();
-
-        infoEl.textContent =
-          `Demo: ${fmt(amt, 2)} ${fromCur} → ${fmt(finalResult, 2)} ${toCur}`
-          + ` (1% ichki komissiya ushlab qolindi).`;
+        statusEl.textContent =
+          `Demo: ~${fmt(final)} UZS ekv. bilan ` +
+          `${curEl.value}da to‘lov yuboriladi (2% umumiy komissiya).`;
       });
     }
+// ==== PROFILE MODAL & TELEGRAM USER ====
+    function initProfileSheet() {
+      const bg = document.getElementById("profileBg");
+      const openBtn = document.getElementById("profileOpen");
+      const closeBtn = document.getElementById("profileClose");
+      const pfName = document.getElementById("pf_name");
+      const pfId = document.getElementById("pf_id");
+      const pfUsername = document.getElementById("pf_username");
 
-    // ==== BORDERLESS PAGE LOGIKA ====
+      if (!bg || !openBtn || !closeBtn) return;
 
-    function setupBorderlessPage() {
-      const card = document.getElementById("borderlessCard");
-      const btn = document.getElementById("bpBtn");
-      const amountEl = document.getElementById("bpAmount");
-      const infoEl = document.getElementById("bpInfo");
-
-      card.addEventListener("click", () => {
-        showPage("borderless");
-      });
-
-      btn.addEventListener("click", () => {
-        let raw = amountEl.value.trim();
-        if (!raw) {
-          infoEl.textContent =
-            "Miqdor kiritilmagan. Demo: rubldan UZSga konvertatsiya bu yerda hisoblanadi.";
-          return;
-        }
-        let amt = parseFloat(raw.replace(",", "."));
-        if (isNaN(amt) || amt <= 0) {
-          infoEl.textContent = "Miqdor noto‘g‘ri.";
-          return;
-        }
-        const rub = amt / 140; // demo: 1 RUB ~ 140 UZS
-        infoEl.textContent =
-          `Demo: taxminan ${fmt(rub, 2)} RUB kartadan olinadi `
-          + `va ${fmt(amt, 0)} UZS ekv. kommunalga o‘tadi (komissiyasiz demo).`;
-      });
-    }
-
-    // ==== SIMPLE DEMO LOGIKA (CRYPTO / STOCKS) ====
-
-    function setupCryptoDemo() {
-      const btn = document.getElementById("cryptoBtn");
-      const actionEl = document.getElementById("cryptoAction");
-      const amtEl = document.getElementById("cryptoAmount");
-      const infoEl = document.getElementById("cryptoInfo");
-
-      btn.addEventListener("click", () => {
-        let raw = amtEl.value.trim();
-        if (!raw) {
-          infoEl.textContent =
-            "Miqdor kiritilmagan. Demo rejim: faqat UI test qilinyapti.";
-          return;
-        }
-        let amt = parseFloat(raw.replace(",", "."));
-        if (isNaN(amt) || amt <= 0) {
-          infoEl.textContent = "Miqdor noto‘g‘ri.";
-          return;
-        }
-
-        const act = actionEl.value;
-        if (act === "buy") {
-          infoEl.textContent =
-            `Demo: ${fmt(amt, 2)} UZS → USDT konvertatsiyasi UI darajasida tasvirlandi.`;
-        } else {
-          infoEl.textContent =
-            `Demo: ${fmt(amt, 2)} USDT → UZS konvertatsiyasi UI darajasida tasvirlandi.`;
-        }
-      });
-    }
-
-    function setupStocksDemo() {
-      const btn = document.getElementById("stockBtn");
-      const actEl = document.getElementById("stockAction");
-      const amtEl = document.getElementById("stockAmount");
-      const infoEl = document.getElementById("stockInfo");
-
-      btn.addEventListener("click", () => {
-        let raw = amtEl.value.trim();
-        if (!raw) {
-          infoEl.textContent =
-            "Miqdor kiritilmagan. Demo rejimda faqat tasvirlanmoqda.";
-          return;
-        }
-        let amt = parseFloat(raw.replace(",", "."));
-        if (isNaN(amt) || amt <= 0) {
-          infoEl.textContent = "Miqdor noto‘g‘ri.";
-          return;
-        }
-
-        const act = actEl.value;
-        if (act === "buy") {
-          infoEl.textContent =
-            `Demo: ${fmt(amt, 2)} USD ekv. ulush xaridi UI darajasida tasvirlandi.`;
-        } else {
-          infoEl.textContent =
-            `Demo: ${fmt(amt, 2)} USD ekv. ulush sotilishi UI darajasida tasvirlandi.`;
-        }
-      });
-    }
-  </script>
-<script>
-    // ==== PROFIL / TELEGRAM PARAMS (faqat URL orqali) ====
-
-    function initProfileFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      const tgName = params.get("tg_name") || "Guest";
-      const tgId = params.get("tg_id") || "-";
-      const tgUsername = params.get("tg_username") || "";
-
-      document.getElementById("profileName").textContent = tgName;
-      document.getElementById("pf_name").textContent = tgName;
-      document.getElementById("pf_id").textContent = tgId;
-      document.getElementById("pf_username").textContent =
-        tgUsername ? "@" + tgUsername : "-";
-    }
-
-    function setupProfileModal() {
-      const btn = document.getElementById("profileBtn");
-      const bg = document.getElementById("profileModalBg");
-      const close = document.getElementById("profileModalClose");
-
-      btn.addEventListener("click", () => {
+      function open() {
         bg.classList.add("active");
-      });
-      close.addEventListener("click", () => {
+      }
+      function close() {
         bg.classList.remove("active");
-      });
+      }
+
+      openBtn.addEventListener("click", open);
+      closeBtn.addEventListener("click", close);
       bg.addEventListener("click", (e) => {
-        if (e.target === bg) bg.classList.remove("active");
+        if (e.target === bg) close();
       });
+
+      // 1) URL parametrlaridan o‘qish
+      const params = new URLSearchParams(window.location.search);
+      let tgId = params.get("tg_id");
+      let tgName = params.get("tg_name");
+      let tgUsername = params.get("tg_username");
+
+      // 2) Agar bo‘sh bo‘lsa, Telegram WebApp.initDataUnsafe dan olish
+      try {
+        if (
+          (!tgId || !tgName) &&
+          window.Telegram &&
+          Telegram.WebApp &&
+          Telegram.WebApp.initDataUnsafe &&
+          Telegram.WebApp.initDataUnsafe.user
+        ) {
+          const u = Telegram.WebApp.initDataUnsafe.user;
+          if (!tgId && u.id) tgId = String(u.id);
+          if (!tgName) {
+            const full = [u.first_name, u.last_name].filter(Boolean).join(" ");
+            tgName = full || "";
+          }
+          if (!tgUsername && u.username) tgUsername = u.username;
+        }
+      } catch (e) {
+        console.log("Telegram user data error:", e);
+      }
+
+      pfName.textContent = tgName || "-";
+      pfId.textContent = tgId || "-";
+      pfUsername.textContent = tgUsername ? "@" + tgUsername : "-";
+
+      try {
+        if (window.Telegram && Telegram.WebApp) {
+          Telegram.WebApp.ready();
+          Telegram.WebApp.expand();
+        }
+      } catch (e) {
+        console.log("Telegram ready error:", e);
+      }
     }
-
-    // ==== MENU BUTTON BINDINGS ====
-
-    function setupMenuButtons() {
-      document.getElementById("menuSend").addEventListener("click", () =>
-        showPage("send")
-      );
-      document.getElementById("menuExchange").addEventListener("click", () =>
-        showPage("exchange")
-      );
-      document.getElementById("menuCrypto").addEventListener("click", () =>
-        showPage("crypto")
-      );
-      document.getElementById("menuStocks").addEventListener("click", () =>
-        showPage("stocks")
-      );
-    }
-
-    // ==== INIT ====
 
     window.addEventListener("load", () => {
-      initProfileFromUrl();
-      setupProfileModal();
-      setupAssetsToggle();
-      setupMenuButtons();
-      setupSendPage();
-      setupExchangePage();
-      setupBorderlessPage();
-      setupCryptoDemo();
-      setupStocksDemo();
-      updateBalanceUI();
-      // Default SEND sahifasi + borderless tile
-      showPage("send");
+      setupTabs();
+      setupBalanceToggle();
+      setupCalcUI();
+      setupSendMoney();
+      setupBorderless();
+      initProfileSheet();
     });
   </script>
 </body>
