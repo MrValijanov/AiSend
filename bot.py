@@ -1,64 +1,39 @@
 import os
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Application, CommandHandler, ContextTypes
+import logging
 
-from telegram import (
-    Update,
-    WebAppInfo,
-    ReplyKeyboardMarkup,
-    KeyboardButton,
-)
-from telegram.ext import (
-    Application,
-    CommandHandler,
-    ContextTypes,
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+BOT_TOKEN = os.getenv("AISEND_BOT_TOKEN")
 
-# ⚠️ Bu yerga O'ZINGNING mini-app URL'ingni qo'y
-WEBAPP_URL = "https://example.com"  # masalan: https://aisend-demo.vercel.app/
+MAIN_APP_URL = "https://mrvalijanov.github.io/AiSend/"  # <-- SENING MINI APP URLING
 
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    chat = update.effective_chat
-
-    keyboard = [
-        [
-            KeyboardButton(
-                text="AiSend mini app ni ochish",
-                web_app=WebAppInfo(url=WEBAPP_URL),
-            )
-        ]
-    ]
-
-    await context.bot.send_message(
-        chat_id=chat.id,
-        text=f"Salom, {chat.first_name or 'foydalanuvchi'}! 👋\n\n"
-             f"AiSend mini appni ochish uchun pastdagi tugmani bosing 👇",
-        reply_markup=ReplyKeyboardMarkup(
-            keyboard,
-            resize_keyboard=True,
-            one_time_keyboard=False,
-        ),
+    await update.message.reply_text(
+        f"Salom, {user.full_name}! 👋\n\n"
+        "AiSend mini appni ochish uchun tugmani bosing 👇",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("AiSend mini app ni ochish", url=MAIN_APP_URL)]
+        ])
     )
 
+async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("👤 Hozircha statistik ma’lumot yo‘q.")
 
-async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    # Hozircha oddiy demo
-    await update.message.reply_text("Hozircha demo stats: 0 ta foydalanuvchi 🙂")
-
-
-def main() -> None:
-    token = os.environ.get("AISEND_BOT_TOKEN")
-    if not token:
-        raise RuntimeError("AISEND_BOT_TOKEN env topilmadi. Termuxda token o'rnatilmagan.")
-
-    app = Application.builder().token(token).build()
+def main():
+    app = Application.builder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("stats", stats))
 
-    print("🚀 AiSend bot ishga tushdi...")
+    logging.info("🚀 AiSend bot ishga tushdi...")
     app.run_polling()
-
 
 if __name__ == "__main__":
     main()
