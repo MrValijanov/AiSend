@@ -20,6 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # 🚫 Hardcode yo‘q, faqat muhitdan o‘qiyapmiz
+import os
 BOT_TOKEN = os.getenv("AISEND_BOT_TOKEN")
 
 if not BOT_TOKEN:
