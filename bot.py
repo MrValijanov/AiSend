@@ -11,7 +11,7 @@ from telegram.ext import (
     CommandHandler,
     ContextTypes,
 )
-
+BOT_TOKEN = os.getenv("AISEND_BOT_TOKEN")
 # --- Logging (info loglarni ko‘rish uchun) ---
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
